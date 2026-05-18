@@ -11,6 +11,7 @@ type BookingFormProps = {
 const inputClass =
   "h-12 w-full border border-black/10 bg-white px-4 text-sm text-obsidian outline-none transition placeholder:text-stone-400 focus:border-gold";
 const labelClass = "grid gap-2 text-sm font-semibold text-stone-800";
+const whatsappNumber = "212672508363";
 
 export function BookingForm({ services }: BookingFormProps) {
   const [clientName, setClientName] = useState("");
@@ -21,13 +22,14 @@ export function BookingForm({ services }: BookingFormProps) {
   const [destination, setDestination] = useState("");
   const [passengers, setPassengers] = useState("1");
   const [message, setMessage] = useState("");
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const selectedService = services.find((service) => service.slug === serviceSlug);
     const text = [
-      "Bonjour AYYI TOUR, je souhaite reserver un transport VIP.",
+      "Nouvelle demande de reservation AYYI TOUR",
       `Nom: ${clientName}`,
       `Telephone: ${phone}`,
       `Service: ${selectedService?.name ?? "Non precise"}`,
@@ -39,12 +41,10 @@ export function BookingForm({ services }: BookingFormProps) {
     ]
       .filter(Boolean)
       .join("\n");
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
 
-    window.open(
-      `https://wa.me/212672508363?text=${encodeURIComponent(text)}`,
-      "_blank",
-      "noopener,noreferrer",
-    );
+    setHasSubmitted(true);
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -146,9 +146,14 @@ export function BookingForm({ services }: BookingFormProps) {
           type="submit"
           className="inline-flex h-12 w-full items-center justify-center gap-3 bg-obsidian px-5 text-center text-xs font-bold uppercase tracking-[0.14em] text-gold transition hover:bg-black sm:w-auto sm:px-6 sm:text-sm sm:tracking-[0.18em]"
         >
-          Envoyer la demande
+          Notifier sur WhatsApp
           <Send className="h-4 w-4" />
         </button>
+        {hasSubmitted ? (
+          <p className="mt-3 text-sm font-medium text-stone-700">
+            WhatsApp est ouvert avec les details de la reservation pour le +212 672 508 363.
+          </p>
+        ) : null}
       </div>
     </form>
   );

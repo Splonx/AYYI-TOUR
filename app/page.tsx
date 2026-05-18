@@ -178,7 +178,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="reservation" className="bg-ivory px-4 py-16 text-obsidian sm:px-8 sm:py-20 lg:px-10">
+      <section id="reservation" className="scroll-mt-24 bg-ivory px-4 py-16 text-obsidian sm:px-8 sm:py-20 lg:px-10">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-gold sm:tracking-[0.32em]">

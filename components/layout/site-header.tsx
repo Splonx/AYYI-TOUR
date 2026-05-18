@@ -11,6 +11,10 @@ const navItems = [
   { href: "/#reservation", label: "Reservation" },
 ];
 
+function isReservationLink(href: string) {
+  return href === "/#reservation";
+}
+
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,16 +39,27 @@ export function SiteHeader() {
           </span>
         </Link>
         <nav className="hidden items-center gap-8 lg:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-300 transition hover:text-gold"
-              onClick={() => setIsOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) =>
+            isReservationLink(item.href) ? (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-300 transition hover:text-gold"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-300 transition hover:text-gold"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
         <button
           type="button"
@@ -59,16 +74,27 @@ export function SiteHeader() {
       {isOpen ? (
         <nav className="max-h-[calc(100svh-4.5rem)] overflow-y-auto border-t border-gold/20 bg-black/95 px-4 py-4 shadow-2xl lg:hidden">
           <div className="mx-auto grid max-w-7xl gap-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="border border-white/10 px-4 py-4 text-sm font-bold uppercase tracking-[0.18em] text-stone-100 transition hover:border-gold hover:text-gold"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) =>
+              isReservationLink(item.href) ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="border border-white/10 px-4 py-4 text-sm font-bold uppercase tracking-[0.18em] text-stone-100 transition hover:border-gold hover:text-gold"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="border border-white/10 px-4 py-4 text-sm font-bold uppercase tracking-[0.18em] text-stone-100 transition hover:border-gold hover:text-gold"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
             <Link
               href="https://wa.me/212672508363"
               target="_blank"

@@ -120,9 +120,9 @@ export async function createBookingRequest(
     return {
       status: "success",
       message: notification.sent
-        ? "Votre demande a ete enregistree et la notification WhatsApp a ete envoyee."
-        : "Votre demande a ete enregistree. Ouvrez WhatsApp pour envoyer la notification.",
-      whatsappUrl: notification.sent ? undefined : buildWhatsAppUrl(whatsAppMessage),
+        ? "Votre demande a ete enregistree dans le back-office et la notification WhatsApp automatique a ete envoyee."
+        : "Votre demande a ete enregistree dans le back-office. Le message WhatsApp est pret a etre envoye.",
+      whatsappUrl: buildWhatsAppUrl(whatsAppMessage),
       notificationSent: notification.sent,
     };
   } catch (error) {

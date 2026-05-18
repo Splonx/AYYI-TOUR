@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { FormEvent, useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { Send } from "lucide-react";
 import { createBookingRequest, type BookingFormState } from "@/app/actions";
@@ -13,6 +13,7 @@ type BookingFormProps = {
 const inputClass =
   "h-12 w-full border border-black/10 bg-white px-4 text-sm text-obsidian outline-none transition placeholder:text-stone-400 focus:border-gold";
 const labelClass = "grid gap-2 text-sm font-semibold text-stone-800";
+const whatsappNumber = "212672508363";
 const initialState: BookingFormState = {
   status: "idle",
   message: "",
@@ -27,10 +28,14 @@ function SubmitButton() {
       disabled={pending}
       className="inline-flex h-12 w-full items-center justify-center gap-3 bg-obsidian px-5 text-center text-xs font-bold uppercase tracking-[0.14em] text-gold transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-6 sm:text-sm sm:tracking-[0.18em]"
     >
-      {pending ? "Traitement..." : "Envoyer la reservation"}
+      {pending ? "Traitement..." : "Envoyer via WhatsApp"}
       <Send className="h-4 w-4" />
     </button>
   );
+}
+
+function formValue(formData: FormData, key: string) {
+  return String(formData.get(key) ?? "").trim();
 }
 
 export function BookingForm({ services }: BookingFormProps) {
@@ -43,16 +48,36 @@ export function BookingForm({ services }: BookingFormProps) {
     }
 
     formRef.current?.reset();
+  }, [state.status]);
 
-    if (state.whatsappUrl) {
-      window.open(state.whatsappUrl, "_blank", "noopener,noreferrer");
-    }
-  }, [services, state]);
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    const formData = new FormData(event.currentTarget);
+    const serviceSlug = formValue(formData, "service");
+    const selectedService = services.find((service) => service.slug === serviceSlug);
+    const details = formValue(formData, "message");
+    const text = [
+      "Nouvelle demande de reservation AYYI TOUR",
+      `Nom: ${formValue(formData, "clientName")}`,
+      `Telephone: ${formValue(formData, "phone")}`,
+      `Service: ${selectedService?.name ?? "Non precise"}`,
+      `Date et heure: ${formValue(formData, "pickupDate")}`,
+      `Depart: ${formValue(formData, "pickupPlace")}`,
+      `Destination: ${formValue(formData, "destination")}`,
+      `Passagers: ${formValue(formData, "passengers")}`,
+      details ? `Details: ${details}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  }
 
   return (
     <form
       ref={formRef}
       action={formAction}
+      onSubmit={handleSubmit}
       className="grid gap-4 border border-black/10 bg-white/85 p-4 shadow-sm sm:grid-cols-2 sm:p-6"
     >
       <label className={labelClass}>

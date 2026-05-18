@@ -4,11 +4,11 @@ import type { Service } from "@/types/domain";
 
 export function ServiceCard({ service }: { service: Service }) {
   return (
-    <article className="group border border-black/10 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:border-gold">
-      <p className="text-xs font-bold uppercase tracking-[0.24em] text-gold">
+    <article className="group border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-gold sm:p-7">
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold sm:tracking-[0.24em]">
         {service.category}
       </p>
-      <h3 className="mt-5 text-3xl font-semibold text-obsidian">
+      <h3 className="mt-5 text-2xl font-semibold text-obsidian sm:text-3xl">
         {service.name}
       </h3>
       <p className="mt-4 leading-7 text-stone-700">{service.description}</p>

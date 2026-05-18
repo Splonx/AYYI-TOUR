@@ -15,14 +15,14 @@ export default async function FleetPage() {
   return (
     <main className="min-h-screen bg-obsidian text-ivory">
       <SiteHeader />
-      <section className="px-6 pb-20 pt-36 sm:px-8 lg:px-10">
+      <section className="px-4 pb-16 pt-[7.5rem] sm:px-8 sm:pb-20 sm:pt-36 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Garage VIP"
             title="Flotte premium pour chaque mission"
             description="Berline executive, van VIP et SUV premium: chaque vehicule est selectionne selon le confort attendu, le nombre de passagers et les bagages."
           />
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {fleet.map((vehicle) => (
               <FleetCard key={vehicle.slug} vehicle={vehicle} />
             ))}

@@ -2,10 +2,10 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 bg-obsidian px-6 py-10 text-stone-400 sm:px-8 lg:px-10">
+    <footer className="border-t border-white/10 bg-obsidian px-4 py-10 text-stone-400 sm:px-8 lg:px-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p className="text-sm font-bold uppercase tracking-[0.24em] text-white">
+        <div className="min-w-0">
+          <p className="text-sm font-bold uppercase tracking-[0.16em] text-white sm:tracking-[0.24em]">
             AYYI TOUR Transport Service VIP
           </p>
           <p className="mt-2 text-sm">Chauffeur prive, flotte premium, service discret.</p>
@@ -19,7 +19,7 @@ export function SiteFooter() {
             WhatsApp : +212 672 508 363
           </a>
         </div>
-        <div className="flex gap-6 text-sm">
+        <div className="flex flex-wrap gap-6 text-sm">
           <Link href="/services" className="hover:text-gold">
             Services
           </Link>

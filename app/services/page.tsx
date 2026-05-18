@@ -15,7 +15,7 @@ export default async function ServicesPage() {
   return (
     <main className="min-h-screen bg-ivory text-obsidian">
       <SiteHeader />
-      <section className="px-6 pb-20 pt-36 sm:px-8 lg:px-10">
+      <section className="px-4 pb-16 pt-[7.5rem] sm:px-8 sm:pb-20 sm:pt-36 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Catalogue"
@@ -23,7 +23,7 @@ export default async function ServicesPage() {
             description="Transferts aeroport, chauffeur business, mise a disposition et coordination evenementielle avec un niveau de service premium."
             dark
           />
-          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
             {services.map((service) => (
               <div id={service.slug} key={service.slug}>
                 <ServiceCard service={service} />

@@ -1,7 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useActionState, useEffect, useRef } from "react";
+import { useFormStatus } from "react-dom";
 import { Send } from "lucide-react";
+import { createBookingRequest, type BookingFormState } from "@/app/actions";
 import type { Service } from "@/types/domain";
 
 type BookingFormProps = {
@@ -11,45 +13,46 @@ type BookingFormProps = {
 const inputClass =
   "h-12 w-full border border-black/10 bg-white px-4 text-sm text-obsidian outline-none transition placeholder:text-stone-400 focus:border-gold";
 const labelClass = "grid gap-2 text-sm font-semibold text-stone-800";
-const whatsappNumber = "212672508363";
+const initialState: BookingFormState = {
+  status: "idle",
+  message: "",
+};
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="inline-flex h-12 w-full items-center justify-center gap-3 bg-obsidian px-5 text-center text-xs font-bold uppercase tracking-[0.14em] text-gold transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-6 sm:text-sm sm:tracking-[0.18em]"
+    >
+      {pending ? "Traitement..." : "Envoyer la reservation"}
+      <Send className="h-4 w-4" />
+    </button>
+  );
+}
 
 export function BookingForm({ services }: BookingFormProps) {
-  const [clientName, setClientName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [serviceSlug, setServiceSlug] = useState(services[0]?.slug ?? "");
-  const [pickupDate, setPickupDate] = useState("");
-  const [pickupPlace, setPickupPlace] = useState("");
-  const [destination, setDestination] = useState("");
-  const [passengers, setPassengers] = useState("1");
-  const [message, setMessage] = useState("");
-  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [state, formAction] = useActionState(createBookingRequest, initialState);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  useEffect(() => {
+    if (state.status !== "success") {
+      return;
+    }
 
-    const selectedService = services.find((service) => service.slug === serviceSlug);
-    const text = [
-      "Nouvelle demande de reservation AYYI TOUR",
-      `Nom: ${clientName}`,
-      `Telephone: ${phone}`,
-      `Service: ${selectedService?.name ?? "Non precise"}`,
-      `Date et heure: ${pickupDate}`,
-      `Depart: ${pickupPlace}`,
-      `Destination: ${destination}`,
-      `Passagers: ${passengers}`,
-      message ? `Details: ${message}` : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+    formRef.current?.reset();
 
-    setHasSubmitted(true);
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-  }
+    if (state.whatsappUrl) {
+      window.open(state.whatsappUrl, "_blank", "noopener,noreferrer");
+    }
+  }, [services, state]);
 
   return (
     <form
-      onSubmit={handleSubmit}
+      ref={formRef}
+      action={formAction}
       className="grid gap-4 border border-black/10 bg-white/85 p-4 shadow-sm sm:grid-cols-2 sm:p-6"
     >
       <label className={labelClass}>
@@ -58,8 +61,6 @@ export function BookingForm({ services }: BookingFormProps) {
           className={inputClass}
           name="clientName"
           required
-          value={clientName}
-          onChange={(event) => setClientName(event.target.value)}
         />
       </label>
       <label className={labelClass}>
@@ -69,8 +70,6 @@ export function BookingForm({ services }: BookingFormProps) {
           name="phone"
           required
           type="tel"
-          value={phone}
-          onChange={(event) => setPhone(event.target.value)}
         />
       </label>
       <label className={labelClass}>
@@ -79,8 +78,7 @@ export function BookingForm({ services }: BookingFormProps) {
           className={inputClass}
           name="service"
           required
-          value={serviceSlug}
-          onChange={(event) => setServiceSlug(event.target.value)}
+          defaultValue={services[0]?.slug ?? ""}
         >
           {services.map((service) => (
             <option key={service.slug} value={service.slug}>
@@ -96,8 +94,6 @@ export function BookingForm({ services }: BookingFormProps) {
           name="pickupDate"
           required
           type="datetime-local"
-          value={pickupDate}
-          onChange={(event) => setPickupDate(event.target.value)}
         />
       </label>
       <label className={labelClass}>
@@ -106,8 +102,6 @@ export function BookingForm({ services }: BookingFormProps) {
           className={inputClass}
           name="pickupPlace"
           required
-          value={pickupPlace}
-          onChange={(event) => setPickupPlace(event.target.value)}
         />
       </label>
       <label className={labelClass}>
@@ -116,8 +110,6 @@ export function BookingForm({ services }: BookingFormProps) {
           className={inputClass}
           name="destination"
           required
-          value={destination}
-          onChange={(event) => setDestination(event.target.value)}
         />
       </label>
       <label className={labelClass}>
@@ -128,8 +120,7 @@ export function BookingForm({ services }: BookingFormProps) {
           name="passengers"
           required
           type="number"
-          value={passengers}
-          onChange={(event) => setPassengers(event.target.value)}
+          defaultValue="1"
         />
       </label>
       <label className={`${labelClass} sm:col-span-2`}>
@@ -137,22 +128,28 @@ export function BookingForm({ services }: BookingFormProps) {
         <textarea
           className="min-h-28 w-full resize-y border border-black/10 bg-white px-4 py-3 text-sm text-obsidian outline-none transition placeholder:text-stone-400 focus:border-gold"
           name="message"
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
         />
       </label>
       <div className="sm:col-span-2">
-        <button
-          type="submit"
-          className="inline-flex h-12 w-full items-center justify-center gap-3 bg-obsidian px-5 text-center text-xs font-bold uppercase tracking-[0.14em] text-gold transition hover:bg-black sm:w-auto sm:px-6 sm:text-sm sm:tracking-[0.18em]"
-        >
-          Notifier sur WhatsApp
-          <Send className="h-4 w-4" />
-        </button>
-        {hasSubmitted ? (
-          <p className="mt-3 text-sm font-medium text-stone-700">
-            WhatsApp est ouvert avec les details de la reservation pour le +212 672 508 363.
+        <SubmitButton />
+        {state.message ? (
+          <p
+            className={`mt-3 text-sm font-medium ${
+              state.status === "error" ? "text-red-700" : "text-stone-700"
+            }`}
+          >
+            {state.message}
           </p>
+        ) : null}
+        {state.whatsappUrl ? (
+          <a
+            href={state.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex text-sm font-bold text-obsidian underline decoration-gold underline-offset-4"
+          >
+            Ouvrir WhatsApp avec les details
+          </a>
         ) : null}
       </div>
     </form>

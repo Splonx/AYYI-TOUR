@@ -70,6 +70,14 @@ SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 ADMIN_LOGIN="Sami"
 ADMIN_PASSWORD="change-this-password"
 ADMIN_SESSION_SECRET="replace-with-a-long-random-secret"
+WHATSAPP_NOTIFICATION_TO="212672508363"
+WHATSAPP_ACCESS_TOKEN=""
+WHATSAPP_PHONE_NUMBER_ID=""
 ```
 
 Sans Supabase, l'administration utilise le mode local avec `data/admin-catalog.json`.
+
+Les demandes de reservation sont enregistrees dans le back-office. Pour envoyer
+une notification WhatsApp automatique, renseigner les variables WhatsApp Business
+API `WHATSAPP_ACCESS_TOKEN` et `WHATSAPP_PHONE_NUMBER_ID`; sinon le site ouvre
+un message WhatsApp prerempli vers `WHATSAPP_NOTIFICATION_TO`.

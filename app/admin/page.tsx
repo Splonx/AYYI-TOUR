@@ -1,17 +1,38 @@
 import type { Metadata } from "next";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { MetricCard } from "@/components/admin/metric-card";
-import { recentRequests } from "@/lib/data/admin";
-import { getAdminFleet, getAdminServices } from "@/lib/data/admin-catalog";
+import {
+  getAdminBookingRequests,
+  getAdminFleet,
+  getAdminServices,
+} from "@/lib/data/admin-catalog";
 
 export const metadata: Metadata = {
   title: "Admin",
 };
 
+function formatPickupDate(value: string) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("fr-MA", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
+}
+
 export default async function AdminPage() {
-  const [services, fleet] = await Promise.all([getAdminServices(), getAdminFleet()]);
+  const [services, fleet, bookingRequests] = await Promise.all([
+    getAdminServices(),
+    getAdminFleet(),
+    getAdminBookingRequests(),
+  ]);
   const publishedServices = services.filter((service) => service.status === "published");
   const availableVehicles = fleet.filter((vehicle) => vehicle.status === "available");
+  const serviceNames = new Map(services.map((service) => [service.slug, service.name]));
 
   return (
     <AdminShell>
@@ -42,8 +63,8 @@ export default async function AdminPage() {
         />
         <MetricCard
           label="Demandes recentes"
-          value={String(recentRequests.length)}
-          helper="Pipeline commercial initial"
+          value={String(bookingRequests.length)}
+          helper="Reservations recues depuis le site"
         />
       </div>
 
@@ -52,16 +73,38 @@ export default async function AdminPage() {
           <h2 className="text-2xl font-semibold text-white">Demandes recentes</h2>
         </div>
         <div className="divide-y divide-white/10">
-          {recentRequests.map((request) => (
-            <div
-              key={request.id}
-              className="grid gap-3 px-6 py-5 text-sm md:grid-cols-[1fr_1fr_160px]"
-            >
-              <span className="font-semibold text-white">{request.clientName}</span>
-              <span className="text-stone-300">{request.pickupDate}</span>
-              <span className="text-gold">{request.status}</span>
-            </div>
-          ))}
+          {bookingRequests.length > 0 ? (
+            bookingRequests.map((request) => (
+              <div
+                key={request.id}
+                className="grid gap-3 px-6 py-5 text-sm lg:grid-cols-[1fr_1fr_1fr_120px]"
+              >
+                <div>
+                  <p className="font-semibold text-white">{request.clientName}</p>
+                  <p className="mt-1 text-stone-400">{request.phone}</p>
+                </div>
+                <div>
+                  <p className="text-stone-200">
+                    {serviceNames.get(request.serviceSlug) ?? request.serviceSlug}
+                  </p>
+                  <p className="mt-1 text-stone-400">{formatPickupDate(request.pickupDate)}</p>
+                </div>
+                <div>
+                  <p className="text-stone-200">
+                    {request.pickupPlace} vers {request.destination}
+                  </p>
+                  <p className="mt-1 text-stone-400">
+                    {request.passengers} passager{request.passengers > 1 ? "s" : ""}
+                  </p>
+                </div>
+                <span className="text-gold">{request.status}</span>
+              </div>
+            ))
+          ) : (
+            <p className="px-6 py-5 text-sm text-stone-400">
+              Aucune demande recue pour le moment.
+            </p>
+          )}
         </div>
       </section>
       </div>

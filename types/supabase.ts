@@ -59,16 +59,26 @@ export type Database = {
         Row: {
           id: string;
           client_name: string;
+          phone: string;
           service_slug: string;
           pickup_date: string;
+          pickup_place: string;
+          destination: string;
+          passengers: number;
+          message: string | null;
           status: "new" | "confirmed" | "completed" | "cancelled";
           created_at: string;
         };
         Insert: {
           id?: string;
           client_name: string;
+          phone: string;
           service_slug: string;
           pickup_date: string;
+          pickup_place: string;
+          destination: string;
+          passengers?: number;
+          message?: string | null;
           status?: "new" | "confirmed" | "completed" | "cancelled";
           created_at?: string;
         };

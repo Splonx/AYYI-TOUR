@@ -31,8 +31,13 @@ create table public.fleet (
 create table public.booking_requests (
   id uuid primary key default gen_random_uuid(),
   client_name text not null,
+  phone text not null,
   service_slug text not null references public.services(slug),
   pickup_date timestamptz not null,
+  pickup_place text not null,
+  destination text not null,
+  passengers integer not null default 1,
+  message text,
   status booking_status not null default 'new',
   created_at timestamptz not null default now()
 );

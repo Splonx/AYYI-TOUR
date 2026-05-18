@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AYYI TOUR - Transport Service VIP
 
-## Getting Started
+Site officiel de reservation et de presentation des services premium AYYI TOUR.
 
-First, run the development server:
+---
+
+# Presentation
+
+AYYI TOUR est une societe specialisee dans le transport VIP et les services de chauffeur prive a :
+
+- Agadir
+- Marrakech
+- Region Maroc
+
+Le site permet :
+
+- la presentation des services
+- la gestion dynamique de la flotte
+- les demandes de reservation
+- l'administration du contenu via un back-office securise
+
+---
+
+# Fonctionnalites
+
+## Front Office
+
+- Homepage premium noir/dore
+- Animations et fond dynamique
+- Presentation des services
+- Galerie flotte de vehicules
+- Formulaire de reservation
+- Contact WhatsApp direct
+- Responsive mobile/tablette/desktop
+
+## Back Office
+
+- Connexion admin securisee
+- Gestion des services
+- Gestion de la flotte
+- Ajout, modification et suppression avec confirmation
+- Mode local de developpement via `data/admin-catalog.json`
+- Integration Supabase prete via variables d'environnement
+
+---
+
+# Lancer le projet
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrir ensuite :
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# Configuration
 
-To learn more about Next.js, take a look at the following resources:
+Copier `.env.example` vers `.env.local`, puis renseigner les variables selon l'environnement :
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+ADMIN_LOGIN="Sami"
+ADMIN_PASSWORD="change-this-password"
+ADMIN_SESSION_SECRET="replace-with-a-long-random-secret"
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Sans Supabase, l'administration utilise le mode local avec `data/admin-catalog.json`.

@@ -1,6 +1,6 @@
 import "server-only";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { hasSupabaseAdminConfig } from "@/lib/supabase/config";
+import { getSupabaseAdminConfigStatus, hasSupabaseAdminConfig } from "@/lib/supabase/config";
 import { fleet as fallbackFleet } from "@/lib/data/fleet";
 import { services as fallbackServices } from "@/lib/data/services";
 import {
@@ -12,6 +12,11 @@ import type { Database } from "@/types/supabase";
 
 type ServiceRow = Database["public"]["Tables"]["services"]["Row"];
 type VehicleRow = Database["public"]["Tables"]["fleet"]["Row"];
+type AdminCatalogResult<T> = {
+  data: T[];
+  error?: string;
+  source: "supabase" | "local";
+};
 
 function mapService(row: ServiceRow): Service {
   return {
@@ -57,6 +62,31 @@ export async function getAdminServices() {
   return data.map(mapService);
 }
 
+export async function getAdminServicesSafe(): Promise<AdminCatalogResult<Service>> {
+  const status = getSupabaseAdminConfigStatus();
+
+  if (!status.ready) {
+    return {
+      data: await getLocalServices(),
+      error: status.mode === "local" ? undefined : status.message,
+      source: "local",
+    };
+  }
+
+  try {
+    return {
+      data: await getAdminServices(),
+      source: "supabase",
+    };
+  } catch (error) {
+    return {
+      data: await getLocalServices(),
+      error: error instanceof Error ? error.message : "Unable to load Supabase services.",
+      source: "local",
+    };
+  }
+}
+
 export async function getAdminFleet() {
   if (!hasSupabaseAdminConfig()) {
     return getLocalFleet();
@@ -73,6 +103,31 @@ export async function getAdminFleet() {
   }
 
   return data.map(mapVehicle);
+}
+
+export async function getAdminFleetSafe(): Promise<AdminCatalogResult<Vehicle>> {
+  const status = getSupabaseAdminConfigStatus();
+
+  if (!status.ready) {
+    return {
+      data: await getLocalFleet(),
+      error: status.mode === "local" ? undefined : status.message,
+      source: "local",
+    };
+  }
+
+  try {
+    return {
+      data: await getAdminFleet(),
+      source: "supabase",
+    };
+  } catch (error) {
+    return {
+      data: await getLocalFleet(),
+      error: error instanceof Error ? error.message : "Unable to load Supabase fleet.",
+      source: "local",
+    };
+  }
 }
 
 export async function getPublishedServices() {

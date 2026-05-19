@@ -7,12 +7,16 @@ export const ADMIN_PASSWORD =
 const SESSION_DURATION_MS = 1000 * 60 * 60 * 8;
 const encoder = new TextEncoder();
 
-function getSecret() {
-  if (process.env.NODE_ENV === "production" && !process.env.ADMIN_SESSION_SECRET) {
+function getSecret({ strict = false } = {}) {
+  if (strict && process.env.NODE_ENV === "production" && !process.env.ADMIN_SESSION_SECRET) {
     throw new Error("Missing ADMIN_SESSION_SECRET in production");
   }
 
   return process.env.ADMIN_SESSION_SECRET ?? "ayyi-tour-local-admin-secret-change-me";
+}
+
+export function hasAdminAuthConfig() {
+  return Boolean(ADMIN_LOGIN && ADMIN_PASSWORD && process.env.ADMIN_SESSION_SECRET);
 }
 
 function base64UrlEncode(value: string) {
@@ -26,10 +30,10 @@ function base64UrlDecode(value: string) {
   return atob(padded);
 }
 
-async function sign(value: string) {
+async function sign(value: string, options?: { strict?: boolean }) {
   const key = await crypto.subtle.importKey(
     "raw",
-    encoder.encode(getSecret()),
+    encoder.encode(getSecret(options)),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"],
@@ -47,12 +51,16 @@ export async function createAdminSessionToken() {
       exp: Date.now() + SESSION_DURATION_MS,
     }),
   );
-  const signature = await sign(payload);
+  const signature = await sign(payload, { strict: true });
 
   return `${payload}.${signature}`;
 }
 
 export async function verifyAdminSessionToken(token?: string) {
+  if (process.env.NODE_ENV === "production" && !process.env.ADMIN_SESSION_SECRET) {
+    return false;
+  }
+
   if (!token) {
     return false;
   }

@@ -16,6 +16,7 @@ import {
   ADMIN_LOGIN,
   ADMIN_PASSWORD,
   createAdminSessionToken,
+  hasAdminAuthConfig,
   verifyAdminSessionToken,
 } from "@/lib/admin-auth";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
@@ -198,8 +199,10 @@ function fleetPayload(formData: FormData): FleetInsert {
 }
 
 export async function loginAdmin(formData: FormData) {
-  if (process.env.NODE_ENV === "production" && (!ADMIN_LOGIN || !ADMIN_PASSWORD)) {
-    throw new Error("Missing ADMIN_LOGIN or ADMIN_PASSWORD in production");
+  if (process.env.NODE_ENV === "production" && !hasAdminAuthConfig()) {
+    throw new Error(
+      "Missing ADMIN_LOGIN, ADMIN_PASSWORD or ADMIN_SESSION_SECRET in production",
+    );
   }
 
   const login = String(formData.get("login") ?? "");

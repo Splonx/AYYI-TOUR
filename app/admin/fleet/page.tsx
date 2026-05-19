@@ -3,19 +3,22 @@ import { Plus, Save, Trash2 } from "lucide-react";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
 import { createVehicle, deleteVehicle, updateVehicle } from "@/app/admin/actions";
-import { getAdminFleet } from "@/lib/data/admin-catalog";
+import { getAdminFleetSafe } from "@/lib/data/admin-catalog";
 import { hasSupabaseAdminConfig } from "@/lib/supabase/config";
 
 export const metadata: Metadata = {
   title: "Admin Flotte",
 };
 
+export const dynamic = "force-dynamic";
+
 const inputClass =
   "w-full border border-white/10 bg-black/30 px-3 py-2 text-sm text-white outline-none transition placeholder:text-stone-600 focus:border-gold";
 const labelClass = "text-xs font-bold uppercase tracking-[0.16em] text-stone-500";
 
 export default async function AdminFleetPage() {
-  const fleet = await getAdminFleet();
+  const fleetResult = await getAdminFleetSafe();
+  const fleet = fleetResult.data;
   const canPersist = hasSupabaseAdminConfig();
 
   return (
@@ -35,6 +38,15 @@ export default async function AdminFleetPage() {
             Mode local actif: la flotte est enregistree dans data/admin-catalog.json.
             Ajoutez NEXT_PUBLIC_SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY dans .env.local
             pour utiliser Supabase.
+          </div>
+        ) : null}
+
+        {fleetResult.error ? (
+          <div className="mt-8 border border-red-400/30 bg-red-500/10 p-5 text-sm leading-6 text-red-100">
+            Impossible de charger la flotte depuis Supabase. Affichage des donnees locales.
+            {process.env.NODE_ENV !== "production" ? (
+              <pre className="mt-3 overflow-x-auto text-xs">{fleetResult.error}</pre>
+            ) : null}
           </div>
         ) : null}
 

@@ -1,0 +1,41 @@
+"use client";
+
+export default function AdminError({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  const isDevelopment = process.env.NODE_ENV !== "production";
+
+  return (
+    <main className="min-h-screen bg-obsidian px-6 py-12 text-ivory">
+      <div className="mx-auto max-w-3xl border border-red-400/30 bg-red-500/10 p-6">
+        <p className="text-xs font-bold uppercase tracking-[0.28em] text-red-200">
+          Erreur admin
+        </p>
+        <h1 className="mt-4 text-3xl font-semibold text-white">
+          Impossible de charger le back-office
+        </h1>
+        <p className="mt-4 leading-7 text-stone-300">
+          Verifiez la configuration Supabase et les variables admin dans l&apos;environnement
+          de production.
+        </p>
+        {isDevelopment ? (
+          <pre className="mt-5 overflow-x-auto border border-white/10 bg-black/50 p-4 text-xs text-red-100">
+            {error.message}
+            {error.stack ? `\n\n${error.stack}` : ""}
+          </pre>
+        ) : null}
+        <button
+          type="button"
+          onClick={reset}
+          className="mt-6 inline-flex h-11 items-center justify-center bg-gold px-5 text-sm font-bold uppercase tracking-[0.16em] text-black"
+        >
+          Reessayer
+        </button>
+      </div>
+    </main>
+  );
+}

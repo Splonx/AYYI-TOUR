@@ -1,14 +1,24 @@
 import type { Metadata } from "next";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { MetricCard } from "@/components/admin/metric-card";
-import { getAdminFleet, getAdminServices } from "@/lib/data/admin-catalog";
+import { getAdminFleetSafe, getAdminServicesSafe } from "@/lib/data/admin-catalog";
+import { getSupabaseAdminConfigStatus } from "@/lib/supabase/config";
 
 export const metadata: Metadata = {
   title: "Admin",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
-  const [services, fleet] = await Promise.all([getAdminServices(), getAdminFleet()]);
+  const [servicesResult, fleetResult] = await Promise.all([
+    getAdminServicesSafe(),
+    getAdminFleetSafe(),
+  ]);
+  const services = servicesResult.data;
+  const fleet = fleetResult.data;
+  const supabaseStatus = getSupabaseAdminConfigStatus();
+  const adminErrors = [servicesResult.error, fleetResult.error].filter(Boolean);
   const publishedServices = services.filter((service) => service.status === "published");
   const availableVehicles = fleet.filter((vehicle) => vehicle.status === "available");
 
@@ -41,6 +51,28 @@ export default async function AdminPage() {
         />
         <MetricCard label="Canal contact" value="Email" helper="reservation@ayyi-tour.com" />
       </div>
+
+      {adminErrors.length > 0 ? (
+        <section className="mt-8 border border-gold/30 bg-gold/[0.08] p-5 text-sm leading-7 text-stone-200">
+          <p className="font-semibold text-gold">Mode secours actif</p>
+          <p className="mt-2">
+            Le dashboard utilise les donnees locales parce que Supabase n&apos;est pas
+            disponible ou mal configure. Les pages services/flotte restent accessibles.
+          </p>
+          {process.env.NODE_ENV !== "production" ? (
+            <pre className="mt-4 overflow-x-auto border border-white/10 bg-black/40 p-4 text-xs text-stone-300">
+              {JSON.stringify(
+                {
+                  supabase: supabaseStatus,
+                  errors: adminErrors,
+                },
+                null,
+                2,
+              )}
+            </pre>
+          ) : null}
+        </section>
+      ) : null}
 
       <section className="mt-10 border border-white/10 bg-white/[0.04]">
         <div className="border-b border-white/10 px-6 py-5">

@@ -74,6 +74,9 @@ ADMIN_SESSION_SECRET="replace-with-a-long-random-secret"
 WHATSAPP_NOTIFICATION_TO="212672508363"
 WHATSAPP_ACCESS_TOKEN=""
 WHATSAPP_PHONE_NUMBER_ID=""
+RESERVATION_EMAIL_TO="reservation@ayyi-tour.com"
+RESERVATION_EMAIL_FROM="AYYI TOUR <reservation@ayyi-tour.com>"
+RESEND_API_KEY=""
 ```
 
 Sans Supabase, l'administration utilise le mode local avec `data/admin-catalog.json`.
@@ -82,6 +85,10 @@ Les demandes de reservation sont enregistrees dans le back-office. Pour envoyer
 une notification WhatsApp automatique, renseigner les variables WhatsApp Business
 API `WHATSAPP_ACCESS_TOKEN` et `WHATSAPP_PHONE_NUMBER_ID`; sinon le site ouvre
 un message WhatsApp prerempli vers `WHATSAPP_NOTIFICATION_TO`.
+
+Les details de reservation peuvent aussi etre envoyes par email a
+`reservation@ayyi-tour.com`. Renseigner `RESEND_API_KEY` et verifier le domaine
+email `ayyi-tour.com` chez Resend pour activer l'envoi en production.
 
 ---
 
@@ -94,7 +101,7 @@ un message WhatsApp prerempli vers `WHATSAPP_NOTIFICATION_TO`.
 - Install command: `npm install`
 - Production domain: `https://ayyi-tour.com`
 - Renseigner toutes les variables de `.env.example` dans Vercel Project Settings > Environment Variables.
-- Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` ou `WHATSAPP_ACCESS_TOKEN` cote client.
+- Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `WHATSAPP_ACCESS_TOKEN` ou `RESEND_API_KEY` cote client.
 
 ## OVH DNS
 

@@ -10,6 +10,7 @@ import {
   buildWhatsAppUrl,
   sendWhatsAppNotification,
 } from "@/lib/whatsapp";
+import { sendReservationEmail } from "@/lib/email";
 import type { BookingRequest } from "@/types/domain";
 import type { Database } from "@/types/supabase";
 
@@ -18,6 +19,7 @@ export type BookingFormState = {
   message: string;
   whatsappUrl?: string;
   notificationSent?: boolean;
+  emailSent?: boolean;
 };
 
 type BookingInsert = Database["public"]["Tables"]["booking_requests"]["Insert"];
@@ -113,17 +115,38 @@ export async function createBookingRequest(
       passengers: passengerCount,
       message: details || undefined,
     });
-    const notification = await sendWhatsAppNotification(whatsAppMessage);
+    const [notification, emailNotification] = await Promise.all([
+      sendWhatsAppNotification(whatsAppMessage),
+      sendReservationEmail({
+        clientName,
+        phone,
+        serviceName: selectedService.name,
+        pickupDate,
+        pickupPlace,
+        destination,
+        passengers: passengerCount,
+        message: details || undefined,
+      }),
+    ]);
 
     revalidatePath("/admin");
 
+    const successDetails = [
+      "Votre demande a ete enregistree dans le back-office.",
+      emailNotification.sent
+        ? "Un email a ete envoye a reservation@ayyi-tour.com."
+        : "L'email sera envoye des que RESEND_API_KEY sera configure.",
+      notification.sent
+        ? "La notification WhatsApp automatique a ete envoyee."
+        : "Le message WhatsApp est pret a etre envoye.",
+    ].join(" ");
+
     return {
       status: "success",
-      message: notification.sent
-        ? "Votre demande a ete enregistree dans le back-office et la notification WhatsApp automatique a ete envoyee."
-        : "Votre demande a ete enregistree dans le back-office. Le message WhatsApp est pret a etre envoye.",
+      message: successDetails,
       whatsappUrl: buildWhatsAppUrl(whatsAppMessage),
       notificationSent: notification.sent,
+      emailSent: emailNotification.sent,
     };
   } catch (error) {
     return {

@@ -79,6 +79,8 @@ export async function getAdminServicesSafe(): Promise<AdminCatalogResult<Service
       source: "supabase",
     };
   } catch (error) {
+    console.error("[admin services] Supabase load failed", error);
+
     return {
       data: await getLocalServices(),
       error: error instanceof Error ? error.message : "Unable to load Supabase services.",
@@ -122,6 +124,8 @@ export async function getAdminFleetSafe(): Promise<AdminCatalogResult<Vehicle>> 
       source: "supabase",
     };
   } catch (error) {
+    console.error("[admin fleet] Supabase load failed", error);
+
     return {
       data: await getLocalFleet(),
       error: error instanceof Error ? error.message : "Unable to load Supabase fleet.",

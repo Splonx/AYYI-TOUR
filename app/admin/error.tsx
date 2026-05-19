@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function AdminError({
   error,
   reset,
@@ -22,6 +24,9 @@ export default function AdminError({
           Verifiez la configuration Supabase et les variables admin dans l&apos;environnement
           de production.
         </p>
+        {error.digest ? (
+          <p className="mt-3 text-xs text-stone-500">Digest: {error.digest}</p>
+        ) : null}
         {isDevelopment ? (
           <pre className="mt-5 overflow-x-auto border border-white/10 bg-black/50 p-4 text-xs text-red-100">
             {error.message}
@@ -35,6 +40,12 @@ export default function AdminError({
         >
           Reessayer
         </button>
+        <Link
+          href="/admin/diagnostics"
+          className="ml-3 mt-6 inline-flex h-11 items-center justify-center border border-gold px-5 text-sm font-bold uppercase tracking-[0.16em] text-gold"
+        >
+          Diagnostics
+        </Link>
       </div>
     </main>
   );

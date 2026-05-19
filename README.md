@@ -103,8 +103,11 @@ Ajouter le domaine `ayyi-tour.com` dans Vercel, puis configurer les DNS OVH avec
 
 - Appliquer les migrations du dossier `supabase/migrations`.
 - Verifier que les tables `services` et `fleet` existent.
+- Creer le bucket Storage `vehicle-images` pour les images vehicules.
 - Garder RLS active.
 - Utiliser `SUPABASE_SERVICE_ROLE_KEY` uniquement dans les variables serveur Vercel.
+- Apres connexion admin, ouvrir `/admin/diagnostics` pour verifier les variables,
+  les tables et le bucket Storage en production.
 
 ## Checklist production
 

@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Car, LayoutDashboard, LogOut, Settings, Sparkles } from "lucide-react";
+import { Activity, Car, LayoutDashboard, LogOut, Settings, Sparkles } from "lucide-react";
 import { logoutAdmin } from "@/app/admin/actions";
 
 const adminNav = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/services", label: "Services", icon: Sparkles },
   { href: "/admin/fleet", label: "Flotte", icon: Car },
+  { href: "/admin/diagnostics", label: "Diagnostics", icon: Activity },
 ];
 
 export function AdminSidebar() {

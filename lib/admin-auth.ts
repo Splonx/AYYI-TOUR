@@ -1,11 +1,17 @@
 export const ADMIN_COOKIE_NAME = "ayyi_admin_session";
-export const ADMIN_LOGIN = process.env.ADMIN_LOGIN ?? "Sami";
-export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "S@m1@2026";
+export const ADMIN_LOGIN =
+  process.env.ADMIN_LOGIN ?? (process.env.NODE_ENV === "production" ? "" : "Sami");
+export const ADMIN_PASSWORD =
+  process.env.ADMIN_PASSWORD ?? (process.env.NODE_ENV === "production" ? "" : "S@m1@2026");
 
 const SESSION_DURATION_MS = 1000 * 60 * 60 * 8;
 const encoder = new TextEncoder();
 
 function getSecret() {
+  if (process.env.NODE_ENV === "production" && !process.env.ADMIN_SESSION_SECRET) {
+    throw new Error("Missing ADMIN_SESSION_SECRET in production");
+  }
+
   return process.env.ADMIN_SESSION_SECRET ?? "ayyi-tour-local-admin-secret-change-me";
 }
 

@@ -198,6 +198,10 @@ function fleetPayload(formData: FormData): FleetInsert {
 }
 
 export async function loginAdmin(formData: FormData) {
+  if (process.env.NODE_ENV === "production" && (!ADMIN_LOGIN || !ADMIN_PASSWORD)) {
+    throw new Error("Missing ADMIN_LOGIN or ADMIN_PASSWORD in production");
+  }
+
   const login = String(formData.get("login") ?? "");
   const password = String(formData.get("password") ?? "");
 

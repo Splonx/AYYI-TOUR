@@ -64,6 +64,7 @@ http://localhost:3000
 Copier `.env.example` vers `.env.local`, puis renseigner les variables selon l'environnement :
 
 ```env
+NEXT_PUBLIC_SITE_URL="https://ayyi-tour.com"
 NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
 SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
@@ -81,3 +82,39 @@ Les demandes de reservation sont enregistrees dans le back-office. Pour envoyer
 une notification WhatsApp automatique, renseigner les variables WhatsApp Business
 API `WHATSAPP_ACCESS_TOKEN` et `WHATSAPP_PHONE_NUMBER_ID`; sinon le site ouvre
 un message WhatsApp prerempli vers `WHATSAPP_NOTIFICATION_TO`.
+
+---
+
+# Deploiement production
+
+## Vercel
+
+- Framework preset: Next.js
+- Build command: `npm run build`
+- Install command: `npm install`
+- Production domain: `https://ayyi-tour.com`
+- Renseigner toutes les variables de `.env.example` dans Vercel Project Settings > Environment Variables.
+- Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` ou `WHATSAPP_ACCESS_TOKEN` cote client.
+
+## OVH DNS
+
+Ajouter le domaine `ayyi-tour.com` dans Vercel, puis configurer les DNS OVH avec les valeurs donnees par Vercel:
+
+- Domaine racine `ayyi-tour.com`: record `A` vers l'adresse IP Vercel fournie.
+- Sous-domaine `www`: record `CNAME` vers la cible Vercel fournie.
+- Une fois valide, activer la redirection canonique vers `https://ayyi-tour.com`.
+
+## Supabase
+
+- Appliquer les migrations du dossier `supabase/migrations`.
+- Verifier que les tables `services`, `fleet` et `booking_requests` existent.
+- Garder RLS active.
+- Utiliser `SUPABASE_SERVICE_ROLE_KEY` uniquement dans les variables serveur Vercel.
+
+## Checklist production
+
+- `npm run lint`
+- `npm run build`
+- Tester `/`, `/services`, `/fleet`, `/admin/login`, `/robots.txt`, `/sitemap.xml`.
+- Tester une reservation complete et verifier son apparition dans `/admin`.
+- Verifier le rendu mobile avant mise en ligne.

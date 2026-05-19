@@ -7,6 +7,17 @@ import { getAvailableFleet } from "@/lib/data/admin-catalog";
 
 export const metadata: Metadata = {
   title: "Flotte Premium",
+  description:
+    "Flotte premium AYYI TOUR: berlines executive, vans VIP et SUV avec chauffeur prive au Maroc.",
+  alternates: {
+    canonical: "/fleet",
+  },
+  openGraph: {
+    title: "Flotte premium AYYI TOUR",
+    description:
+      "Vehicules premium adaptes aux transferts aeroport, trajets business et missions privees au Maroc.",
+    url: "/fleet",
+  },
 };
 
 export default async function FleetPage() {

@@ -7,6 +7,17 @@ import { getPublishedServices } from "@/lib/data/admin-catalog";
 
 export const metadata: Metadata = {
   title: "Services VIP",
+  description:
+    "Transferts aeroport, chauffeur business, mise a disposition et transport evenementiel VIP au Maroc.",
+  alternates: {
+    canonical: "/services",
+  },
+  openGraph: {
+    title: "Services VIP AYYI TOUR",
+    description:
+      "Des prestations de chauffeur prive et transport VIP pour entreprises, familles et delegations au Maroc.",
+    url: "/services",
+  },
 };
 
 export default async function ServicesPage() {

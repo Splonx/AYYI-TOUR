@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -50,9 +51,18 @@ export default async function Home() {
       <SiteHeader />
 
       <section
-        className="relative min-h-[100svh] overflow-hidden bg-[image:url('/images/vip-hero.png')] bg-cover bg-[position:62%_center] pt-20 sm:min-h-[92vh] sm:bg-center sm:pt-24"
+        className="relative min-h-[100svh] overflow-hidden pt-20 sm:min-h-[92vh] sm:pt-24"
         aria-label="Flotte de transport VIP devant un hotel premium"
       >
+        <Image
+          src="/images/vip-hero.png"
+          alt=""
+          fill
+          preload
+          quality={82}
+          sizes="100vw"
+          className="object-cover object-[62%_center] sm:object-center"
+        />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,5,0.92)_0%,rgba(5,5,5,0.76)_42%,rgba(5,5,5,0.95)_100%)] sm:bg-[linear-gradient(90deg,rgba(5,5,5,0.98)_0%,rgba(5,5,5,0.86)_34%,rgba(5,5,5,0.42)_68%,rgba(5,5,5,0.2)_100%)]" />
         <div className="absolute inset-0 bg-gold/[0.04]" />
         <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-obsidian to-transparent" />

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Activity, Car, LayoutDashboard, LogOut, Settings, Sparkles } from "lucide-react";
-import { logoutAdmin } from "@/app/admin/actions";
 
 const adminNav = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -37,7 +36,7 @@ export function AdminSidebar() {
         Mode local disponible. Ajoutez les variables Supabase dans `.env.local`
         pour synchroniser la gestion avec la base de donnees.
       </div>
-      <form action={logoutAdmin} className="mt-5">
+      <form action="/api/admin/logout" method="post" className="mt-5">
         <button
           type="submit"
           className="flex w-full items-center gap-3 border border-white/10 px-4 py-3 text-left text-sm font-semibold text-stone-300 transition hover:border-gold hover:text-gold"

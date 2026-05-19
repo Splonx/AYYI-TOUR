@@ -4,7 +4,8 @@ export const ADMIN_LOGIN =
 export const ADMIN_PASSWORD =
   process.env.ADMIN_PASSWORD ?? (process.env.NODE_ENV === "production" ? "" : "S@m1@2026");
 
-const SESSION_DURATION_MS = 1000 * 60 * 60 * 8;
+export const ADMIN_SESSION_MAX_AGE_SECONDS = 60 * 60 * 8;
+const SESSION_DURATION_MS = ADMIN_SESSION_MAX_AGE_SECONDS * 1000;
 const encoder = new TextEncoder();
 
 function getSecret({ strict = false } = {}) {
@@ -17,6 +18,10 @@ function getSecret({ strict = false } = {}) {
 
 export function hasAdminAuthConfig() {
   return Boolean(ADMIN_LOGIN && ADMIN_PASSWORD && process.env.ADMIN_SESSION_SECRET);
+}
+
+export function validateAdminCredentials(login: string, password: string) {
+  return login === ADMIN_LOGIN && password === ADMIN_PASSWORD;
 }
 
 function base64UrlEncode(value: string) {

@@ -13,10 +13,6 @@ import {
 } from "@/lib/data/local-admin-catalog";
 import {
   ADMIN_COOKIE_NAME,
-  ADMIN_LOGIN,
-  ADMIN_PASSWORD,
-  createAdminSessionToken,
-  hasAdminAuthConfig,
   verifyAdminSessionToken,
 } from "@/lib/admin-auth";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
@@ -123,6 +119,11 @@ function requireSupabaseAdminClient(returnPath: "/admin/services" | "/admin/flee
   return createSupabaseAdminClient();
 }
 
+function redirectAdminWriteError(returnPath: "/admin/services" | "/admin/fleet", error: unknown) {
+  console.error(`[admin write] ${returnPath} failed`, error);
+  redirect(`${returnPath}?error=save`);
+}
+
 function localId(prefix: string) {
   return `${prefix}-${crypto.randomUUID()}`;
 }
@@ -197,52 +198,15 @@ function fleetPayload(formData: FormData): FleetInsert {
   };
 }
 
-export async function loginAdmin(formData: FormData) {
-  if (process.env.NODE_ENV === "production" && !hasAdminAuthConfig()) {
-    throw new Error(
-      "Missing ADMIN_LOGIN, ADMIN_PASSWORD or ADMIN_SESSION_SECRET in production",
-    );
-  }
-
-  const login = String(formData.get("login") ?? "");
-  const password = String(formData.get("password") ?? "");
-
-  if (login !== ADMIN_LOGIN || password !== ADMIN_PASSWORD) {
-    redirect("/admin/login?error=1");
-  }
-
-  const token = await createAdminSessionToken();
-  const cookieStore = await cookies();
-
-  cookieStore.set(ADMIN_COOKIE_NAME, token, {
-    httpOnly: true,
-    maxAge: 60 * 60 * 8,
-    path: "/admin",
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
-
-  redirect("/admin");
-}
-
-export async function logoutAdmin() {
-  const cookieStore = await cookies();
-
-  cookieStore.set(ADMIN_COOKIE_NAME, "", {
-    httpOnly: true,
-    maxAge: 0,
-    path: "/admin",
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
-  redirect("/admin/login");
-}
-
 export async function createService(formData: FormData) {
   await requireAdminSession();
 
   if (!hasSupabaseAdminConfig()) {
-    await createLocalService(serviceFromForm(formData));
+    try {
+      await createLocalService(serviceFromForm(formData));
+    } catch (error) {
+      redirectAdminWriteError("/admin/services", error);
+    }
     revalidateCatalog();
     redirect("/admin/services");
   }
@@ -251,7 +215,7 @@ export async function createService(formData: FormData) {
   const { error } = await supabase.from("services").insert(servicePayload(formData));
 
   if (error) {
-    throw new Error(`Unable to create service: ${error.message}`);
+    redirectAdminWriteError("/admin/services", error);
   }
 
   revalidateCatalog();
@@ -264,7 +228,11 @@ export async function updateService(formData: FormData) {
   const id = requiredText(formData, "id");
 
   if (!hasSupabaseAdminConfig()) {
-    await updateLocalService(serviceFromForm(formData, id));
+    try {
+      await updateLocalService(serviceFromForm(formData, id));
+    } catch (error) {
+      redirectAdminWriteError("/admin/services", error);
+    }
     revalidateCatalog();
     redirect("/admin/services");
   }
@@ -274,7 +242,7 @@ export async function updateService(formData: FormData) {
   const { error } = await supabase.from("services").update(payload).eq("id", id);
 
   if (error) {
-    throw new Error(`Unable to update service: ${error.message}`);
+    redirectAdminWriteError("/admin/services", error);
   }
 
   revalidateCatalog();
@@ -287,7 +255,11 @@ export async function deleteService(formData: FormData) {
   const id = requiredText(formData, "id");
 
   if (!hasSupabaseAdminConfig()) {
-    await deleteLocalService(id);
+    try {
+      await deleteLocalService(id);
+    } catch (error) {
+      redirectAdminWriteError("/admin/services", error);
+    }
     revalidateCatalog();
     redirect("/admin/services");
   }
@@ -296,7 +268,7 @@ export async function deleteService(formData: FormData) {
   const { error } = await supabase.from("services").delete().eq("id", id);
 
   if (error) {
-    throw new Error(`Unable to delete service: ${error.message}`);
+    redirectAdminWriteError("/admin/services", error);
   }
 
   revalidateCatalog();
@@ -307,7 +279,11 @@ export async function createVehicle(formData: FormData) {
   await requireAdminSession();
 
   if (!hasSupabaseAdminConfig()) {
-    await createLocalVehicle(vehicleFromForm(formData));
+    try {
+      await createLocalVehicle(vehicleFromForm(formData));
+    } catch (error) {
+      redirectAdminWriteError("/admin/fleet", error);
+    }
     revalidateCatalog();
     redirect("/admin/fleet");
   }
@@ -316,7 +292,7 @@ export async function createVehicle(formData: FormData) {
   const { error } = await supabase.from("fleet").insert(fleetPayload(formData));
 
   if (error) {
-    throw new Error(`Unable to create vehicle: ${error.message}`);
+    redirectAdminWriteError("/admin/fleet", error);
   }
 
   revalidateCatalog();
@@ -329,7 +305,11 @@ export async function updateVehicle(formData: FormData) {
   const id = requiredText(formData, "id");
 
   if (!hasSupabaseAdminConfig()) {
-    await updateLocalVehicle(vehicleFromForm(formData, id));
+    try {
+      await updateLocalVehicle(vehicleFromForm(formData, id));
+    } catch (error) {
+      redirectAdminWriteError("/admin/fleet", error);
+    }
     revalidateCatalog();
     redirect("/admin/fleet");
   }
@@ -339,7 +319,7 @@ export async function updateVehicle(formData: FormData) {
   const { error } = await supabase.from("fleet").update(payload).eq("id", id);
 
   if (error) {
-    throw new Error(`Unable to update vehicle: ${error.message}`);
+    redirectAdminWriteError("/admin/fleet", error);
   }
 
   revalidateCatalog();
@@ -352,7 +332,11 @@ export async function deleteVehicle(formData: FormData) {
   const id = requiredText(formData, "id");
 
   if (!hasSupabaseAdminConfig()) {
-    await deleteLocalVehicle(id);
+    try {
+      await deleteLocalVehicle(id);
+    } catch (error) {
+      redirectAdminWriteError("/admin/fleet", error);
+    }
     revalidateCatalog();
     redirect("/admin/fleet");
   }
@@ -361,7 +345,7 @@ export async function deleteVehicle(formData: FormData) {
   const { error } = await supabase.from("fleet").delete().eq("id", id);
 
   if (error) {
-    throw new Error(`Unable to delete vehicle: ${error.message}`);
+    redirectAdminWriteError("/admin/fleet", error);
   }
 
   revalidateCatalog();

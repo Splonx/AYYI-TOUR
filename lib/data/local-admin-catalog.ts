@@ -10,7 +10,43 @@ type LocalCatalog = {
   fleet: Vehicle[];
 };
 
+type LegacyVehicle = Partial<Vehicle> & {
+  segment?: string;
+  passengers?: number;
+  status?: string;
+};
+
 const catalogPath = path.join(process.cwd(), "data", "admin-catalog.json");
+
+function normalizeLocalFleet(value: unknown): Vehicle[] {
+  if (!Array.isArray(value)) {
+    return fallbackFleet;
+  }
+
+  return value.map((item, index) => {
+    const vehicle = item as LegacyVehicle;
+    const description = vehicle.description ?? "";
+
+    return {
+      id: vehicle.id ?? `veh-local-${index + 1}`,
+      name: vehicle.name ?? "Vehicule premium",
+      shortDescription: vehicle.shortDescription ?? description,
+      longDescription: vehicle.longDescription ?? description,
+      description,
+      imageUrl: vehicle.imageUrl,
+      seats: vehicle.seats ?? vehicle.passengers ?? 3,
+      luggage: vehicle.luggage ?? 2,
+      priceNote: vehicle.priceNote ?? "",
+      category: vehicle.category ?? vehicle.segment ?? "Premium",
+      isFeatured: vehicle.isFeatured ?? true,
+      isActive:
+        vehicle.isActive ??
+        (vehicle.status ? vehicle.status === "available" : true),
+      displayOrder: vehicle.displayOrder ?? index + 1,
+      createdAt: vehicle.createdAt,
+    };
+  });
+}
 
 async function readLocalCatalog(): Promise<LocalCatalog> {
   try {
@@ -19,7 +55,7 @@ async function readLocalCatalog(): Promise<LocalCatalog> {
 
     return {
       services: Array.isArray(parsed.services) ? parsed.services : fallbackServices,
-      fleet: Array.isArray(parsed.fleet) ? parsed.fleet : fallbackFleet,
+      fleet: normalizeLocalFleet(parsed.fleet),
     };
   } catch {
     return {

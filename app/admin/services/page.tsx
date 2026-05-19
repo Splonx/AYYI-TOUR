@@ -16,10 +16,12 @@ const inputClass =
   "w-full border border-white/10 bg-black/30 px-3 py-2 text-sm text-white outline-none transition placeholder:text-stone-600 focus:border-gold";
 const labelClass = "text-xs font-bold uppercase tracking-[0.16em] text-stone-500";
 
-export default async function AdminServicesPage() {
+export default async function AdminServicesPage(props: PageProps<"/admin/services">) {
+  const searchParams = await props.searchParams;
   const servicesResult = await getAdminServicesSafe();
   const services = servicesResult.data;
   const canPersist = hasSupabaseAdminConfig();
+  const hasSaveError = searchParams.error === "save";
 
   return (
     <AdminShell>
@@ -47,6 +49,13 @@ export default async function AdminServicesPage() {
             {process.env.NODE_ENV !== "production" ? (
               <pre className="mt-3 overflow-x-auto text-xs">{servicesResult.error}</pre>
             ) : null}
+          </div>
+        ) : null}
+
+        {hasSaveError ? (
+          <div className="mt-8 border border-red-400/30 bg-red-500/10 p-5 text-sm leading-6 text-red-100">
+            Impossible d&apos;enregistrer les services dans Supabase. Verifiez le schema
+            et les variables d&apos;environnement, puis relancez l&apos;operation.
           </div>
         ) : null}
 

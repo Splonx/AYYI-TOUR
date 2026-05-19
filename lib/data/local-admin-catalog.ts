@@ -16,7 +16,61 @@ type LegacyVehicle = Partial<Vehicle> & {
   status?: string;
 };
 
+type LegacyService = Partial<Service> & {
+  features?: unknown;
+  tags?: unknown;
+  highlights?: unknown;
+};
+
 const catalogPath = path.join(process.cwd(), "data", "admin-catalog.json");
+
+function toArray(value: unknown) {
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === "string" && item.trim() !== "");
+  }
+
+  if (typeof value === "string" && value.trim()) {
+    return value
+      .split(/\r?\n|,/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
+function serviceStatus(value: unknown): Service["status"] {
+  if (value === "published" || value === "archived") {
+    return value;
+  }
+
+  return "draft";
+}
+
+function normalizeLocalServices(value: unknown): Service[] {
+  if (!Array.isArray(value)) {
+    return fallbackServices;
+  }
+
+  return value.map((item, index) => {
+    const service = item as LegacyService;
+    const highlights = toArray(service.highlights);
+
+    return {
+      id: service.id ?? `srv-local-${index + 1}`,
+      slug: service.slug ?? `service-${index + 1}`,
+      name: service.name ?? "Service",
+      category: service.category ?? "Service VIP",
+      description: service.description ?? "",
+      highlights:
+        highlights.length > 0
+          ? highlights
+          : toArray(service.features).concat(toArray(service.tags)),
+      status: serviceStatus(service.status),
+      startingPrice: service.startingPrice,
+    };
+  });
+}
 
 function normalizeLocalFleet(value: unknown): Vehicle[] {
   if (!Array.isArray(value)) {
@@ -54,7 +108,7 @@ async function readLocalCatalog(): Promise<LocalCatalog> {
     const parsed = JSON.parse(value) as Partial<LocalCatalog>;
 
     return {
-      services: Array.isArray(parsed.services) ? parsed.services : fallbackServices,
+      services: normalizeLocalServices(parsed.services),
       fleet: normalizeLocalFleet(parsed.fleet),
     };
   } catch {

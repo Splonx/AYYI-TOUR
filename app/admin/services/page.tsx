@@ -16,6 +16,21 @@ const inputClass =
   "w-full border border-white/10 bg-black/30 px-3 py-2 text-sm text-white outline-none transition placeholder:text-stone-600 focus:border-gold";
 const labelClass = "text-xs font-bold uppercase tracking-[0.16em] text-stone-500";
 
+function toArray(value: unknown) {
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === "string" && item.trim() !== "");
+  }
+
+  if (typeof value === "string" && value.trim()) {
+    return value
+      .split(/\r?\n|,/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
 export default async function AdminServicesPage(props: PageProps<"/admin/services">) {
   const searchParams = await props.searchParams;
   const servicesResult = await getAdminServicesSafe();
@@ -170,7 +185,7 @@ export default async function AdminServicesPage(props: PageProps<"/admin/service
                   <textarea
                     className={inputClass}
                     name="highlights"
-                    defaultValue={service.highlights.join("\n")}
+                    defaultValue={toArray(service.highlights).join("\n")}
                     rows={3}
                   />
                 </label>

@@ -3,12 +3,11 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fleet as fallbackFleet } from "@/lib/data/fleet";
 import { services as fallbackServices } from "@/lib/data/services";
-import type { BookingRequest, Service, Vehicle } from "@/types/domain";
+import type { Service, Vehicle } from "@/types/domain";
 
 type LocalCatalog = {
   services: Service[];
   fleet: Vehicle[];
-  bookingRequests?: BookingRequest[];
 };
 
 const catalogPath = path.join(process.cwd(), "data", "admin-catalog.json");
@@ -21,13 +20,11 @@ async function readLocalCatalog(): Promise<LocalCatalog> {
     return {
       services: Array.isArray(parsed.services) ? parsed.services : fallbackServices,
       fleet: Array.isArray(parsed.fleet) ? parsed.fleet : fallbackFleet,
-      bookingRequests: Array.isArray(parsed.bookingRequests) ? parsed.bookingRequests : [],
     };
   } catch {
     return {
       services: fallbackServices,
       fleet: fallbackFleet,
-      bookingRequests: [],
     };
   }
 }
@@ -47,12 +44,6 @@ export async function getLocalFleet() {
   const catalog = await readLocalCatalog();
 
   return catalog.fleet;
-}
-
-export async function getLocalBookingRequests() {
-  const catalog = await readLocalCatalog();
-
-  return catalog.bookingRequests ?? [];
 }
 
 export async function createLocalService(service: Service) {
@@ -106,14 +97,5 @@ export async function deleteLocalVehicle(id: string) {
   await writeLocalCatalog({
     ...catalog,
     fleet: catalog.fleet.filter((item) => item.id !== id),
-  });
-}
-
-export async function createLocalBookingRequest(request: BookingRequest) {
-  const catalog = await readLocalCatalog();
-
-  await writeLocalCatalog({
-    ...catalog,
-    bookingRequests: [request, ...(catalog.bookingRequests ?? [])],
   });
 }

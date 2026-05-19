@@ -21,16 +21,16 @@ import {
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { AnimatedStats } from "@/components/sections/animated-stats";
-import { BookingForm } from "@/components/sections/booking-form";
 import { FleetCard } from "@/components/sections/fleet-card";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { ServiceCard } from "@/components/sections/service-card";
 import { getAvailableFleet, getPublishedServices } from "@/lib/data/admin-catalog";
+import { siteConfig } from "@/lib/site";
 
 const stats = [
   { value: "24/7", label: "Disponibilite chauffeur" },
   { value: "3", label: "Axes Agadir Marrakech Maroc" },
-  { value: "100%", label: "Reservation privee" },
+  { value: "100%", label: "Service prive" },
 ];
 
 const promise = [
@@ -93,7 +93,7 @@ const faqs = [
   {
     question: "Comment confirmer une reservation VIP ?",
     answer:
-      "Envoyez les details via le formulaire de reservation. L'equipe recoit la demande dans le back-office et peut confirmer les disponibilites rapidement par WhatsApp.",
+      "Envoyez les details par email a reservation@ayyi-tour.com ou contactez l'equipe via WhatsApp. AYYI TOUR confirme les disponibilites rapidement.",
   },
   {
     question: "Le service est-il adapte aux entreprises et delegations ?",
@@ -376,13 +376,13 @@ export default async function Home() {
               lieux d&apos;evenement. Les trajets sont prepares selon l&apos;horaire, le niveau
               de discretion et le confort attendu.
             </p>
-            <Link
-              href="/#reservation"
+            <a
+              href={siteConfig.reservationMailto}
               className="premium-button mt-8 inline-flex h-12 items-center justify-center gap-3 bg-gold px-5 text-xs font-bold uppercase tracking-[0.14em] text-black sm:text-sm"
             >
               Planifier un trajet
               <Navigation className="h-4 w-4" />
-            </Link>
+            </a>
           </div>
           <div className="min-h-[360px] overflow-hidden border border-gold/20 bg-black shadow-[0_24px_90px_rgba(0,0,0,0.35)]">
             <iframe
@@ -393,24 +393,6 @@ export default async function Home() {
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
-        </div>
-      </section>
-
-      <section id="reservation" className="scroll-mt-24 bg-ivory px-4 py-16 text-obsidian sm:px-8 sm:py-20 lg:px-10">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-gold sm:tracking-[0.32em]">
-              Reservation
-            </p>
-            <h2 className="mt-4 text-3xl font-semibold leading-tight sm:text-5xl">
-              Preparez votre trajet VIP
-            </h2>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-stone-700 sm:text-lg sm:leading-8">
-              Envoyez les details de votre trajet sur WhatsApp: date, horaire,
-              lieu de prise en charge, destination, passagers et bagages.
-            </p>
-          </div>
-          <BookingForm services={services} />
         </div>
       </section>
 

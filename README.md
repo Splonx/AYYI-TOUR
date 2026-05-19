@@ -1,6 +1,6 @@
 # AYYI TOUR - Transport Service VIP
 
-Site officiel de reservation et de presentation des services premium AYYI TOUR.
+Site officiel de presentation des services premium AYYI TOUR.
 
 ---
 
@@ -16,7 +16,7 @@ Le site permet :
 
 - la presentation des services
 - la gestion dynamique de la flotte
-- les demandes de reservation
+- la prise de contact par email et WhatsApp
 - l'administration du contenu via un back-office securise
 
 ---
@@ -29,7 +29,7 @@ Le site permet :
 - Animations et fond dynamique
 - Presentation des services
 - Galerie flotte de vehicules
-- Formulaire de reservation
+- CTA email prerempli pour planifier un trajet
 - Contact WhatsApp direct
 - Responsive mobile/tablette/desktop
 
@@ -71,24 +71,12 @@ SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 ADMIN_LOGIN="Sami"
 ADMIN_PASSWORD="change-this-password"
 ADMIN_SESSION_SECRET="replace-with-a-long-random-secret"
-WHATSAPP_NOTIFICATION_TO="212672508363"
-WHATSAPP_ACCESS_TOKEN=""
-WHATSAPP_PHONE_NUMBER_ID=""
-RESERVATION_EMAIL_TO="reservation@ayyi-tour.com"
-RESERVATION_EMAIL_FROM="AYYI TOUR <reservation@ayyi-tour.com>"
-RESEND_API_KEY=""
 ```
 
 Sans Supabase, l'administration utilise le mode local avec `data/admin-catalog.json`.
 
-Les demandes de reservation sont enregistrees dans le back-office. Pour envoyer
-une notification WhatsApp automatique, renseigner les variables WhatsApp Business
-API `WHATSAPP_ACCESS_TOKEN` et `WHATSAPP_PHONE_NUMBER_ID`; sinon le site ouvre
-un message WhatsApp prerempli vers `WHATSAPP_NOTIFICATION_TO`.
-
-Les details de reservation peuvent aussi etre envoyes par email a
-`reservation@ayyi-tour.com`. Renseigner `RESEND_API_KEY` et verifier le domaine
-email `ayyi-tour.com` chez Resend pour activer l'envoi en production.
+Le bouton "Planifier un trajet" ouvre le client email de l'utilisateur avec un
+message prerempli vers `reservation@ayyi-tour.com`.
 
 ---
 
@@ -101,7 +89,7 @@ email `ayyi-tour.com` chez Resend pour activer l'envoi en production.
 - Install command: `npm install`
 - Production domain: `https://ayyi-tour.com`
 - Renseigner toutes les variables de `.env.example` dans Vercel Project Settings > Environment Variables.
-- Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `WHATSAPP_ACCESS_TOKEN` ou `RESEND_API_KEY` cote client.
+- Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_PASSWORD` ou `ADMIN_SESSION_SECRET` cote client.
 
 ## OVH DNS
 
@@ -114,7 +102,7 @@ Ajouter le domaine `ayyi-tour.com` dans Vercel, puis configurer les DNS OVH avec
 ## Supabase
 
 - Appliquer les migrations du dossier `supabase/migrations`.
-- Verifier que les tables `services`, `fleet` et `booking_requests` existent.
+- Verifier que les tables `services` et `fleet` existent.
 - Garder RLS active.
 - Utiliser `SUPABASE_SERVICE_ROLE_KEY` uniquement dans les variables serveur Vercel.
 
@@ -123,5 +111,5 @@ Ajouter le domaine `ayyi-tour.com` dans Vercel, puis configurer les DNS OVH avec
 - `npm run lint`
 - `npm run build`
 - Tester `/`, `/services`, `/fleet`, `/admin/login`, `/robots.txt`, `/sitemap.xml`.
-- Tester une reservation complete et verifier son apparition dans `/admin`.
+- Tester le lien email "Planifier un trajet" et les liens WhatsApp.
 - Verifier le rendu mobile avant mise en ligne.

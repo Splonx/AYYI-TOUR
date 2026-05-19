@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CalendarCheck, MessageCircle } from "lucide-react";
+import { siteConfig } from "@/lib/site";
 
 export function FloatingActions() {
   return (
@@ -15,13 +16,13 @@ export function FloatingActions() {
       </Link>
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gold/25 bg-black/88 px-4 py-3 shadow-[0_-18px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:hidden">
         <div className="grid grid-cols-[1fr_auto] gap-3">
-          <Link
-            href="/#reservation"
+          <a
+            href={siteConfig.reservationMailto}
             className="inline-flex h-12 items-center justify-center gap-2 bg-gold px-4 text-xs font-bold uppercase tracking-[0.14em] text-black"
           >
             <CalendarCheck className="h-4 w-4" />
-            Reservation
-          </Link>
+            Planifier
+          </a>
           <Link
             href="https://wa.me/212672508363"
             target="_blank"

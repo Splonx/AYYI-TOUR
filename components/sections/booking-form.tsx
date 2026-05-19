@@ -48,7 +48,7 @@ export function BookingForm({ services }: BookingFormProps) {
     }
 
     formRef.current?.reset();
-  }, [state.status]);
+  }, [state]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     const formData = new FormData(event.currentTarget);

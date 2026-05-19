@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { FloatingActions } from "@/components/layout/floating-actions";
+import { PremiumLoader } from "@/components/layout/premium-loader";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -29,9 +31,13 @@ export const metadata: Metadata = {
   keywords: [
     "transport VIP Maroc",
     "chauffeur prive Maroc",
+    "chauffeur prive Agadir",
+    "chauffeur prive Marrakech",
     "transfert aeroport Agadir",
     "transfert aeroport Marrakech",
     "location voiture avec chauffeur",
+    "transport VIP Agadir",
+    "transport VIP Marrakech",
     "AYYI TOUR",
   ],
   alternates: {
@@ -80,7 +86,9 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <PremiumLoader />
         {children}
+        <FloatingActions />
       </body>
     </html>
   );

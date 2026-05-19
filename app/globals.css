@@ -32,6 +32,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
@@ -44,4 +46,85 @@ h3 {
 ::selection {
   background: #c9a24a;
   color: #070707;
+}
+
+.premium-loader {
+  animation: loader-fade 0.9s ease 0.65s forwards;
+}
+
+.luxury-reveal {
+  animation: luxury-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.luxury-reveal:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.luxury-reveal:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.luxury-reveal:nth-child(4) {
+  animation-delay: 0.24s;
+}
+
+.glass-luxury {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025)),
+    rgba(8, 8, 8, 0.54);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 24px 90px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px);
+}
+
+.premium-button {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 18px 55px rgba(201, 162, 74, 0.18);
+}
+
+.premium-button::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  transform: translateX(-120%) skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  transition: transform 0.7s ease;
+}
+
+.premium-button:hover::after {
+  transform: translateX(120%) skewX(-18deg);
+}
+
+@keyframes luxury-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loader-fade {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

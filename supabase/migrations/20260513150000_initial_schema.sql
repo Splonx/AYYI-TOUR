@@ -1,7 +1,6 @@
 create extension if not exists "pgcrypto";
 
 create type service_status as enum ('draft', 'published', 'archived');
-create type vehicle_status as enum ('available', 'maintenance', 'hidden');
 create type booking_status as enum ('new', 'confirmed', 'completed', 'cancelled');
 
 create table public.services (
@@ -18,13 +17,18 @@ create table public.services (
 
 create table public.fleet (
   id uuid primary key default gen_random_uuid(),
-  slug text not null unique,
   name text not null,
-  segment text not null,
-  description text not null,
-  passengers integer not null default 3,
+  short_description text,
+  long_description text,
+  description text not null default '',
+  image_url text,
+  seats integer not null default 3,
   luggage integer not null default 2,
-  status vehicle_status not null default 'available',
+  price_note text,
+  category text,
+  is_featured boolean not null default false,
+  is_active boolean not null default true,
+  display_order integer not null default 0,
   created_at timestamptz not null default now()
 );
 
@@ -52,7 +56,7 @@ create policy "Published services are public"
 
 create policy "Available fleet is public"
   on public.fleet for select
-  using (status = 'available');
+  using (is_active = true);
 
 create policy "Admins manage services with service role"
   on public.services for all
@@ -99,8 +103,46 @@ values
     1800
   );
 
-insert into public.fleet (slug, name, segment, description, passengers, luggage, status)
+insert into public.fleet (
+  name,
+  short_description,
+  long_description,
+  description,
+  image_url,
+  seats,
+  luggage,
+  price_note,
+  category,
+  is_featured,
+  is_active,
+  display_order
+)
 values
-  ('sedan-executive', 'Sedan Executive', 'Executive', 'Berline noire, silencieuse et elegante pour rendez-vous business.', 3, 2, 'available'),
-  ('van-vip', 'Van VIP', 'VIP Van', 'Cabine spacieuse pour familles, equipes dirigeantes et delegations.', 7, 6, 'available'),
-  ('suv-premium', 'SUV Premium', 'Premium SUV', 'Presence, confort et polyvalence pour trajets urbains ou longues distances.', 4, 4, 'maintenance');
+  (
+    'Mercedes Vito',
+    'Van premium spacieux pour familles, equipes et delegations.',
+    'Mercedes Vito avec chauffeur prive, ideal pour transferts aeroport, missions business et trajets inter-villes avec confort cabine.',
+    'Van premium spacieux pour familles, equipes et delegations.',
+    null,
+    7,
+    6,
+    'Sur devis',
+    'Van VIP',
+    true,
+    true,
+    1
+  ),
+  (
+    'Skoda Superb',
+    'Berline executive discrete pour transferts VIP et rendez-vous business.',
+    'Skoda Superb avec chauffeur prive, selectionnee pour sa discretion, son confort et sa tenue parfaite sur les trajets premium.',
+    'Berline executive discrete pour transferts VIP et rendez-vous business.',
+    null,
+    3,
+    2,
+    'Sur devis',
+    'Berline Executive',
+    true,
+    true,
+    2
+  );

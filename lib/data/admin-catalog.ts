@@ -32,15 +32,23 @@ function mapService(row: ServiceRow): Service {
 }
 
 function mapVehicle(row: VehicleRow): Vehicle {
+  const shortDescription = row.short_description ?? row.description;
+
   return {
     id: row.id,
-    slug: row.slug,
     name: row.name,
-    segment: row.segment,
+    shortDescription,
+    longDescription: row.long_description ?? row.description,
     description: row.description,
-    passengers: row.passengers,
+    imageUrl: row.image_url ?? undefined,
+    seats: row.seats,
     luggage: row.luggage,
-    status: row.status,
+    priceNote: row.price_note ?? "",
+    category: row.category ?? "Premium",
+    isFeatured: row.is_featured,
+    isActive: row.is_active,
+    displayOrder: row.display_order,
+    createdAt: row.created_at,
   };
 }
 
@@ -98,6 +106,7 @@ export async function getAdminFleet() {
   const { data, error } = await supabase
     .from("fleet")
     .select("*")
+    .order("display_order", { ascending: true })
     .order("created_at", { ascending: true });
 
   if (error) {
@@ -139,35 +148,48 @@ export async function getPublishedServices() {
     return fallbackServices.filter((service) => service.status === "published");
   }
 
-  const supabase = createSupabaseAdminClient();
-  const { data, error } = await supabase
-    .from("services")
-    .select("*")
-    .eq("status", "published")
-    .order("created_at", { ascending: true });
+  try {
+    const supabase = createSupabaseAdminClient();
+    const { data, error } = await supabase
+      .from("services")
+      .select("*")
+      .eq("status", "published")
+      .order("created_at", { ascending: true });
 
-  if (error) {
-    throw new Error(`Unable to load published services: ${error.message}`);
+    if (error) {
+      throw new Error(`Unable to load published services: ${error.message}`);
+    }
+
+    return data.map(mapService);
+  } catch (error) {
+    console.error("[public services] Supabase load failed", error);
+
+    return fallbackServices.filter((service) => service.status === "published");
   }
-
-  return data.map(mapService);
 }
 
 export async function getAvailableFleet() {
   if (!hasSupabaseAdminConfig()) {
-    return fallbackFleet.filter((vehicle) => vehicle.status === "available");
+    return fallbackFleet.filter((vehicle) => vehicle.isActive);
   }
 
-  const supabase = createSupabaseAdminClient();
-  const { data, error } = await supabase
-    .from("fleet")
-    .select("*")
-    .eq("status", "available")
-    .order("created_at", { ascending: true });
+  try {
+    const supabase = createSupabaseAdminClient();
+    const { data, error } = await supabase
+      .from("fleet")
+      .select("*")
+      .eq("is_active", true)
+      .order("display_order", { ascending: true })
+      .order("created_at", { ascending: true });
 
-  if (error) {
-    throw new Error(`Unable to load available fleet: ${error.message}`);
+    if (error) {
+      throw new Error(`Unable to load available fleet: ${error.message}`);
+    }
+
+    return data.map(mapVehicle);
+  } catch (error) {
+    console.error("[public fleet] Supabase load failed", error);
+
+    return fallbackFleet.filter((vehicle) => vehicle.isActive);
   }
-
-  return data.map(mapVehicle);
 }

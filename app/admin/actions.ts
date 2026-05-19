@@ -29,7 +29,6 @@ type FleetInsert = Database["public"]["Tables"]["fleet"]["Insert"];
 type FleetUpdate = Database["public"]["Tables"]["fleet"]["Update"];
 
 const serviceStatuses = ["draft", "published", "archived"] as const;
-const vehicleStatuses = ["available", "maintenance", "hidden"] as const;
 
 async function requireAdminSession() {
   const cookieStore = await cookies();
@@ -100,16 +99,6 @@ function serviceStatus(formData: FormData) {
   return "draft";
 }
 
-function vehicleStatus(formData: FormData) {
-  const status = text(formData, "status");
-
-  if (vehicleStatuses.includes(status as (typeof vehicleStatuses)[number])) {
-    return status as (typeof vehicleStatuses)[number];
-  }
-
-  return "available";
-}
-
 function highlights(formData: FormData) {
   return text(formData, "highlights")
     .split(/\r?\n|,/)
@@ -158,13 +147,18 @@ function vehicleFromForm(formData: FormData, id = localId("veh")) {
 
   return {
     id,
-    slug: payload.slug,
     name: payload.name,
-    segment: payload.segment,
-    description: payload.description,
-    passengers: payload.passengers ?? 3,
+    shortDescription: payload.short_description ?? "",
+    longDescription: payload.long_description ?? "",
+    description: payload.description ?? "",
+    imageUrl: payload.image_url ?? undefined,
+    seats: payload.seats ?? 3,
     luggage: payload.luggage ?? 2,
-    status: payload.status ?? "available",
+    priceNote: payload.price_note ?? "",
+    category: payload.category ?? "",
+    isFeatured: payload.is_featured ?? false,
+    isActive: payload.is_active ?? true,
+    displayOrder: payload.display_order ?? 0,
   };
 }
 
@@ -185,16 +179,21 @@ function servicePayload(formData: FormData): ServiceInsert {
 
 function fleetPayload(formData: FormData): FleetInsert {
   const name = requiredText(formData, "name");
-  const rawSlug = text(formData, "slug");
+  const description = requiredText(formData, "description");
 
   return {
-    slug: rawSlug ? slugify(rawSlug) : slugify(name),
     name,
-    segment: requiredText(formData, "segment"),
-    description: requiredText(formData, "description"),
-    passengers: integerOrDefault(formData, "passengers", 3),
+    short_description: text(formData, "shortDescription") || description,
+    long_description: text(formData, "longDescription") || description,
+    description,
+    image_url: text(formData, "imageUrl") || null,
+    seats: integerOrDefault(formData, "seats", 3),
     luggage: integerOrDefault(formData, "luggage", 2),
-    status: vehicleStatus(formData),
+    price_note: text(formData, "priceNote") || null,
+    category: text(formData, "category") || null,
+    is_featured: formData.get("isFeatured") === "on",
+    is_active: formData.get("isActive") === "on",
+    display_order: integerOrDefault(formData, "displayOrder", 0),
   };
 }
 

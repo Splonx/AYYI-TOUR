@@ -20,7 +20,7 @@ export default async function AdminPage() {
   const supabaseStatus = getSupabaseAdminConfigStatus();
   const adminErrors = [servicesResult.error, fleetResult.error].filter(Boolean);
   const publishedServices = services.filter((service) => service.status === "published");
-  const availableVehicles = fleet.filter((vehicle) => vehicle.status === "available");
+  const availableVehicles = fleet.filter((vehicle) => vehicle.isActive);
 
   console.info("[admin page]", {
     supabaseMode: supabaseStatus.mode,

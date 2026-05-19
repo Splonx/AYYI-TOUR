@@ -11,15 +11,19 @@ export type Service = {
   startingPrice?: number;
 };
 
-export type VehicleStatus = "available" | "maintenance" | "hidden";
-
 export type Vehicle = {
   id: string;
-  slug: string;
   name: string;
-  segment: string;
+  shortDescription: string;
+  longDescription: string;
   description: string;
-  passengers: number;
+  imageUrl?: string;
+  seats: number;
   luggage: number;
-  status: VehicleStatus;
+  priceNote: string;
+  category: string;
+  isFeatured: boolean;
+  isActive: boolean;
+  displayOrder: number;
+  createdAt?: string;
 };

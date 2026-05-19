@@ -32,24 +32,34 @@ export type Database = {
       fleet: {
         Row: {
           id: string;
-          slug: string;
           name: string;
-          segment: string;
+          short_description: string | null;
+          long_description: string | null;
           description: string;
-          passengers: number;
+          image_url: string | null;
+          seats: number;
           luggage: number;
-          status: "available" | "maintenance" | "hidden";
+          price_note: string | null;
+          category: string | null;
+          is_featured: boolean;
+          is_active: boolean;
+          display_order: number;
           created_at: string;
         };
         Insert: {
           id?: string;
-          slug: string;
           name: string;
-          segment: string;
-          description: string;
-          passengers?: number;
+          short_description?: string | null;
+          long_description?: string | null;
+          description?: string;
+          image_url?: string | null;
+          seats?: number;
           luggage?: number;
-          status?: "available" | "maintenance" | "hidden";
+          price_note?: string | null;
+          category?: string | null;
+          is_featured?: boolean;
+          is_active?: boolean;
+          display_order?: number;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["fleet"]["Insert"]>;
@@ -98,7 +108,6 @@ export type Database = {
     Functions: Record<string, never>;
     Enums: {
       service_status: "draft" | "published" | "archived";
-      vehicle_status: "available" | "maintenance" | "hidden";
       booking_status: "new" | "confirmed" | "completed" | "cancelled";
     };
     CompositeTypes: Record<string, never>;

@@ -35,9 +35,15 @@ export default async function FleetPage() {
           />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {fleet.map((vehicle) => (
-              <FleetCard key={vehicle.slug} vehicle={vehicle} />
+              <FleetCard key={vehicle.id} vehicle={vehicle} />
             ))}
           </div>
+          {fleet.length === 0 ? (
+            <div className="mt-10 border border-gold/25 bg-gold/[0.08] p-6 text-sm leading-7 text-stone-200">
+              La flotte sera publiee prochainement. Contactez AYYI TOUR pour confirmer
+              le vehicule le plus adapte a votre trajet.
+            </div>
+          ) : null}
         </div>
       </section>
       <SiteFooter />

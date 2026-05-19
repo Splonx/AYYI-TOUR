@@ -59,34 +59,32 @@
   ],
   "fleet": [
     {
-      "id": "veh-sedan",
-      "slug": "sedan-executive",
-      "name": "Sedan Executive",
-      "segment": "Executive",
-      "description": "Berline noire, silencieuse et elegante pour rendez-vous business.",
-      "passengers": 3,
-      "luggage": 2,
-      "status": "available"
-    },
-    {
-      "id": "veh-van",
-      "slug": "van-vip",
-      "name": "Van VIP",
-      "segment": "VIP Van",
-      "description": "Cabine spacieuse pour familles, equipes dirigeantes et delegations.",
-      "passengers": 7,
+      "id": "veh-mercedes-vito",
+      "name": "Mercedes Vito",
+      "shortDescription": "Van premium spacieux pour familles, equipes et delegations.",
+      "longDescription": "Mercedes Vito avec chauffeur prive, ideal pour transferts aeroport, missions business et trajets inter-villes avec confort cabine.",
+      "description": "Van premium spacieux pour familles, equipes et delegations.",
+      "seats": 7,
       "luggage": 6,
-      "status": "available"
+      "priceNote": "Sur devis",
+      "category": "Van VIP",
+      "isFeatured": true,
+      "isActive": true,
+      "displayOrder": 1
     },
     {
-      "id": "veh-suv",
-      "slug": "suv-premium",
-      "name": "SUV Premium",
-      "segment": "Premium SUV",
-      "description": "Presence, confort et polyvalence pour trajets urbains ou longues distances.",
-      "passengers": 4,
-      "luggage": 4,
-      "status": "available"
+      "id": "veh-skoda-superb",
+      "name": "Skoda Superb",
+      "shortDescription": "Berline executive discrete pour transferts VIP et rendez-vous business.",
+      "longDescription": "Skoda Superb avec chauffeur prive, selectionnee pour sa discretion, son confort et sa tenue parfaite sur les trajets premium.",
+      "description": "Berline executive discrete pour transferts VIP et rendez-vous business.",
+      "seats": 3,
+      "luggage": 2,
+      "priceNote": "Sur devis",
+      "category": "Berline Executive",
+      "isFeatured": true,
+      "isActive": true,
+      "displayOrder": 2
     }
   ]
 }

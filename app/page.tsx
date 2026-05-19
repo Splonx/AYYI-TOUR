@@ -241,7 +241,7 @@ export default async function Home() {
             />
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {fleet.map((vehicle) => (
-                <FleetCard key={vehicle.slug} vehicle={vehicle} />
+                <FleetCard key={vehicle.id} vehicle={vehicle} />
               ))}
             </div>
           </div>
@@ -258,7 +258,7 @@ export default async function Home() {
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {fleet.map((vehicle, index) => (
               <article
-                key={vehicle.slug}
+                key={vehicle.id}
                 className="group relative min-h-[360px] overflow-hidden border border-white/10 bg-[#11100e] p-5 transition duration-500 hover:-translate-y-1 hover:border-gold/50"
               >
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(201,162,74,0.24),transparent_36%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.01))]" />
@@ -269,12 +269,14 @@ export default async function Home() {
                       Selection 0{index + 1}
                     </p>
                     <h3 className="mt-5 text-3xl font-semibold text-white">{vehicle.name}</h3>
-                    <p className="mt-4 leading-7 text-stone-300">{vehicle.description}</p>
+                    <p className="mt-4 leading-7 text-stone-300">
+                      {vehicle.longDescription || vehicle.description}
+                    </p>
                   </div>
                   <div className="mt-10 grid grid-cols-2 gap-3 border-t border-white/10 pt-5 text-sm text-stone-200">
                     <span className="flex items-center gap-2">
                       <Car className="h-4 w-4 text-gold" />
-                      {vehicle.segment}
+                      {vehicle.category}
                     </span>
                     <span className="flex items-center gap-2">
                       <Luggage className="h-4 w-4 text-gold" />

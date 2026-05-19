@@ -161,8 +161,8 @@ export async function getAdminDiagnostics() {
     },
     await supabaseConnectionItem(),
     await tableItem("services", "Table services"),
-    await tableItem("fleet", "Table fleet / vehicles"),
-    await restItem("vehicles?select=id&limit=1", "Table public.vehicles"),
+    await tableItem("fleet", "Table public.fleet"),
+    await restItem("fleet?select=id&limit=1", "Table public.fleet REST"),
     await bucketItem("vehicle-images"),
   ];
 

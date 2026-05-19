@@ -59,32 +59,48 @@ export default async function AdminFleetPage() {
               <input className={inputClass} name="name" required />
             </label>
             <label className="space-y-2">
-              <span className={labelClass}>Slug</span>
-              <input className={inputClass} name="slug" placeholder="auto si vide" />
+              <span className={labelClass}>Categorie</span>
+              <input className={inputClass} name="category" placeholder="Van VIP" />
             </label>
             <label className="space-y-2">
-              <span className={labelClass}>Segment</span>
-              <input className={inputClass} name="segment" required />
-            </label>
-            <label className="space-y-2">
-              <span className={labelClass}>Statut</span>
-              <select className={inputClass} name="status" defaultValue="available">
-                <option value="available">available</option>
-                <option value="maintenance">maintenance</option>
-                <option value="hidden">hidden</option>
-              </select>
-            </label>
-            <label className="space-y-2 lg:col-span-2">
-              <span className={labelClass}>Passagers</span>
-              <input className={inputClass} min="0" name="passengers" type="number" defaultValue={3} />
+              <span className={labelClass}>Places</span>
+              <input className={inputClass} min="0" name="seats" type="number" defaultValue={3} />
             </label>
             <label className="space-y-2 lg:col-span-2">
               <span className={labelClass}>Bagages</span>
               <input className={inputClass} min="0" name="luggage" type="number" defaultValue={2} />
             </label>
+            <label className="space-y-2 lg:col-span-2">
+              <span className={labelClass}>Ordre</span>
+              <input className={inputClass} min="0" name="displayOrder" type="number" defaultValue={0} />
+            </label>
+            <label className="space-y-2 lg:col-span-2">
+              <span className={labelClass}>Note prix</span>
+              <input className={inputClass} name="priceNote" placeholder="Sur devis" />
+            </label>
+            <label className="space-y-2 lg:col-span-4">
+              <span className={labelClass}>Image URL</span>
+              <input className={inputClass} name="imageUrl" type="url" />
+            </label>
+            <label className="space-y-2 lg:col-span-4">
+              <span className={labelClass}>Description courte</span>
+              <textarea className={inputClass} name="shortDescription" rows={2} />
+            </label>
+            <label className="space-y-2 lg:col-span-4">
+              <span className={labelClass}>Description longue</span>
+              <textarea className={inputClass} name="longDescription" rows={3} />
+            </label>
             <label className="space-y-2 lg:col-span-4">
               <span className={labelClass}>Description</span>
               <textarea className={inputClass} name="description" required rows={3} />
+            </label>
+            <label className="flex items-center gap-3 text-sm text-stone-200">
+              <input name="isFeatured" type="checkbox" defaultChecked />
+              Mis en avant
+            </label>
+            <label className="flex items-center gap-3 text-sm text-stone-200">
+              <input name="isActive" type="checkbox" defaultChecked />
+              Actif
             </label>
             <div className="lg:col-span-4">
               <ConfirmSubmitButton
@@ -111,34 +127,21 @@ export default async function AdminFleetPage() {
                   <input className={inputClass} name="name" defaultValue={vehicle.name} required />
                 </label>
                 <label className="space-y-2">
-                  <span className={labelClass}>Slug</span>
-                  <input className={inputClass} name="slug" defaultValue={vehicle.slug} required />
-                </label>
-                <label className="space-y-2">
-                  <span className={labelClass}>Segment</span>
+                  <span className={labelClass}>Categorie</span>
                   <input
                     className={inputClass}
-                    name="segment"
-                    defaultValue={vehicle.segment}
-                    required
+                    name="category"
+                    defaultValue={vehicle.category}
                   />
                 </label>
                 <label className="space-y-2">
-                  <span className={labelClass}>Statut</span>
-                  <select className={inputClass} name="status" defaultValue={vehicle.status}>
-                    <option value="available">available</option>
-                    <option value="maintenance">maintenance</option>
-                    <option value="hidden">hidden</option>
-                  </select>
-                </label>
-                <label className="space-y-2">
-                  <span className={labelClass}>Passagers</span>
+                  <span className={labelClass}>Places</span>
                   <input
                     className={inputClass}
                     min="0"
-                    name="passengers"
+                    name="seats"
                     type="number"
-                    defaultValue={vehicle.passengers}
+                    defaultValue={vehicle.seats}
                   />
                 </label>
                 <label className="space-y-2">
@@ -151,6 +154,42 @@ export default async function AdminFleetPage() {
                     defaultValue={vehicle.luggage}
                   />
                 </label>
+                <label className="space-y-2">
+                  <span className={labelClass}>Ordre</span>
+                  <input
+                    className={inputClass}
+                    min="0"
+                    name="displayOrder"
+                    type="number"
+                    defaultValue={vehicle.displayOrder}
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className={labelClass}>Note prix</span>
+                  <input className={inputClass} name="priceNote" defaultValue={vehicle.priceNote} />
+                </label>
+                <label className="space-y-2 sm:col-span-2">
+                  <span className={labelClass}>Image URL</span>
+                  <input className={inputClass} name="imageUrl" type="url" defaultValue={vehicle.imageUrl} />
+                </label>
+                <label className="space-y-2 sm:col-span-2">
+                  <span className={labelClass}>Description courte</span>
+                  <textarea
+                    className={inputClass}
+                    name="shortDescription"
+                    defaultValue={vehicle.shortDescription}
+                    rows={2}
+                  />
+                </label>
+                <label className="space-y-2 sm:col-span-2">
+                  <span className={labelClass}>Description longue</span>
+                  <textarea
+                    className={inputClass}
+                    name="longDescription"
+                    defaultValue={vehicle.longDescription}
+                    rows={3}
+                  />
+                </label>
                 <label className="space-y-2 sm:col-span-2">
                   <span className={labelClass}>Description</span>
                   <textarea
@@ -160,6 +199,14 @@ export default async function AdminFleetPage() {
                     required
                     rows={3}
                   />
+                </label>
+                <label className="flex items-center gap-3 text-sm text-stone-200">
+                  <input name="isFeatured" type="checkbox" defaultChecked={vehicle.isFeatured} />
+                  Mis en avant
+                </label>
+                <label className="flex items-center gap-3 text-sm text-stone-200">
+                  <input name="isActive" type="checkbox" defaultChecked={vehicle.isActive} />
+                  Actif
                 </label>
                 <div className="sm:col-span-2">
                   <ConfirmSubmitButton

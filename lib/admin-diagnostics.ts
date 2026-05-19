@@ -17,6 +17,55 @@ function envItem(name: string, value: string | undefined) {
   };
 }
 
+async function restItem(path: string, label: string): Promise<DiagnosticItem> {
+  const status = getSupabaseAdminConfigStatus();
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!status.ready || !supabaseUrl || !serviceRoleKey) {
+    return {
+      label,
+      ok: false,
+      detail: status.message,
+    };
+  }
+
+  try {
+    const response = await fetch(`${supabaseUrl}/rest/v1/${path}`, {
+      method: "HEAD",
+      headers: {
+        apikey: serviceRoleKey,
+        Authorization: `Bearer ${serviceRoleKey}`,
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return {
+        label,
+        ok: false,
+        detail: `HTTP ${response.status} ${response.statusText}`,
+      };
+    }
+
+    return {
+      label,
+      ok: true,
+      detail: "Accessible via Supabase REST",
+    };
+  } catch (error) {
+    return {
+      label,
+      ok: false,
+      detail: error instanceof Error ? error.message : "Unknown Supabase REST diagnostic error",
+    };
+  }
+}
+
+async function supabaseConnectionItem(): Promise<DiagnosticItem> {
+  return restItem("", "Supabase REST connection");
+}
+
 async function tableItem(table: "services" | "fleet", label: string): Promise<DiagnosticItem> {
   const status = getSupabaseAdminConfigStatus();
 
@@ -110,8 +159,10 @@ export async function getAdminDiagnostics() {
         ? "Login credentials and session secret configured"
         : "Missing ADMIN_LOGIN, ADMIN_PASSWORD or ADMIN_SESSION_SECRET",
     },
+    await supabaseConnectionItem(),
     await tableItem("services", "Table services"),
     await tableItem("fleet", "Table fleet / vehicles"),
+    await restItem("vehicles?select=id&limit=1", "Table public.vehicles"),
     await bucketItem("vehicle-images"),
   ];
 

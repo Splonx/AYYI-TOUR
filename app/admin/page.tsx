@@ -22,6 +22,14 @@ export default async function AdminPage() {
   const publishedServices = services.filter((service) => service.status === "published");
   const availableVehicles = fleet.filter((vehicle) => vehicle.status === "available");
 
+  console.info("[admin page]", {
+    supabaseMode: supabaseStatus.mode,
+    missing: supabaseStatus.missing,
+    serviceSource: servicesResult.source,
+    fleetSource: fleetResult.source,
+    errors: adminErrors,
+  });
+
   return (
     <AdminShell>
       <div className="px-6 py-8 sm:px-8 lg:px-10">

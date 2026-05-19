@@ -27,12 +27,15 @@ export default function AdminError({
         {error.digest ? (
           <p className="mt-3 text-xs text-stone-500">Digest: {error.digest}</p>
         ) : null}
-        {isDevelopment ? (
-          <pre className="mt-5 overflow-x-auto border border-white/10 bg-black/50 p-4 text-xs text-red-100">
-            {error.message}
-            {error.stack ? `\n\n${error.stack}` : ""}
+        <div className="mt-5 border border-white/10 bg-black/50 p-4">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-200">
+            Erreur exacte
+          </p>
+          <pre className="mt-3 overflow-x-auto whitespace-pre-wrap text-xs leading-6 text-red-100">
+            {error.message || "Erreur inconnue"}
+            {isDevelopment && error.stack ? `\n\n${error.stack}` : ""}
           </pre>
-        ) : null}
+        </div>
         <button
           type="button"
           onClick={reset}

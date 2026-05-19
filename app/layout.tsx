@@ -10,7 +10,8 @@ const structuredData = {
   name: siteConfig.name,
   url: siteConfig.url,
   description: siteConfig.description,
-  image: `${siteConfig.url}/images/vip-hero.png`,
+  image: `${siteConfig.url}/brand/og-ayyi-tour.png`,
+  logo: `${siteConfig.url}/brand/logo-icon-transparent.png`,
   telephone: "+212672508363",
   areaServed: ["Agadir", "Marrakech", "Maroc"],
   priceRange: "$$$",
@@ -44,7 +45,12 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/brand/favicon.svg", type: "image/svg+xml" },
+      { url: "/brand/favicon.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: "/brand/favicon.svg",
+    apple: "/brand/favicon.png",
   },
   openGraph: {
     type: "website",
@@ -54,6 +60,12 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     images: [
+      {
+        url: "/brand/og-ayyi-tour.png",
+        width: 1200,
+        height: 630,
+        alt: "Logo AYYI TOUR Transport Service VIP",
+      },
       {
         url: "/images/vip-hero.png",
         width: 1717,
@@ -66,7 +78,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
-    images: ["/images/vip-hero.png"],
+    images: ["/brand/og-ayyi-tour.png"],
   },
   robots: {
     index: true,

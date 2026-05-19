@@ -95,6 +95,33 @@ h3 {
   transform: translateX(120%) skewX(-18deg);
 }
 
+.logo-signature {
+  overflow: visible;
+}
+
+.logo-mark {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: filter 0.45s ease, transform 0.45s ease;
+}
+
+.logo-signature:hover .logo-mark {
+  filter: drop-shadow(0 0 14px rgba(201, 162, 74, 0.34));
+  transform: translateY(-1px);
+}
+
+.logo-wing-left,
+.logo-wing-right {
+  stroke-dasharray: 62;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.55s ease;
+}
+
+.logo-signature:hover .logo-wing-left,
+.logo-signature:hover .logo-wing-right {
+  stroke-dashoffset: 12;
+}
+
 @keyframes luxury-rise {
   from {
     opacity: 0;

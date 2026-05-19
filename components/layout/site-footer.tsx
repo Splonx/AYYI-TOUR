@@ -1,13 +1,12 @@
 import Link from "next/link";
+import { AyyiTourLogo } from "@/components/brand/ayyi-tour-logo";
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-white/10 bg-obsidian px-4 py-10 text-stone-400 sm:px-8 lg:px-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div className="min-w-0">
-          <p className="text-sm font-bold uppercase tracking-[0.16em] text-white sm:tracking-[0.24em]">
-            AYYI TOUR Transport Service VIP
-          </p>
+          <AyyiTourLogo className="h-14 w-auto max-w-[260px]" />
           <p className="mt-2 text-sm">Chauffeur prive, flotte premium, service discret.</p>
           <a
             href="https://wa.me/212672508363"

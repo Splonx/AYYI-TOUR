@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AyyiTourLogo } from "@/components/brand/ayyi-tour-logo";
 
 export function PremiumLoader() {
   const [isVisible, setIsVisible] = useState(true);
@@ -18,8 +19,10 @@ export function PremiumLoader() {
   return (
     <div className="premium-loader fixed inset-0 z-[100] grid place-items-center bg-obsidian text-center text-ivory">
       <div className="relative">
-        <div className="mx-auto h-16 w-16 border border-gold/30" />
-        <div className="absolute inset-0 animate-spin border-t border-gold" />
+        <div className="mx-auto flex h-20 w-20 items-center justify-center">
+          <AyyiTourLogo variant="icon" className="h-16 w-16" />
+        </div>
+        <div className="absolute inset-x-0 top-0 mx-auto h-20 w-20 animate-spin border-t border-gold/70" />
         <p className="mt-6 text-xs font-bold uppercase tracking-[0.34em] text-gold">
           AYYI TOUR
         </p>

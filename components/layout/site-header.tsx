@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Crown, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { AyyiTourLogo } from "@/components/brand/ayyi-tour-logo";
 
 const navItems = [
   { href: "/", label: "Accueil" },
@@ -23,20 +24,11 @@ export function SiteHeader() {
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:px-8 lg:px-10">
         <Link
           href="/"
-          className="flex min-w-0 items-center gap-3"
+          className="flex min-w-0 items-center"
           onClick={() => setIsOpen(false)}
+          aria-label="AYYI TOUR accueil"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-gold/50 bg-gold/10 text-gold">
-            <Crown className="h-5 w-5" />
-          </span>
-          <span className="min-w-0">
-            <span className="block truncate text-sm font-bold uppercase tracking-[0.18em] text-white sm:tracking-[0.24em]">
-              AYYI TOUR
-            </span>
-            <span className="block truncate text-[10px] uppercase tracking-[0.18em] text-gold sm:text-[11px] sm:tracking-[0.28em]">
-              Transport Service VIP
-            </span>
-          </span>
+          <AyyiTourLogo className="h-12 max-w-[190px] sm:h-14 sm:max-w-none" />
         </Link>
         <nav className="hidden items-center gap-8 lg:flex">
           {navItems.map((item) =>

@@ -2,17 +2,25 @@ export function hasSupabaseAdminConfig() {
   return getSupabaseAdminConfigStatus().ready;
 }
 
+export function getSupabasePublicKey() {
+  return process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+}
+
+export function getSupabaseSecretKey() {
+  return process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SECRET_KEY;
+}
+
 export function getSupabaseAdminConfigStatus() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const publicKey = getSupabasePublicKey();
+  const secretKey = getSupabaseSecretKey();
   const missing = [
     !supabaseUrl ? "NEXT_PUBLIC_SUPABASE_URL" : "",
-    !anonKey ? "NEXT_PUBLIC_SUPABASE_ANON_KEY" : "",
-    !serviceRoleKey ? "SUPABASE_SERVICE_ROLE_KEY" : "",
+    !publicKey ? "NEXT_PUBLIC_SUPABASE_ANON_KEY or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" : "",
+    !secretKey ? "SUPABASE_SERVICE_ROLE_KEY or SUPABASE_SECRET_KEY" : "",
   ].filter(Boolean);
 
-  if (!supabaseUrl && !serviceRoleKey) {
+  if (!supabaseUrl && !secretKey) {
     return {
       ready: false,
       mode: "local" as const,

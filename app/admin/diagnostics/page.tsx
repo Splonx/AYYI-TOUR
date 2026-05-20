@@ -22,7 +22,7 @@ export default async function AdminDiagnosticsPage() {
             Configuration back-office
           </h1>
           <p className="mt-4 max-w-2xl text-stone-400">
-            Verification serveur des variables, tables Supabase et bucket images.
+            Verification serveur des variables et tables Supabase.
             Les valeurs secretes ne sont jamais affichees.
           </p>
         </div>

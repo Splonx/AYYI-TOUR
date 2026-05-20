@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
   response.cookies.set(ADMIN_COOKIE_NAME, "", {
     httpOnly: true,
     maxAge: 0,
-    path: "/admin",
+    path: "/",
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
   });

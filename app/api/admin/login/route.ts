@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
   response.cookies.set(ADMIN_COOKIE_NAME, token, {
     httpOnly: true,
     maxAge: ADMIN_SESSION_MAX_AGE_SECONDS,
-    path: "/admin",
+    path: "/",
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
   });

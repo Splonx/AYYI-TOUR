@@ -38,8 +38,8 @@ export default async function AdminFleetPage(props: PageProps<"/admin/fleet">) {
         {!canPersist ? (
           <div className="mt-8 border border-gold/30 bg-gold/[0.08] p-5 text-sm leading-6 text-stone-200">
             Mode local actif: la flotte est enregistree dans data/admin-catalog.json.
-            Ajoutez NEXT_PUBLIC_SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY dans .env.local
-            pour utiliser Supabase.
+            Ajoutez NEXT_PUBLIC_SUPABASE_URL, une cle publique Supabase et une cle serveur
+            Supabase dans .env.local pour utiliser Supabase.
           </div>
         ) : null}
 

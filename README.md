@@ -67,7 +67,9 @@ Copier `.env.example` vers `.env.local`, puis renseigner les variables selon l'e
 NEXT_PUBLIC_SITE_URL="https://ayyi-tour.com"
 NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+# ou NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="your-publishable-key"
 SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+# ou SUPABASE_SECRET_KEY="your-secret-key"
 ADMIN_LOGIN="Sami"
 ADMIN_PASSWORD="change-this-password"
 ADMIN_SESSION_SECRET="replace-with-a-long-random-secret"
@@ -89,7 +91,7 @@ message prerempli vers `reservation@ayyi-tour.com`.
 - Install command: `npm install`
 - Production domain: `https://ayyi-tour.com`
 - Renseigner toutes les variables de `.env.example` dans Vercel Project Settings > Environment Variables.
-- Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_PASSWORD` ou `ADMIN_SESSION_SECRET` cote client.
+- Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_SECRET_KEY`, `ADMIN_PASSWORD` ou `ADMIN_SESSION_SECRET` cote client.
 
 ## OVH DNS
 
@@ -103,9 +105,9 @@ Ajouter le domaine `ayyi-tour.com` dans Vercel, puis configurer les DNS OVH avec
 
 - Appliquer les migrations du dossier `supabase/migrations`.
 - Verifier que les tables `services` et `fleet` existent.
-- Creer le bucket Storage `vehicle-images` pour les images vehicules.
+- Les images de flotte sont servies localement depuis `public/fleet`.
 - Garder RLS active.
-- Utiliser `SUPABASE_SERVICE_ROLE_KEY` uniquement dans les variables serveur Vercel.
+- Utiliser `SUPABASE_SERVICE_ROLE_KEY` ou `SUPABASE_SECRET_KEY` uniquement dans les variables serveur Vercel.
 - Apres connexion admin, ouvrir `/admin/diagnostics` pour verifier les variables,
   les tables et le bucket Storage en production.
 

@@ -1,6 +1,10 @@
 import "server-only";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { getSupabaseAdminConfigStatus } from "@/lib/supabase/config";
+import {
+  getSupabaseAdminConfigStatus,
+  getSupabasePublicKey,
+  getSupabaseSecretKey,
+} from "@/lib/supabase/config";
 import { hasAdminAuthConfig } from "@/lib/admin-auth";
 
 type DiagnosticItem = {
@@ -20,9 +24,9 @@ function envItem(name: string, value: string | undefined) {
 async function restItem(path: string, label: string): Promise<DiagnosticItem> {
   const status = getSupabaseAdminConfigStatus();
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const secretKey = getSupabaseSecretKey();
 
-  if (!status.ready || !supabaseUrl || !serviceRoleKey) {
+  if (!status.ready || !supabaseUrl || !secretKey) {
     return {
       label,
       ok: false,
@@ -34,8 +38,8 @@ async function restItem(path: string, label: string): Promise<DiagnosticItem> {
     const response = await fetch(`${supabaseUrl}/rest/v1/${path}`, {
       method: "HEAD",
       headers: {
-        apikey: serviceRoleKey,
-        Authorization: `Bearer ${serviceRoleKey}`,
+        apikey: secretKey,
+        Authorization: `Bearer ${secretKey}`,
       },
       cache: "no-store",
     });
@@ -103,49 +107,15 @@ async function tableItem(table: "services" | "fleet", label: string): Promise<Di
   }
 }
 
-async function bucketItem(name: string): Promise<DiagnosticItem> {
-  const status = getSupabaseAdminConfigStatus();
-
-  if (!status.ready) {
-    return {
-      label: `Storage bucket ${name}`,
-      ok: false,
-      detail: status.message,
-    };
-  }
-
-  try {
-    const supabase = createSupabaseAdminClient();
-    const { data, error } = await supabase.storage.getBucket(name);
-
-    if (error) {
-      return {
-        label: `Storage bucket ${name}`,
-        ok: false,
-        detail: error.message,
-      };
-    }
-
-    return {
-      label: `Storage bucket ${name}`,
-      ok: Boolean(data),
-      detail: data ? "Bucket accessible" : "Bucket missing",
-    };
-  } catch (error) {
-    return {
-      label: `Storage bucket ${name}`,
-      ok: false,
-      detail: error instanceof Error ? error.message : "Unknown bucket diagnostic error",
-    };
-  }
-}
-
 export async function getAdminDiagnostics() {
   const supabaseStatus = getSupabaseAdminConfigStatus();
   const items: DiagnosticItem[] = [
     envItem("NEXT_PUBLIC_SUPABASE_URL", process.env.NEXT_PUBLIC_SUPABASE_URL),
-    envItem("NEXT_PUBLIC_SUPABASE_ANON_KEY", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
-    envItem("SUPABASE_SERVICE_ROLE_KEY", process.env.SUPABASE_SERVICE_ROLE_KEY),
+    envItem(
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+      getSupabasePublicKey(),
+    ),
+    envItem("SUPABASE_SERVICE_ROLE_KEY or SUPABASE_SECRET_KEY", getSupabaseSecretKey()),
     envItem("ADMIN_PASSWORD", process.env.ADMIN_PASSWORD),
     {
       label: "ADMIN_SESSION_SECRET",
@@ -163,7 +133,6 @@ export async function getAdminDiagnostics() {
     await tableItem("services", "Table services"),
     await tableItem("fleet", "Table public.fleet"),
     await restItem("fleet?select=id&limit=1", "Table public.fleet REST"),
-    await bucketItem("vehicle-images"),
   ];
 
   console.info("[admin diagnostics]", {

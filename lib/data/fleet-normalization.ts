@@ -36,19 +36,16 @@ function normalizeKnownVehicle(vehicle: Vehicle): Vehicle | null {
     };
   }
 
+  const imageUrl = vehicle.imageUrl?.trim();
+  const shouldUseDefaultImage =
+    !imageUrl ||
+    name === legacyVanName ||
+    (normalizedName === "Skoda Superb" && imageUrl.includes("ford-transit"));
+
   return {
     ...vehicle,
     name: defaultVehicle.name,
-    shortDescription: defaultVehicle.shortDescription,
-    longDescription: defaultVehicle.longDescription,
-    description: defaultVehicle.description,
-    imageUrl: defaultVehicle.imageUrl,
-    seats: defaultVehicle.seats,
-    luggage: defaultVehicle.luggage,
-    priceNote: defaultVehicle.priceNote,
-    category: defaultVehicle.category,
-    isFeatured: defaultVehicle.isFeatured,
-    displayOrder: defaultVehicle.displayOrder,
+    imageUrl: shouldUseDefaultImage ? defaultVehicle.imageUrl : imageUrl,
   };
 }
 

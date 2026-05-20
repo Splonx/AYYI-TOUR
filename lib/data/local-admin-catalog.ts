@@ -1,6 +1,7 @@
 import "server-only";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { normalizeFleetVehicles } from "@/lib/data/fleet-normalization";
 import { fleet as fallbackFleet } from "@/lib/data/fleet";
 import { services as fallbackServices } from "@/lib/data/services";
 import type { Service, Vehicle } from "@/types/domain";
@@ -77,7 +78,7 @@ function normalizeLocalFleet(value: unknown): Vehicle[] {
     return fallbackFleet;
   }
 
-  return value.map((item, index) => {
+  const vehicles = value.map((item, index) => {
     const vehicle = item as LegacyVehicle;
     const description = vehicle.description ?? "";
 
@@ -100,6 +101,8 @@ function normalizeLocalFleet(value: unknown): Vehicle[] {
       createdAt: vehicle.createdAt,
     };
   });
+
+  return normalizeFleetVehicles(vehicles);
 }
 
 async function readLocalCatalog(): Promise<LocalCatalog> {

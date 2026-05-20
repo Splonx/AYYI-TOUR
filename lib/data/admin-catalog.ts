@@ -1,6 +1,7 @@
 import "server-only";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getSupabaseAdminConfigStatus, hasSupabaseAdminConfig } from "@/lib/supabase/config";
+import { normalizeFleetVehicles } from "@/lib/data/fleet-normalization";
 import { fleet as fallbackFleet } from "@/lib/data/fleet";
 import { services as fallbackServices } from "@/lib/data/services";
 import {
@@ -122,7 +123,7 @@ export async function getAdminServicesSafe(): Promise<AdminCatalogResult<Service
 
 export async function getAdminFleet() {
   if (!hasSupabaseAdminConfig()) {
-    return getLocalFleet();
+    return normalizeFleetVehicles(await getLocalFleet());
   }
 
   const supabase = createSupabaseAdminClient();
@@ -136,7 +137,7 @@ export async function getAdminFleet() {
     throw new Error(`Unable to load fleet: ${error.message}`);
   }
 
-  return data.map(mapVehicle);
+  return normalizeFleetVehicles(data.map(mapVehicle));
 }
 
 export async function getAdminFleetSafe(): Promise<AdminCatalogResult<Vehicle>> {
@@ -144,7 +145,7 @@ export async function getAdminFleetSafe(): Promise<AdminCatalogResult<Vehicle>> 
 
   if (!status.ready) {
     return {
-      data: await getLocalFleet(),
+      data: normalizeFleetVehicles(await getLocalFleet()),
       error: status.mode === "local" ? undefined : status.message,
       source: "local",
     };
@@ -159,7 +160,7 @@ export async function getAdminFleetSafe(): Promise<AdminCatalogResult<Vehicle>> 
     console.error("[admin fleet] Supabase load failed", error);
 
     return {
-      data: await getLocalFleet(),
+      data: normalizeFleetVehicles(await getLocalFleet()),
       error: error instanceof Error ? error.message : "Unable to load Supabase fleet.",
       source: "local",
     };
@@ -193,7 +194,7 @@ export async function getPublishedServices() {
 
 export async function getAvailableFleet() {
   if (!hasSupabaseAdminConfig()) {
-    return fallbackFleet.filter((vehicle) => vehicle.isActive);
+    return normalizeFleetVehicles(fallbackFleet.filter((vehicle) => vehicle.isActive));
   }
 
   try {
@@ -209,10 +210,10 @@ export async function getAvailableFleet() {
       throw new Error(`Unable to load available fleet: ${error.message}`);
     }
 
-    return data.map(mapVehicle);
+    return normalizeFleetVehicles(data.map(mapVehicle));
   } catch (error) {
     console.error("[public fleet] Supabase load failed", error);
 
-    return fallbackFleet.filter((vehicle) => vehicle.isActive);
+    return normalizeFleetVehicles(fallbackFleet.filter((vehicle) => vehicle.isActive));
   }
 }

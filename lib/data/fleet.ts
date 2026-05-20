@@ -2,12 +2,13 @@ import type { Vehicle } from "@/types/domain";
 
 export const fleet: Vehicle[] = [
   {
-    id: "veh-mercedes-vito",
-    name: "Mercedes Vito",
-    shortDescription: "Van premium spacieux pour familles, equipes et delegations.",
+    id: "veh-ford-transit",
+    name: "Ford Transit",
+    shortDescription: "Van premium spacieux et confortable pour transferts aeroport, groupes et familles.",
     longDescription:
-      "Mercedes Vito avec chauffeur prive, ideal pour transferts aeroport, missions business et trajets inter-villes avec confort cabine.",
-    description: "Van premium spacieux pour familles, equipes et delegations.",
+      "Van premium spacieux et confortable, ideal pour les transferts aeroport, groupes, familles et trajets longue distance VIP.",
+    description: "Van premium spacieux et confortable pour transferts aeroport, groupes et familles.",
+    imageUrl: "/fleet/ford-transit.jpg",
     seats: 7,
     luggage: 6,
     priceNote: "Sur devis",
@@ -19,10 +20,11 @@ export const fleet: Vehicle[] = [
   {
     id: "veh-skoda-superb",
     name: "Skoda Superb",
-    shortDescription: "Berline executive discrete pour transferts VIP et rendez-vous business.",
+    shortDescription: "Berline elegante et confortable pour deplacements professionnels, prives et VIP.",
     longDescription:
-      "Skoda Superb avec chauffeur prive, selectionnee pour sa discretion, son confort et sa tenue parfaite sur les trajets premium.",
-    description: "Berline executive discrete pour transferts VIP et rendez-vous business.",
+      "Berline elegante et confortable adaptee aux deplacements professionnels, prives et transport VIP.",
+    description: "Berline elegante et confortable pour deplacements professionnels, prives et VIP.",
+    imageUrl: "/fleet/skoda-superb.jpg",
     seats: 3,
     luggage: 2,
     priceNote: "Sur devis",

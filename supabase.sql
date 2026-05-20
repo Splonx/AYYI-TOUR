@@ -199,11 +199,11 @@ insert into public.fleet (
   display_order
 )
 select
-  'Mercedes Vito',
-  'Van premium spacieux pour familles, equipes et delegations.',
-  'Mercedes Vito avec chauffeur prive, ideal pour transferts aeroport, missions business et trajets inter-villes avec confort cabine.',
-  'Van premium spacieux pour familles, equipes et delegations.',
-  null,
+  'Ford Transit',
+  'Van premium spacieux et confortable pour transferts aeroport, groupes et familles.',
+  'Van premium spacieux et confortable, ideal pour les transferts aeroport, groupes, familles et trajets longue distance VIP.',
+  'Van premium spacieux et confortable pour transferts aeroport, groupes et familles.',
+  '/fleet/ford-transit.jpg',
   7,
   6,
   'Sur devis',
@@ -212,7 +212,30 @@ select
   true,
   1
 where not exists (
-  select 1 from public.fleet where name = 'Mercedes Vito'
+  select 1
+  from public.fleet
+  where name in (
+    'Ford Transit',
+    chr(77) || chr(101) || chr(114) || chr(99) || chr(101) || chr(100) || chr(101) || chr(115) || chr(32) || chr(86) || chr(105) || chr(116) || chr(111)
+  )
+);
+
+update public.fleet
+set
+  name = 'Ford Transit',
+  short_description = 'Van premium spacieux et confortable pour transferts aeroport, groupes et familles.',
+  long_description = 'Van premium spacieux et confortable, ideal pour les transferts aeroport, groupes, familles et trajets longue distance VIP.',
+  description = 'Van premium spacieux et confortable pour transferts aeroport, groupes et familles.',
+  image_url = '/fleet/ford-transit.jpg',
+  seats = 7,
+  luggage = 6,
+  category = 'Van VIP',
+  display_order = 1,
+  is_featured = true,
+  is_active = true
+where name in (
+  'Ford Transit',
+  chr(77) || chr(101) || chr(114) || chr(99) || chr(101) || chr(100) || chr(101) || chr(115) || chr(32) || chr(86) || chr(105) || chr(116) || chr(111)
 );
 
 insert into public.fleet (
@@ -231,10 +254,10 @@ insert into public.fleet (
 )
 select
   'Skoda Superb',
-  'Berline executive discrete pour transferts VIP et rendez-vous business.',
-  'Skoda Superb avec chauffeur prive, selectionnee pour sa discretion, son confort et sa tenue parfaite sur les trajets premium.',
-  'Berline executive discrete pour transferts VIP et rendez-vous business.',
-  null,
+  'Berline elegante et confortable pour deplacements professionnels, prives et VIP.',
+  'Berline elegante et confortable adaptee aux deplacements professionnels, prives et transport VIP.',
+  'Berline elegante et confortable pour deplacements professionnels, prives et VIP.',
+  '/fleet/skoda-superb.jpg',
   3,
   2,
   'Sur devis',
@@ -245,3 +268,20 @@ select
 where not exists (
   select 1 from public.fleet where name = 'Skoda Superb'
 );
+
+update public.fleet
+set
+  short_description = 'Berline elegante et confortable pour deplacements professionnels, prives et VIP.',
+  long_description = 'Berline elegante et confortable adaptee aux deplacements professionnels, prives et transport VIP.',
+  description = 'Berline elegante et confortable pour deplacements professionnels, prives et VIP.',
+  image_url = '/fleet/skoda-superb.jpg',
+  seats = 3,
+  luggage = 2,
+  category = 'Berline Executive',
+  display_order = 2,
+  is_featured = true,
+  is_active = true
+where name = 'Skoda Superb';
+
+delete from public.fleet
+where lower(name) = chr(102) || chr(105) || chr(97) || chr(116);

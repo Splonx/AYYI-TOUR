@@ -89,7 +89,7 @@ export default async function AdminFleetPage(props: PageProps<"/admin/fleet">) {
             </label>
             <label className="space-y-2 lg:col-span-4">
               <span className={labelClass}>Image URL</span>
-              <input className={inputClass} name="imageUrl" type="url" />
+              <input className={inputClass} name="imageUrl" type="text" />
             </label>
             <label className="space-y-2 lg:col-span-4">
               <span className={labelClass}>Description courte</span>
@@ -179,7 +179,7 @@ export default async function AdminFleetPage(props: PageProps<"/admin/fleet">) {
                 </label>
                 <label className="space-y-2 sm:col-span-2">
                   <span className={labelClass}>Image URL</span>
-                  <input className={inputClass} name="imageUrl" type="url" defaultValue={vehicle.imageUrl} />
+                  <input className={inputClass} name="imageUrl" type="text" defaultValue={vehicle.imageUrl} />
                 </label>
                 <label className="space-y-2 sm:col-span-2">
                   <span className={labelClass}>Description courte</span>

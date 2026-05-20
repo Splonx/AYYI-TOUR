@@ -119,11 +119,11 @@ insert into public.fleet (
 )
 values
   (
-    'Mercedes Vito',
-    'Van premium spacieux pour familles, equipes et delegations.',
-    'Mercedes Vito avec chauffeur prive, ideal pour transferts aeroport, missions business et trajets inter-villes avec confort cabine.',
-    'Van premium spacieux pour familles, equipes et delegations.',
-    null,
+    'Ford Transit',
+    'Van premium spacieux et confortable pour transferts aeroport, groupes et familles.',
+    'Van premium spacieux et confortable, ideal pour les transferts aeroport, groupes, familles et trajets longue distance VIP.',
+    'Van premium spacieux et confortable pour transferts aeroport, groupes et familles.',
+    '/fleet/ford-transit.jpg',
     7,
     6,
     'Sur devis',
@@ -134,10 +134,10 @@ values
   ),
   (
     'Skoda Superb',
-    'Berline executive discrete pour transferts VIP et rendez-vous business.',
-    'Skoda Superb avec chauffeur prive, selectionnee pour sa discretion, son confort et sa tenue parfaite sur les trajets premium.',
-    'Berline executive discrete pour transferts VIP et rendez-vous business.',
-    null,
+    'Berline elegante et confortable pour deplacements professionnels, prives et VIP.',
+    'Berline elegante et confortable adaptee aux deplacements professionnels, prives et transport VIP.',
+    'Berline elegante et confortable pour deplacements professionnels, prives et VIP.',
+    '/fleet/skoda-superb.jpg',
     3,
     2,
     'Sur devis',

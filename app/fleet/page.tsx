@@ -8,7 +8,7 @@ import { getAvailableFleet } from "@/lib/data/admin-catalog";
 export const metadata: Metadata = {
   title: "Flotte Premium",
   description:
-    "Flotte premium AYYI TOUR: berlines executive, vans VIP et SUV avec chauffeur prive au Maroc.",
+    "Flotte premium AYYI TOUR: Ford Transit et Skoda Superb avec chauffeur prive au Maroc.",
   alternates: {
     canonical: "/fleet",
   },
@@ -30,8 +30,8 @@ export default async function FleetPage() {
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Garage VIP"
-            title="Flotte premium pour chaque mission"
-            description="Berline executive, van VIP et SUV premium: chaque vehicule est selectionne selon le confort attendu, le nombre de passagers et les bagages."
+            title="Flotte VIP premium"
+            description="Ford Transit et Skoda Superb: chaque vehicule est selectionne selon le confort attendu, le nombre de passagers et les bagages."
           />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {fleet.map((vehicle) => (

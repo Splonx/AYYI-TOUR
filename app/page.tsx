@@ -132,12 +132,12 @@ export default async function Home() {
         <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-obsidian to-transparent" />
 
         <div className="relative z-10 mx-auto flex min-h-[calc(100svh-5rem)] max-w-7xl items-center px-4 py-12 sm:min-h-[calc(92vh-6rem)] sm:px-8 sm:py-16 lg:px-10">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl min-w-0">
             <div className="luxury-reveal mb-6 inline-flex max-w-full items-center gap-3 border border-gold/35 bg-black/45 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold shadow-[0_18px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:mb-8 sm:px-4 sm:text-xs sm:tracking-[0.32em]">
               <Crown className="h-4 w-4" />
               Transport Service VIP
             </div>
-            <h1 className="luxury-reveal max-w-4xl text-4xl font-semibold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
+            <h1 className="luxury-reveal max-w-full text-3xl font-semibold leading-[1.08] text-white sm:text-6xl lg:text-7xl">
               AYYI TOUR Transport Service VIP
             </h1>
             <p className="luxury-reveal mt-6 max-w-2xl text-base leading-7 text-stone-200 sm:mt-7 sm:text-xl sm:leading-8">
@@ -159,7 +159,8 @@ export default async function Home() {
                 rel="noopener noreferrer"
                 title="WhatsApp : +212 672 508 363"
               >
-                Contactez-nous via WhatsApp
+                <span className="sm:hidden">WhatsApp</span>
+                <span className="hidden sm:inline">Contactez-nous via WhatsApp</span>
               </Link>
             </div>
             <AnimatedStats items={stats} />
@@ -237,7 +238,7 @@ export default async function Home() {
             <SectionHeading
               eyebrow="Flotte"
               title="Vehicules premium, selectionnes par usage"
-              description="Sedan executive, van VIP et SUV premium: une flotte elegante, confortable et adaptee a chaque deplacement."
+              description="Van VIP et berline executive: une flotte elegante, confortable et adaptee aux transferts, deplacements professionnels et trajets prives."
             />
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {fleet.map((vehicle) => (
@@ -253,7 +254,7 @@ export default async function Home() {
           <SectionHeading
             eyebrow="Galerie premium"
             title="Presence executive, confort cabine, details soignes"
-            description="Une presentation sobre et luxueuse de la flotte pour choisir le vehicule adapte: berline executive, van VIP ou SUV premium."
+            description="Une presentation sobre et luxueuse de la flotte pour choisir le vehicule adapte: Ford Transit ou Skoda Superb avec chauffeur."
           />
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {fleet.map((vehicle, index) => (

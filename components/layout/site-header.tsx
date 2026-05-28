@@ -46,7 +46,7 @@ export function SiteHeader() {
           onClick={() => setIsOpen(false)}
           aria-label="AYYI TOUR accueil"
         >
-          <AyyiTourLogo priority className="h-14 w-[176px] sm:h-16 sm:w-[214px]" />
+          <AyyiTourLogo priority className="h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem]" />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">

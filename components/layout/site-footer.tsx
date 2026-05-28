@@ -16,7 +16,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[1.25fr_0.75fr_0.9fr]">
           <div className="min-w-0">
-            <AyyiTourLogo className="h-14 w-auto max-w-[250px]" />
+            <AyyiTourLogo className="h-16 w-[214px]" />
             <p className="mt-5 max-w-md text-sm leading-7">
               AYYI TOUR accompagne vos deplacements VIP a Agadir, Marrakech et en region
               avec chauffeurs professionnels, flotte premium et coordination discrete.

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LockKeyhole } from "lucide-react";
+import { AyyiTourLogo } from "@/components/brand/ayyi-tour-logo";
 import { hasAdminAuthConfig } from "@/lib/admin-auth";
 
 export const metadata: Metadata = {
@@ -22,6 +23,9 @@ export default async function AdminLoginPage(props: PageProps<"/admin/login">) {
         className="w-full max-w-md border border-white/10 bg-black/70 p-8 shadow-2xl"
       >
         <input name="next" type="hidden" value={nextPath} />
+        <div className="mb-8">
+          <AyyiTourLogo priority className="h-20 w-[260px]" />
+        </div>
         <div className="mb-8 flex h-12 w-12 items-center justify-center border border-gold/40 bg-gold/10 text-gold">
           <LockKeyhole className="h-6 w-6" />
         </div>

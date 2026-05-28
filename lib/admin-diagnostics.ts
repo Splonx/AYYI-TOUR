@@ -116,6 +116,7 @@ export async function getAdminDiagnostics() {
       getSupabasePublicKey(),
     ),
     envItem("SUPABASE_SERVICE_ROLE_KEY or SUPABASE_SECRET_KEY", getSupabaseSecretKey()),
+    envItem("ADMIN_LOGIN", process.env.ADMIN_LOGIN),
     envItem("ADMIN_PASSWORD", process.env.ADMIN_PASSWORD),
     {
       label: "ADMIN_SESSION_SECRET",

@@ -19,39 +19,18 @@ type AdminCatalogResult<T> = {
   source: "supabase" | "local";
 };
 
-function toArray(value: unknown) {
-  if (Array.isArray(value)) {
-    return value.filter((item): item is string => typeof item === "string" && item.trim() !== "");
-  }
-
-  if (typeof value === "string" && value.trim()) {
-    return value
-      .split(/\r?\n|,/)
-      .map((item) => item.trim())
-      .filter(Boolean);
-  }
-
-  return [];
-}
-
-function serviceStatus(value: unknown): Service["status"] {
-  if (value === "published" || value === "archived") {
-    return value;
-  }
-
-  return "draft";
-}
-
 function mapService(row: ServiceRow): Service {
+  const legacyTitle = row.name ?? row.category ?? "Service VIP";
+  const title = row.title ?? legacyTitle;
+
   return {
     id: row.id,
-    slug: row.slug || row.id,
-    name: row.name || "Service",
-    category: row.category || "Service VIP",
+    slug: row.slug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-") || row.id,
+    title,
     description: row.description || "",
-    highlights: toArray(row.highlights),
-    status: serviceStatus(row.status),
-    startingPrice: row.starting_price ?? undefined,
+    icon: row.icon ?? "Sparkles",
+    displayOrder: row.display_order ?? 0,
+    isActive: row.is_active ?? row.status === "published",
   };
 }
 
@@ -85,6 +64,7 @@ export async function getAdminServices() {
   const { data, error } = await supabase
     .from("services")
     .select("*")
+    .order("display_order", { ascending: true })
     .order("created_at", { ascending: true });
 
   if (error) {
@@ -169,7 +149,7 @@ export async function getAdminFleetSafe(): Promise<AdminCatalogResult<Vehicle>> 
 
 export async function getPublishedServices() {
   if (!hasSupabaseAdminConfig()) {
-    return fallbackServices.filter((service) => service.status === "published");
+    return fallbackServices.filter((service) => service.isActive);
   }
 
   try {
@@ -177,7 +157,8 @@ export async function getPublishedServices() {
     const { data, error } = await supabase
       .from("services")
       .select("*")
-      .eq("status", "published")
+      .eq("is_active", true)
+      .order("display_order", { ascending: true })
       .order("created_at", { ascending: true });
 
     if (error) {
@@ -188,7 +169,7 @@ export async function getPublishedServices() {
   } catch (error) {
     console.error("[public services] Supabase load failed", error);
 
-    return fallbackServices.filter((service) => service.status === "published");
+    return fallbackServices.filter((service) => service.isActive);
   }
 }
 

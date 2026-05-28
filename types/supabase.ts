@@ -6,25 +6,33 @@ export type Database = {
       services: {
         Row: {
           id: string;
-          slug: string;
-          name: string;
-          category: string;
+          title: string;
           description: string;
-          highlights: string[];
-          status: "draft" | "published" | "archived";
-          starting_price: number | null;
+          icon: string;
+          display_order: number;
+          is_active: boolean;
           created_at: string;
+          slug?: string | null;
+          name?: string | null;
+          category?: string | null;
+          highlights?: string[] | null;
+          status?: "draft" | "published" | "archived" | null;
+          starting_price?: number | null;
         };
         Insert: {
           id?: string;
-          slug: string;
-          name: string;
-          category: string;
+          title: string;
           description: string;
-          highlights?: string[];
-          status?: "draft" | "published" | "archived";
-          starting_price?: number | null;
+          icon?: string;
+          display_order?: number;
+          is_active?: boolean;
           created_at?: string;
+          slug?: string | null;
+          name?: string | null;
+          category?: string | null;
+          highlights?: string[] | null;
+          status?: "draft" | "published" | "archived" | null;
+          starting_price?: number | null;
         };
         Update: Partial<Database["public"]["Tables"]["services"]["Insert"]>;
         Relationships: [];
@@ -68,9 +76,7 @@ export type Database = {
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
-    Enums: {
-      service_status: "draft" | "published" | "archived";
-    };
+    Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };
 };

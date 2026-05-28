@@ -1,14 +1,11 @@
-export type ServiceStatus = "draft" | "published" | "archived";
-
 export type Service = {
   id: string;
   slug: string;
-  name: string;
-  category: string;
+  title: string;
   description: string;
-  highlights: string[];
-  status: ServiceStatus;
-  startingPrice?: number;
+  icon: string;
+  displayOrder: number;
+  isActive: boolean;
 };
 
 export type Vehicle = {

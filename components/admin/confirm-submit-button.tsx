@@ -1,6 +1,7 @@
 "use client";
 
 import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { useFormStatus } from "react-dom";
 
 type ConfirmSubmitButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
@@ -14,10 +15,13 @@ export function ConfirmSubmitButton({
   type = "submit",
   ...props
 }: ConfirmSubmitButtonProps) {
+  const { pending } = useFormStatus();
+
   return (
     <button
       {...props}
       type={type}
+      disabled={pending || props.disabled}
       onClick={(event) => {
         onClick?.(event);
 
@@ -30,7 +34,7 @@ export function ConfirmSubmitButton({
         }
       }}
     >
-      {children}
+      {pending ? "Traitement..." : children}
     </button>
   );
 }

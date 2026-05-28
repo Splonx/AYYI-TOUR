@@ -6,7 +6,7 @@ type MetricCardProps = {
 
 export function MetricCard({ label, value, helper }: MetricCardProps) {
   return (
-    <div className="border border-white/10 bg-white/[0.04] p-6">
+    <div className="border border-white/10 bg-white/[0.04] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)] transition hover:border-gold/40">
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-gold">
         {label}
       </p>

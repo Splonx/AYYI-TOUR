@@ -18,35 +18,17 @@ type LegacyVehicle = Partial<Vehicle> & {
 };
 
 type LegacyService = Partial<Service> & {
+  name?: string;
+  title?: string;
+  category?: string;
   features?: unknown;
   tags?: unknown;
   highlights?: unknown;
+  status?: string;
+  startingPrice?: number;
 };
 
 const catalogPath = path.join(process.cwd(), "data", "admin-catalog.json");
-
-function toArray(value: unknown) {
-  if (Array.isArray(value)) {
-    return value.filter((item): item is string => typeof item === "string" && item.trim() !== "");
-  }
-
-  if (typeof value === "string" && value.trim()) {
-    return value
-      .split(/\r?\n|,/)
-      .map((item) => item.trim())
-      .filter(Boolean);
-  }
-
-  return [];
-}
-
-function serviceStatus(value: unknown): Service["status"] {
-  if (value === "published" || value === "archived") {
-    return value;
-  }
-
-  return "draft";
-}
 
 function normalizeLocalServices(value: unknown): Service[] {
   if (!Array.isArray(value)) {
@@ -55,22 +37,20 @@ function normalizeLocalServices(value: unknown): Service[] {
 
   return value.map((item, index) => {
     const service = item as LegacyService;
-    const highlights = toArray(service.highlights);
+    const title = service.title ?? service.name ?? "Service VIP";
 
     return {
       id: service.id ?? `srv-local-${index + 1}`,
-      slug: service.slug ?? `service-${index + 1}`,
-      name: service.name ?? "Service",
-      category: service.category ?? "Service VIP",
+      slug: service.slug ?? title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      title,
       description: service.description ?? "",
-      highlights:
-        highlights.length > 0
-          ? highlights
-          : toArray(service.features).concat(toArray(service.tags)),
-      status: serviceStatus(service.status),
-      startingPrice: service.startingPrice,
+      icon: service.icon ?? "Sparkles",
+      displayOrder: service.displayOrder ?? index + 1,
+      isActive:
+        service.isActive ??
+        (service.status ? service.status === "published" : true),
     };
-  });
+  }).sort((a, b) => a.displayOrder - b.displayOrder);
 }
 
 function normalizeLocalFleet(value: unknown): Vehicle[] {

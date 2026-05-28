@@ -2,59 +2,39 @@
   "services": [
     {
       "id": "srv-airport-vip",
-      "slug": "transfert-aeroport-vip",
-      "name": "Transfert aeroport VIP",
-      "category": "Airport",
+      "slug": "service-aeroport",
+      "title": "Service aeroport",
       "description": "Accueil personnalise, suivi de vol et prise en charge fluide entre aeroport, hotel, residence ou lieu de rendez-vous.",
-      "highlights": [
-        "Suivi des vols",
-        "Accueil pancarte",
-        "Temps d'attente coordonne"
-      ],
-      "status": "published",
-      "startingPrice": 750
+      "icon": "Plane",
+      "displayOrder": 1,
+      "isActive": true
     },
     {
       "id": "srv-business",
-      "slug": "chauffeur-business",
-      "name": "Chauffeur business",
-      "category": "Corporate",
-      "description": "Deplacements professionnels avec chauffeur dedie, discretion et itineraire optimise pour chaque agenda.",
-      "highlights": [
-        "Chauffeur bilingue",
-        "Facturation entreprise",
-        "Coordination assistant"
-      ],
-      "status": "published",
-      "startingPrice": 1200
+      "slug": "transport-avec-chauffeur",
+      "title": "Transport avec chauffeur",
+      "description": "Chauffeur dedie, conduite souple et itineraires optimises pour vos rendez-vous professionnels ou prives.",
+      "icon": "BriefcaseBusiness",
+      "displayOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "srv-private-transfer",
+      "slug": "transfert-prive",
+      "title": "Transfert prive",
+      "description": "Trajets directs entre Agadir, Marrakech, hotels, villas, golfs, gares, aeroports et destinations sur mesure.",
+      "icon": "Sparkles",
+      "displayOrder": 3,
+      "isActive": true
     },
     {
       "id": "srv-disposal",
       "slug": "mise-a-disposition",
-      "name": "Mise a disposition",
-      "category": "Private hire",
+      "title": "Mise a disposition",
       "description": "Vehicule avec chauffeur reserve a l'heure, a la journee ou pour une mission multi-etapes.",
-      "highlights": [
-        "Forfait horaire",
-        "Multi-arrets",
-        "Service flexible"
-      ],
-      "status": "published",
-      "startingPrice": 1800
-    },
-    {
-      "id": "srv-events",
-      "slug": "evenements-vip",
-      "name": "Evenements VIP",
-      "category": "Event",
-      "description": "Plan de transport pour mariages, delegations, conferences et experiences privees haut de gamme.",
-      "highlights": [
-        "Coordination flotte",
-        "Brief chauffeurs",
-        "Planning operationnel"
-      ],
-      "status": "published",
-      "startingPrice": 2700
+      "icon": "CalendarCheck",
+      "displayOrder": 4,
+      "isActive": true
     }
   ],
   "fleet": [

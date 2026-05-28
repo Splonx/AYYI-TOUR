@@ -13,6 +13,10 @@ end $$;
 
 create table if not exists public.services (
   id uuid primary key default gen_random_uuid(),
+  title text not null default 'Service VIP',
+  icon text not null default 'Sparkles',
+  display_order integer not null default 0,
+  is_active boolean not null default true,
   slug text not null unique,
   name text not null,
   category text not null,
@@ -24,6 +28,10 @@ create table if not exists public.services (
 );
 
 alter table public.services
+  add column if not exists title text,
+  add column if not exists icon text not null default 'Sparkles',
+  add column if not exists display_order integer not null default 0,
+  add column if not exists is_active boolean not null default true,
   add column if not exists slug text,
   add column if not exists name text,
   add column if not exists category text,
@@ -35,12 +43,19 @@ alter table public.services
 
 update public.services
 set
+  title = coalesce(nullif(title, ''), nullif(name, ''), 'Service VIP'),
+  icon = coalesce(nullif(icon, ''), 'Sparkles'),
   slug = coalesce(nullif(slug, ''), 'service-' || id::text),
   name = coalesce(nullif(name, ''), 'Service'),
   category = coalesce(nullif(category, ''), 'Service VIP'),
   description = coalesce(description, ''),
   highlights = coalesce(highlights, '{}'::text[])
 where
+  title is null
+  or title = ''
+  or icon is null
+  or icon = ''
+  or
   slug is null
   or slug = ''
   or name is null
@@ -81,6 +96,14 @@ begin
 end $$;
 
 alter table public.services
+  alter column title set default 'Service VIP',
+  alter column title set not null,
+  alter column icon set default 'Sparkles',
+  alter column icon set not null,
+  alter column display_order set default 0,
+  alter column display_order set not null,
+  alter column is_active set default true,
+  alter column is_active set not null,
   alter column slug set not null,
   alter column name set not null,
   alter column category set not null,
@@ -97,9 +120,10 @@ create unique index if not exists services_slug_key on public.services(slug);
 alter table public.services enable row level security;
 
 drop policy if exists "Published services are public" on public.services;
-create policy "Published services are public"
+drop policy if exists "Active services are public" on public.services;
+create policy "Active services are public"
   on public.services for select
-  using (status = 'published');
+  using (is_active = true);
 
 drop policy if exists "Admins manage services with service role" on public.services;
 create policy "Admins manage services with service role"
@@ -214,10 +238,7 @@ select
 where not exists (
   select 1
   from public.fleet
-  where name in (
-    'Ford Transit',
-    chr(77) || chr(101) || chr(114) || chr(99) || chr(101) || chr(100) || chr(101) || chr(115) || chr(32) || chr(86) || chr(105) || chr(116) || chr(111)
-  )
+  where name = 'Ford Transit'
 );
 
 update public.fleet
@@ -234,8 +255,7 @@ set
   is_featured = true,
   is_active = true
 where name in (
-  'Ford Transit',
-  chr(77) || chr(101) || chr(114) || chr(99) || chr(101) || chr(100) || chr(101) || chr(115) || chr(32) || chr(86) || chr(105) || chr(116) || chr(111)
+  'Ford Transit'
 );
 
 insert into public.fleet (
@@ -282,6 +302,3 @@ set
   is_featured = true,
   is_active = true
 where name = 'Skoda Superb';
-
-delete from public.fleet
-where lower(name) = chr(102) || chr(105) || chr(97) || chr(116);

@@ -24,7 +24,6 @@ import {
 } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { AyyiTourLogo } from "@/components/brand/ayyi-tour-logo";
 import { FleetCard } from "@/components/sections/fleet-card";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { ServiceCard } from "@/components/sections/service-card";
@@ -207,9 +206,6 @@ export default async function Home() {
 
         <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] max-w-7xl items-center px-4 py-12 sm:px-8 sm:py-16 lg:px-10">
           <div className="max-w-4xl min-w-0">
-            <div className="luxury-reveal mb-5 w-fit border border-gold/20 bg-black/35 p-3 shadow-[0_18px_70px_rgba(0,0,0,0.3)] backdrop-blur-xl">
-              <AyyiTourLogo priority className="h-32 w-32 sm:h-40 sm:w-40" />
-            </div>
             <div className="luxury-reveal mb-6 inline-flex max-w-full items-center gap-3 border border-gold/35 bg-black/45 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold shadow-[0_18px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:mb-8 sm:px-4 sm:text-xs sm:tracking-[0.32em]">
               <Crown className="h-4 w-4" />
               Transport Service VIP

@@ -38,7 +38,7 @@ export default async function ServicesPage() {
     <main className="min-h-screen bg-obsidian text-ivory">
       <SiteHeader />
       <section className="relative overflow-hidden px-4 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40 lg:px-10">
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(201,162,74,0.16),transparent_34%,rgba(255,255,255,0.04)_70%,transparent)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(140deg,rgba(210,171,103,0.2),transparent_32%,rgba(105,129,111,0.14)_68%,transparent)]" />
         <div className="relative mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <SectionHeading
@@ -46,13 +46,13 @@ export default async function ServicesPage() {
               title="Des prestations claires pour chaque trajet important"
               description="AYYI TOUR organise vos deplacements premium avec chauffeur prive a Agadir, Marrakech et en region: service aeroport, transfert prive, mise a disposition et trajets professionnels."
             />
-            <div className="border border-gold/20 bg-gold/[0.06] p-5 text-sm leading-7 text-stone-300">
+            <div className="surface-panel rounded-3xl p-6 text-sm leading-7 text-stone-300">
               <CalendarCheck className="mb-4 h-6 w-6 text-gold" />
               Aucun formulaire a remplir: envoyez votre demande par email et recevez une
               reponse claire pour planifier votre trajet.
               <a
                 href={siteConfig.reservationMailto}
-                className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 bg-gold px-4 text-xs font-bold uppercase tracking-[0.16em] text-black transition hover:bg-champagne"
+                className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-gold px-5 text-xs font-bold uppercase tracking-[0.16em] text-black transition hover:bg-champagne"
               >
                 Planifier un trajet
                 <ArrowRight className="h-4 w-4" />
@@ -70,7 +70,7 @@ export default async function ServicesPage() {
 
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {serviceHighlights.map((highlight) => (
-              <div key={highlight} className="flex items-start gap-3 border border-white/10 bg-white/[0.04] p-5 text-sm leading-6 text-stone-300">
+              <div key={highlight} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-sm leading-6 text-stone-300">
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-gold" />
                 {highlight}
               </div>
@@ -80,7 +80,7 @@ export default async function ServicesPage() {
           <div className="mt-10 flex justify-center">
             <Link
               href="/fleet"
-              className="inline-flex min-h-12 items-center justify-center gap-3 border border-gold/40 px-5 text-xs font-bold uppercase tracking-[0.16em] text-gold transition hover:bg-gold hover:text-black"
+              className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-gold/40 px-6 text-xs font-bold uppercase tracking-[0.16em] text-gold transition hover:bg-gold hover:text-black"
             >
               Decouvrir la flotte
               <ArrowRight className="h-4 w-4" />

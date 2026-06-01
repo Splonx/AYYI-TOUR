@@ -15,12 +15,12 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div className="max-w-3xl min-w-0">
-      <p className="text-xs font-bold uppercase tracking-[0.22em] text-gold sm:tracking-[0.32em]">
+      <p className="text-xs font-bold uppercase tracking-[0.24em] text-gold sm:tracking-[0.3em]">
         {eyebrow}
       </p>
       <h2
         className={clsx(
-          "mt-4 max-w-full break-words text-3xl font-semibold leading-tight sm:text-5xl",
+          "mt-4 max-w-full break-words text-4xl font-semibold leading-[1.04] sm:text-5xl lg:text-6xl",
           dark ? "text-obsidian" : "text-white",
         )}
       >

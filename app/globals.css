@@ -1,20 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #070707;
-  --foreground: #f7f0df;
+  --background: #0e1116;
+  --foreground: #f8f2e8;
+  --ink: #11141b;
+  --sand: #efe3d2;
+  --gold: #d2ab67;
+  --amber: #f2cd8c;
+  --sage: #8b9d8f;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-obsidian: #070707;
-  --color-ivory: #f7f0df;
-  --color-gold: #c9a24a;
-  --color-champagne: #f1d58b;
-  --color-charcoal: #171514;
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-display: Georgia, "Times New Roman", serif;
+  --color-obsidian: var(--background);
+  --color-ivory: var(--sand);
+  --color-gold: var(--gold);
+  --color-champagne: var(--amber);
+  --color-charcoal: var(--ink);
+  --font-sans: var(--font-text), "Segoe UI", sans-serif;
+  --font-display: var(--font-display), "Times New Roman", serif;
 }
 
 * {
@@ -29,9 +34,12 @@ html {
 body {
   overflow-x: hidden;
   min-height: 100vh;
-  background: var(--background);
+  background:
+    radial-gradient(circle at 15% -5%, rgba(210, 171, 103, 0.18), transparent 40%),
+    radial-gradient(circle at 85% 0%, rgba(135, 154, 138, 0.14), transparent 30%),
+    linear-gradient(180deg, #0e1116 0%, #090b0e 40%, #0c1014 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-text), "Segoe UI", sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -39,13 +47,14 @@ body {
 h1,
 h2,
 h3 {
-  font-family: var(--font-display), Georgia, serif;
-  letter-spacing: 0;
+  font-family: var(--font-display), serif;
+  font-feature-settings: "liga" 1;
+  letter-spacing: 0.01em;
 }
 
 ::selection {
-  background: #c9a24a;
-  color: #070707;
+  background: var(--gold);
+  color: #151515;
 }
 
 .premium-loader {
@@ -53,33 +62,41 @@ h3 {
 }
 
 .luxury-reveal {
-  animation: luxury-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: luxury-rise 0.9s cubic-bezier(0.21, 1, 0.35, 1) both;
 }
 
 .luxury-reveal:nth-child(2) {
-  animation-delay: 0.08s;
+  animation-delay: 0.09s;
 }
 
 .luxury-reveal:nth-child(3) {
-  animation-delay: 0.16s;
+  animation-delay: 0.18s;
 }
 
 .luxury-reveal:nth-child(4) {
-  animation-delay: 0.24s;
+  animation-delay: 0.27s;
 }
 
 .glass-luxury {
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025)),
-    rgba(8, 8, 8, 0.54);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 24px 90px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(18px);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)),
+    rgba(14, 17, 22, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 24px 80px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(16px);
+}
+
+.surface-panel {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02)),
+    rgba(14, 17, 22, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.28);
 }
 
 .premium-button {
   position: relative;
   overflow: hidden;
-  box-shadow: 0 18px 55px rgba(201, 162, 74, 0.18);
+  box-shadow: 0 14px 38px rgba(210, 171, 103, 0.26);
 }
 
 .premium-button::after {
@@ -87,7 +104,7 @@ h3 {
   inset: 0;
   content: "";
   transform: translateX(-120%) skewX(-18deg);
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.48), transparent);
   transition: transform 0.7s ease;
 }
 
@@ -99,10 +116,29 @@ h3 {
   overflow: visible;
 }
 
+.ring-glow {
+  position: relative;
+}
+
+.ring-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    135deg,
+    rgba(210, 171, 103, 0.75),
+    rgba(255, 255, 255, 0.08),
+    rgba(139, 157, 143, 0.35)
+  );
+  filter: blur(18px);
+  opacity: 0.35;
+  z-index: -1;
+}
+
 @keyframes luxury-rise {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(20px);
   }
 
   to {

@@ -20,7 +20,7 @@ export function PremiumLoader() {
     <div className="premium-loader fixed inset-0 z-[100] grid place-items-center bg-obsidian text-center text-ivory">
       <div className="relative">
         <div className="mx-auto flex h-24 w-24 items-center justify-center">
-          <AyyiTourLogo variant="icon" priority className="h-20 w-20" />
+          <AyyiTourLogo variant="icon" preload className="h-20 w-20" />
         </div>
         <div className="absolute inset-x-0 top-0 mx-auto h-24 w-24 animate-spin border-t border-gold/70" />
         <p className="mt-6 text-xs font-bold uppercase tracking-[0.34em] text-gold">

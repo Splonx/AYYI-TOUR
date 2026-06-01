@@ -5,13 +5,13 @@ type AyyiTourLogoProps = {
   variant?: "horizontal" | "icon";
   tone?: "dark" | "light";
   className?: string;
-  priority?: boolean;
+  preload?: boolean;
 };
 
 export function AyyiTourLogo({
   variant = "horizontal",
   className,
-  priority = false,
+  preload = false,
 }: AyyiTourLogoProps) {
   const isIcon = variant === "icon";
 
@@ -27,7 +27,7 @@ export function AyyiTourLogo({
         src={isIcon ? "/logo/favicon.png" : "/logo/ayyi-tour-logo.png"}
         alt="AYYI TOUR Transport Service VIP"
         fill
-        priority={priority}
+        preload={preload}
         quality={100}
         sizes={isIcon ? "56px" : "(max-width: 640px) 64px, 72px"}
         className="object-contain"

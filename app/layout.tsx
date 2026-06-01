@@ -1,8 +1,21 @@
 import type { Metadata } from "next";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { FloatingActions } from "@/components/layout/floating-actions";
 import { PremiumLoader } from "@/components/layout/premium-loader";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
+
+const textFont = Manrope({
+  subsets: ["latin"],
+  variable: "--font-text",
+  display: "swap",
+});
+
+const displayFont = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -98,7 +111,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${textFont.variable} ${displayFont.variable}`}>
       <body>
         <script
           type="application/ld+json"

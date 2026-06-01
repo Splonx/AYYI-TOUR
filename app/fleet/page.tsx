@@ -41,7 +41,7 @@ export default async function FleetPage() {
     <main className="min-h-screen bg-obsidian text-ivory">
       <SiteHeader />
       <section className="relative overflow-hidden px-4 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40 lg:px-10">
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(201,162,74,0.15),transparent_34%,rgba(255,255,255,0.04)_72%,transparent)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(140deg,rgba(210,171,103,0.18),transparent_34%,rgba(105,129,111,0.14)_70%,transparent)]" />
         <div className="relative mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
             <SectionHeading
@@ -55,7 +55,7 @@ export default async function FleetPage() {
                 { icon: Luggage, label: "Bagages optimises" },
                 { icon: Gem, label: "Confort premium" },
               ].map((item) => (
-                <div key={item.label} className="border border-white/10 bg-white/[0.04] p-5">
+                <div key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
                   <item.icon className="h-5 w-5 text-gold" />
                   <p className="mt-4 text-sm font-semibold text-white">{item.label}</p>
                 </div>
@@ -71,7 +71,7 @@ export default async function FleetPage() {
 
           <div className="mt-12 grid gap-5 lg:grid-cols-2">
             {fleet.map((vehicle) => (
-              <article key={`${vehicle.id}-detail`} className="grid overflow-hidden border border-white/10 bg-white/[0.04] md:grid-cols-[0.95fr_1.05fr]">
+              <article key={`${vehicle.id}-detail`} className="grid overflow-hidden rounded-[1.7rem] border border-white/10 bg-white/[0.04] md:grid-cols-[0.95fr_1.05fr]">
                 <div className="relative min-h-[260px] bg-black">
                   <Image
                     src={vehicle.imageUrl || "/fleet/ford-transit.jpg"}
@@ -103,7 +103,7 @@ export default async function FleetPage() {
                   </div>
                   <a
                     href={siteConfig.reservationMailto}
-                    className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 bg-gold px-4 text-xs font-bold uppercase tracking-[0.16em] text-black transition hover:bg-champagne"
+                    className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-gold px-5 text-xs font-bold uppercase tracking-[0.16em] text-black transition hover:bg-champagne"
                   >
                     Demander un trajet
                     <ArrowRight className="h-4 w-4" />

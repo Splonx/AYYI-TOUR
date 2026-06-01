@@ -24,7 +24,7 @@ export default async function AdminLoginPage(props: PageProps<"/admin/login">) {
       >
         <input name="next" type="hidden" value={nextPath} />
         <div className="mb-8">
-          <AyyiTourLogo priority className="h-28 w-28" />
+          <AyyiTourLogo preload className="h-28 w-28" />
         </div>
         <div className="mb-8 flex h-12 w-12 items-center justify-center border border-gold/40 bg-gold/10 text-gold">
           <LockKeyhole className="h-6 w-6" />

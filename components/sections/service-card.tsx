@@ -22,12 +22,12 @@ export function ServiceCard({ service }: { service: Service }) {
     serviceIcons[service.icon as keyof typeof serviceIcons] ?? serviceIcons.Sparkles;
 
   return (
-    <article className="group relative min-h-full overflow-hidden border border-white/10 bg-white/[0.045] p-5 shadow-[0_24px_90px_rgba(0,0,0,0.24)] backdrop-blur-xl transition duration-500 hover:-translate-y-1 hover:border-gold/50 hover:bg-white/[0.07] sm:p-7">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent opacity-50" />
-      <div className="flex h-12 w-12 items-center justify-center border border-gold/35 bg-gold/[0.09] text-gold transition duration-500 group-hover:bg-gold group-hover:text-black">
+    <article className="group ring-glow relative min-h-full overflow-hidden rounded-[1.6rem] border border-white/10 bg-[#121720]/85 p-6 shadow-[0_24px_90px_rgba(0,0,0,0.24)] backdrop-blur-xl transition duration-500 hover:-translate-y-1.5 hover:border-gold/50 sm:p-7">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent opacity-65" />
+      <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/35 bg-gold/[0.1] text-gold transition duration-500 group-hover:bg-gold group-hover:text-black">
         <Icon className="h-6 w-6" />
       </div>
-      <h3 className="mt-6 text-2xl font-semibold text-white">{service.title}</h3>
+      <h3 className="mt-6 text-3xl font-semibold leading-[1.1] text-white">{service.title}</h3>
       <p className="mt-4 text-sm leading-7 text-stone-300">{service.description}</p>
       <Link
         href={`/services#${service.slug}`}

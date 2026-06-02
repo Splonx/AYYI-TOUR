@@ -28,9 +28,11 @@ export const metadata: Metadata = {
 const publicFleetNames = new Set(["Ford Transit", "Skoda Superb"]);
 
 function publicFleet(vehicles: Vehicle[]) {
-  const selected = vehicles.filter((vehicle) => publicFleetNames.has(vehicle.name));
+  const sources = [...vehicles, ...defaultFleet];
 
-  return selected.length > 0 ? selected : defaultFleet;
+  return Array.from(publicFleetNames)
+    .map((name) => sources.find((vehicle) => vehicle.name === name))
+    .filter((vehicle): vehicle is Vehicle => Boolean(vehicle));
 }
 
 export default async function FleetPage() {

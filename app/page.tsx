@@ -49,8 +49,11 @@ export const metadata: Metadata = {
 const publicFleetNames = new Set(["Ford Transit", "Skoda Superb"]);
 
 function publicFleet(vehicles: Vehicle[]) {
-  const selected = vehicles.filter((vehicle) => publicFleetNames.has(vehicle.name));
-  return selected.length > 0 ? selected : defaultFleet;
+  const sources = [...vehicles, ...defaultFleet];
+
+  return Array.from(publicFleetNames)
+    .map((name) => sources.find((vehicle) => vehicle.name === name))
+    .filter((vehicle): vehicle is Vehicle => Boolean(vehicle));
 }
 
 const trustBadges = [

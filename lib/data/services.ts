@@ -3,32 +3,22 @@ import type { Service } from "@/types/domain";
 export const services: Service[] = [
   {
     id: "srv-airport-vip",
-    slug: "service-aeroport",
-    title: "Service aeroport",
+    slug: "transfert-aeroport",
+    title: "Transfert aeroport",
     description:
-      "Accueil personnalise, suivi de vol et prise en charge fluide entre aeroport, hotel, residence ou lieu de rendez-vous.",
+      "Accueil personnalise, suivi des horaires et trajet fluide entre aeroport, hotel, residence ou lieu de rendez-vous.",
     icon: "Plane",
     displayOrder: 1,
     isActive: true,
   },
   {
     id: "srv-business",
-    slug: "transport-avec-chauffeur",
-    title: "Transport avec chauffeur",
+    slug: "chauffeur-prive",
+    title: "Chauffeur prive",
     description:
       "Chauffeur dedie, conduite souple et itineraires optimises pour vos rendez-vous professionnels ou prives.",
     icon: "BriefcaseBusiness",
     displayOrder: 2,
-    isActive: true,
-  },
-  {
-    id: "srv-private-transfer",
-    slug: "transfert-prive",
-    title: "Transfert prive",
-    description:
-      "Trajets directs entre Agadir, Marrakech, hotels, villas, golfs, gares, aeroports et destinations sur mesure.",
-    icon: "Sparkles",
-    displayOrder: 3,
     isActive: true,
   },
   {
@@ -38,6 +28,16 @@ export const services: Service[] = [
     description:
       "Vehicule avec chauffeur reserve a l'heure, a la journee ou pour une mission multi-etapes.",
     icon: "CalendarCheck",
+    displayOrder: 3,
+    isActive: true,
+  },
+  {
+    id: "srv-private-transfer",
+    slug: "trajets-interurbains",
+    title: "Trajets interurbains",
+    description:
+      "Trajets directs entre Agadir, Marrakech, hotels, villas, aeroports et destinations longue distance.",
+    icon: "Sparkles",
     displayOrder: 4,
     isActive: true,
   },

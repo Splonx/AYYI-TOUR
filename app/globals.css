@@ -34,10 +34,7 @@ html {
 body {
   overflow-x: hidden;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 15% -5%, rgba(210, 171, 103, 0.18), transparent 40%),
-    radial-gradient(circle at 85% 0%, rgba(135, 154, 138, 0.14), transparent 30%),
-    linear-gradient(180deg, #0e1116 0%, #090b0e 40%, #0c1014 100%);
+  background: linear-gradient(180deg, #0e1116 0%, #090b0e 42%, #0c1014 100%);
   color: var(--foreground);
   font-family: var(--font-text), "Segoe UI", sans-serif;
   text-rendering: optimizeLegibility;

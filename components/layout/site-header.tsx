@@ -4,15 +4,15 @@ import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CalendarCheck, Menu, Phone, X } from "lucide-react";
+import { Mail, Menu, Phone, X } from "lucide-react";
 import { AyyiTourLogo } from "@/components/brand/ayyi-tour-logo";
 import { siteConfig } from "@/lib/site";
 
 const navItems = [
   { href: "/", label: "Accueil" },
-  { href: "/services", label: "Services" },
-  { href: "/fleet", label: "Flotte" },
-  { href: "/#experience", label: "Experience" },
+  { href: "/#services", label: "Services" },
+  { href: "/#flotte", label: "Flotte" },
+  { href: "/#pourquoi-nous", label: "Pourquoi nous" },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -86,10 +86,10 @@ export function SiteHeader() {
           </a>
           <a
             href={siteConfig.reservationMailto}
-            className="premium-button inline-flex h-11 items-center justify-center gap-2 rounded-full bg-gold px-5 text-xs font-bold uppercase tracking-[0.15em] text-black transition hover:bg-champagne"
+            className="premium-button inline-flex h-11 items-center justify-center gap-2 rounded-full bg-gold px-5 text-xs font-bold uppercase tracking-[0.14em] text-black transition hover:bg-champagne"
           >
-            <CalendarCheck className="h-4 w-4" />
-            Reserver
+            <Mail className="h-4 w-4" />
+            Planifier un trajet
           </a>
         </div>
 
@@ -105,7 +105,7 @@ export function SiteHeader() {
       </div>
 
       {isOpen ? (
-        <nav className="max-h-[calc(100svh-4.8rem)] overflow-y-auto border-t border-gold/20 bg-[#0a0d12] px-4 py-4 shadow-2xl lg:hidden">
+        <nav className="min-h-[calc(100svh-4.8rem)] max-h-[calc(100svh-4.8rem)] overflow-y-auto border-t border-gold/20 bg-[#0a0d12] px-4 py-4 shadow-2xl lg:hidden">
           <div className="mx-auto grid max-w-7xl gap-2">
             {navItems.map((item) => (
               <Link
@@ -118,11 +118,19 @@ export function SiteHeader() {
               </Link>
             ))}
             <a
-              href={siteConfig.reservationMailto}
-              className="mt-2 inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-gold px-4 py-3 text-center text-sm font-bold uppercase tracking-[0.15em] text-black transition hover:bg-champagne"
+              href={siteConfig.phoneHref}
+              className="mt-2 inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-center text-sm font-bold uppercase tracking-[0.14em] text-stone-100 transition hover:border-gold hover:text-gold"
               onClick={() => setIsOpen(false)}
             >
-              <CalendarCheck className="h-4 w-4" />
+              <Phone className="h-4 w-4 text-gold" />
+              Appeler maintenant
+            </a>
+            <a
+              href={siteConfig.reservationMailto}
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-gold px-4 py-3 text-center text-sm font-bold uppercase tracking-[0.14em] text-black transition hover:bg-champagne"
+              onClick={() => setIsOpen(false)}
+            >
+              <Mail className="h-4 w-4" />
               Planifier un trajet
             </a>
           </div>

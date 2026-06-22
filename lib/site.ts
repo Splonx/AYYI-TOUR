@@ -2,9 +2,9 @@ export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ayyi-tour.co
 
 export const siteConfig = {
   name: "AYYI TOUR",
-  title: "AYYI TOUR Transport Service VIP",
+  title: "Transport VIP Agadir & Marrakech | AYYI TOUR",
   description:
-    "Transport VIP a Agadir et Marrakech avec chauffeur prive, service aeroport, transferts interurbains et flotte executive au Maroc.",
+    "Transport VIP a Agadir et Marrakech avec chauffeur prive, transfert aeroport, trajets premium et transport prive au Maroc.",
   url: siteUrl,
   locale: "fr_MA",
   phone: "+212 672 508 363",

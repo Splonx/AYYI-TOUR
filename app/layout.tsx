@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { FloatingActions } from "@/components/layout/floating-actions";
-import { PremiumLoader } from "@/components/layout/premium-loader";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -48,21 +47,17 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "transport VIP Maroc",
     "transport VIP Agadir",
-    "chauffeur prive Maroc",
     "chauffeur prive Marrakech",
-    "chauffeur prive Agadir",
-    "service aeroport Agadir",
-    "transport prive Maroc",
     "transfert aeroport Agadir",
+    "transport prive Maroc",
+    "chauffeur prive Agadir",
     "transfert aeroport Marrakech",
-    "location voiture avec chauffeur",
-    "transport VIP Marrakech",
+    "transport VIP Maroc",
     "AYYI TOUR",
   ],
   alternates: {
-    canonical: "/",
+    canonical: siteConfig.url,
   },
   icons: {
     icon: [
@@ -83,13 +78,13 @@ export const metadata: Metadata = {
         url: "/logo/og-image.png",
         width: 1200,
         height: 630,
-        alt: "AYYI TOUR Transport Service VIP logo premium noir et dore",
+        alt: "AYYI TOUR Transport VIP Agadir et Marrakech",
       },
       {
         url: "/images/vip-hero.png",
         width: 1717,
         height: 916,
-        alt: "AYYI TOUR transport VIP au Maroc",
+        alt: "Transport VIP AYYI TOUR au Maroc",
       },
     ],
   },
@@ -117,7 +112,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <PremiumLoader />
         {children}
         <FloatingActions />
       </body>

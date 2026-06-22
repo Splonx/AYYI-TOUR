@@ -4,44 +4,43 @@ import Link from "next/link";
 import {
   ArrowRight,
   BriefcaseBusiness,
+  CalendarCheck,
+  Car,
   CheckCircle2,
   Clock,
-  Crown,
   Gem,
-  HelpCircle,
+  Luggage,
   Mail,
   MapPin,
   MessageCircle,
   Navigation,
   Phone,
   Plane,
-  Quote,
   ShieldCheck,
   Sparkles,
-  Star,
+  UserCheck,
+  Users,
 } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { FleetCard } from "@/components/sections/fleet-card";
 import { SectionHeading } from "@/components/sections/section-heading";
-import { ServiceCard } from "@/components/sections/service-card";
 import { fleet as defaultFleet } from "@/lib/data/fleet";
-import { services as defaultServices } from "@/lib/data/services";
-import { getAvailableFleet, getPublishedServices } from "@/lib/data/admin-catalog";
+import { getAvailableFleet } from "@/lib/data/admin-catalog";
 import { siteConfig } from "@/lib/site";
 import type { Vehicle } from "@/types/domain";
 
 export const metadata: Metadata = {
-  title: "AYYI TOUR Transport Service VIP",
+  title: "Transport VIP Agadir & Marrakech",
   description:
-    "Transport VIP Agadir, chauffeur prive Marrakech, service aeroport Agadir et transport prive au Maroc avec AYYI TOUR.",
+    "AYYI TOUR organise vos trajets premium a Agadir et Marrakech: chauffeur prive, transfert aeroport, transport VIP et service discret 24/7.",
   alternates: {
     canonical: siteConfig.url,
   },
   openGraph: {
-    title: "AYYI TOUR Transport Service VIP",
+    title: "Transport VIP Agadir & Marrakech | AYYI TOUR",
     description:
-      "Chauffeur prive, service aeroport et flotte premium pour vos trajets VIP a Agadir, Marrakech et en region.",
+      "Chauffeur prive, transferts aeroport et trajets premium a Agadir, Marrakech et en region.",
     url: siteConfig.url,
   },
 };
@@ -56,135 +55,102 @@ function publicFleet(vehicles: Vehicle[]) {
     .filter((vehicle): vehicle is Vehicle => Boolean(vehicle));
 }
 
-const trustBadges = [
-  { icon: BriefcaseBusiness, label: "Chauffeur prive" },
+const heroBadges = [
+  { icon: Clock, label: "24/7" },
+  { icon: UserCheck, label: "Chauffeur prive" },
   { icon: Plane, label: "Service aeroport" },
-  { icon: MapPin, label: "Agadir & Marrakech" },
-  { icon: Clock, label: "Disponible 24/7" },
+  { icon: MapPin, label: "Agadir - Marrakech" },
 ];
 
-const signatureStats = [
-  { value: "24/7", label: "Coordination chauffeur" },
-  { value: "2", label: "Vehicules premium" },
-  { value: "100%", label: "Service prive" },
+const trustItems = [
+  { icon: Clock, label: "Ponctualite" },
+  { icon: ShieldCheck, label: "Discretion" },
+  { icon: Gem, label: "Confort premium" },
+  { icon: UserCheck, label: "Chauffeurs professionnels" },
+  { icon: CalendarCheck, label: "Reservation rapide" },
+];
+
+const services = [
+  {
+    icon: Plane,
+    title: "Transfert aeroport",
+    text: "Accueil clair, suivi des horaires et trajet fluide vers hotel, villa, residence ou rendez-vous.",
+  },
+  {
+    icon: UserCheck,
+    title: "Chauffeur prive",
+    text: "Un chauffeur professionnel pour vos trajets business, prives ou VIP, avec conduite souple et discrete.",
+  },
+  {
+    icon: CalendarCheck,
+    title: "Mise a disposition",
+    text: "Vehicule avec chauffeur reserve a l'heure, a la journee ou pour plusieurs etapes dans la region.",
+  },
+  {
+    icon: Navigation,
+    title: "Trajets interurbains",
+    text: "Liaisons confortables entre Agadir, Marrakech et les destinations longue distance selon votre programme.",
+  },
+];
+
+const bookingSteps = [
+  {
+    title: "Contactez-nous",
+    text: "Envoyez un email, appelez ou contactez AYYI TOUR sur WhatsApp.",
+  },
+  {
+    title: "Indiquez votre trajet",
+    text: "Date, horaire, depart, destination, passagers et bagages suffisent.",
+  },
+  {
+    title: "Votre chauffeur vous prend en charge",
+    text: "Le trajet est confirme avec un vehicule adapte et un timing clair.",
+  },
+];
+
+const zones = [
+  "Agadir",
+  "Marrakech",
+  "Aeroport",
+  "Region",
+  "Trajets longue distance",
 ];
 
 const whyChoose = [
   {
-    icon: Clock,
-    title: "Ponctualite",
-    text: "Suivi des horaires, marge operationnelle et chauffeur confirme avant chaque prise en charge.",
-  },
-  {
     icon: ShieldCheck,
-    title: "Discretion",
-    text: "Une presence sobre, professionnelle et adaptee aux clients exigeants.",
+    title: "Service discret",
+    text: "Une presence sobre, adaptee aux clients prives, dirigeants et invites VIP.",
   },
   {
-    icon: Gem,
-    title: "Confort premium",
-    text: "Vehicules soignes, habitacle confortable et conduite fluide sur chaque trajet.",
+    icon: Car,
+    title: "Vehicules confortables",
+    text: "Ford Transit et Skoda Superb prepares pour les trajets courts, longs et aeroport.",
+  },
+  {
+    icon: Clock,
+    title: "Disponibilite 24/7",
+    text: "Organisation possible pour arrivees tardives, departs matinaux et urgences.",
   },
   {
     icon: Sparkles,
-    title: "Service personnalise",
-    text: "Itineraire, attente, bagages et niveau d'accompagnement ajustes a votre programme.",
+    title: "Accompagnement personnalise",
+    text: "Horaire, attente, bagages et itineraire sont ajustes a votre besoin reel.",
+  },
+  {
+    icon: UserCheck,
+    title: "Chauffeur professionnel",
+    text: "Conduite fluide, attitude soignee et communication claire avant la prise en charge.",
+  },
+  {
+    icon: Gem,
+    title: "Experience haut de gamme",
+    text: "Un service premium sans surcharge, centre sur le confort et la fiabilite.",
   },
 ];
-
-const experienceSteps = [
-  {
-    title: "Prise en charge personnalisee",
-    text: "Votre trajet est prepare avec les informations essentielles: horaire, lieu exact, bagages et preferences.",
-  },
-  {
-    title: "Service fluide",
-    text: "Le chauffeur coordonne l'arrivee, l'accueil et le trajet pour eviter toute friction.",
-  },
-  {
-    title: "Trajet securise",
-    text: "Conduite souple, vehicule entretenu et itineraire adapte aux conditions de circulation.",
-  },
-  {
-    title: "Accompagnement haut de gamme",
-    text: "Une attention constante aux details pour une experience calme, elegante et fiable.",
-  },
-];
-
-const zones = ["Agadir", "Marrakech", "Region", "Aeroport", "Transferts interurbains"];
-
-const testimonials = [
-  {
-    name: "Direction executive",
-    context: "Transfert aeroport - Agadir",
-    text: "Accueil precis, chauffeur ponctuel et vehicule parfaitement presente. Un niveau de service tres rassurant pour nos invites.",
-  },
-  {
-    name: "Client prive",
-    context: "Marrakech - Agadir",
-    text: "Trajet confortable, conduite douce et communication claire avant le depart. Experience discrete et vraiment premium.",
-  },
-  {
-    name: "Organisation evenementielle",
-    context: "Mission VIP - Marrakech",
-    text: "La coordination a ete fluide du premier contact jusqu'a l'arrivee. Exactement le standard attendu pour un transport haut de gamme.",
-  },
-];
-
-const faqs = [
-  {
-    question: "Comment reserver ?",
-    answer:
-      "Envoyez votre demande par email a reservation@ayyi-tour.com ou contactez AYYI TOUR par telephone ou WhatsApp. L'equipe confirme les disponibilites et les details du trajet.",
-  },
-  {
-    question: "Proposez-vous les transferts aeroport ?",
-    answer:
-      "Oui. AYYI TOUR assure les transferts aeroport a Agadir, Marrakech et en region avec suivi des horaires et prise en charge personnalisee.",
-  },
-  {
-    question: "Est-ce disponible 24/7 ?",
-    answer:
-      "Oui. Les trajets peuvent etre organises pour les arrivees tardives, les departs matinaux et les besoins professionnels sensibles.",
-  },
-  {
-    question: "Puis-je reserver pour un groupe ?",
-    answer:
-      "Oui. Le Ford Transit permet d'organiser les trajets pour familles, groupes, equipes et delegations avec bagages.",
-  },
-  {
-    question: "Intervenez-vous entre Agadir et Marrakech ?",
-    answer:
-      "Oui. AYYI TOUR couvre les trajets interurbains entre Agadir, Marrakech et plusieurs destinations de la region.",
-  },
-];
-
-const contactCards = [
-  {
-    icon: Phone,
-    label: "Telephone",
-    value: siteConfig.phone,
-    href: siteConfig.phoneHref,
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: siteConfig.reservationEmail,
-    href: siteConfig.reservationMailto,
-  },
-  {
-    icon: MapPin,
-    label: "Zone",
-    value: "Agadir, Marrakech et region",
-  },
-] as const;
 
 export default async function Home() {
-  const [servicesResult, fleetResult] = await Promise.all([
-    getPublishedServices(),
-    getAvailableFleet(),
-  ]);
-  const services = servicesResult.length > 0 ? servicesResult : defaultServices;
+  const fleetResult = await getAvailableFleet();
   const fleet = publicFleet(fleetResult);
 
   return (
@@ -192,60 +158,57 @@ export default async function Home() {
       <SiteHeader />
 
       <section
-        className="relative min-h-[100svh] overflow-hidden px-4 pb-20 pt-28 sm:px-8 sm:pb-24 sm:pt-36 lg:px-10"
-        aria-label="AYYI TOUR transport VIP au Maroc"
+        id="accueil"
+        className="relative isolate min-h-[92svh] overflow-hidden px-4 pb-12 pt-28 sm:px-8 sm:pb-16 sm:pt-36 lg:px-10"
+        aria-label="Transport VIP AYYI TOUR a Agadir et Marrakech"
       >
         <Image
           src="/images/vip-hero.png"
-          alt="Flotte de transport VIP AYYI TOUR devant un hotel premium"
+          alt="Vehicule premium pour transport VIP a Agadir et Marrakech"
           fill
           preload
           quality={82}
           sizes="100vw"
-          className="object-cover object-[60%_center]"
+          className="object-cover object-[62%_center]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(95deg,rgba(6,8,12,0.96)_0%,rgba(9,12,17,0.92)_34%,rgba(10,15,22,0.56)_70%,rgba(10,15,22,0.32)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,rgba(210,171,103,0.28),transparent_42%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b0f14] to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,8,12,0.98)_0%,rgba(7,9,13,0.92)_42%,rgba(8,10,14,0.6)_72%,rgba(8,10,14,0.36)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#090c11] to-transparent" />
 
-        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-7rem)] max-w-7xl gap-8 lg:grid-cols-[1fr_0.48fr] lg:items-end">
-          <div className="max-w-4xl min-w-0">
-            <div className="luxury-reveal mb-7 inline-flex max-w-full items-center gap-3 rounded-full border border-gold/35 bg-black/38 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-gold shadow-[0_18px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:text-xs sm:tracking-[0.24em]">
-              <Crown className="h-4 w-4" />
-              Transport Service VIP
-            </div>
-            <h1 className="luxury-reveal max-w-4xl text-5xl font-semibold leading-[0.98] text-white sm:text-7xl">
-              AYYI TOUR
-              <br />
-              Chauffeur prive
+        <div className="relative z-10 mx-auto flex min-h-[calc(92svh-7rem)] max-w-7xl items-center">
+          <div className="max-w-4xl">
+            <p className="luxury-reveal inline-flex items-center gap-2 rounded-full border border-gold/35 bg-black/40 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-gold backdrop-blur-xl">
+              Transport VIP au Maroc
+            </p>
+            <h1 className="luxury-reveal mt-6 max-w-4xl text-5xl font-semibold leading-[0.98] text-white sm:text-7xl lg:text-8xl">
+              Transport VIP a Agadir & Marrakech
             </h1>
             <p className="luxury-reveal mt-6 max-w-2xl text-base leading-7 text-stone-200 sm:text-xl sm:leading-8">
-              Service aeroport, transferts interurbains et accompagnement premium a Agadir,
-              Marrakech et en region. Une execution calme pour chaque trajet sensible.
+              Chauffeur prive, transferts aeroport et trajets premium avec confort,
+              ponctualite et discretion.
             </p>
 
             <div className="luxury-reveal mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href={siteConfig.reservationMailto}
-                className="premium-button inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-gold px-5 text-center text-xs font-bold uppercase tracking-[0.14em] text-black transition hover:bg-champagne sm:w-auto sm:px-6 sm:text-sm"
+                className="premium-button inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-gold px-5 text-center text-xs font-bold uppercase tracking-[0.14em] text-black transition hover:bg-champagne sm:w-auto sm:px-6"
               >
+                <Mail className="h-4 w-4" />
                 Planifier un trajet
-                <Navigation className="h-4 w-4" />
               </a>
-              <Link
-                href="/fleet"
-                className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full border border-white/20 bg-white/[0.04] px-5 text-center text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur-md transition hover:border-gold hover:text-gold sm:w-auto sm:px-6 sm:text-sm"
+              <a
+                href={siteConfig.phoneHref}
+                className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full border border-white/20 bg-white/[0.06] px-5 text-center text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur-md transition hover:border-gold hover:text-gold sm:w-auto sm:px-6"
               >
-                Decouvrir la flotte
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+                <Phone className="h-4 w-4" />
+                Appeler maintenant
+              </a>
             </div>
 
-            <div className="luxury-reveal mt-8 flex flex-wrap gap-2 sm:gap-3">
-              {trustBadges.map((badge) => (
+            <div className="luxury-reveal mt-7 flex flex-wrap gap-2 sm:gap-3">
+              {heroBadges.map((badge) => (
                 <span
                   key={badge.label}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-black/40 px-3 py-2 text-xs font-semibold text-stone-100 backdrop-blur-md"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-black/42 px-3 py-2 text-xs font-semibold text-stone-100 backdrop-blur-md"
                 >
                   <badge.icon className="h-4 w-4 text-gold" />
                   {badge.label}
@@ -253,49 +216,63 @@ export default async function Home() {
               ))}
             </div>
           </div>
-
-          <aside className="surface-panel luxury-reveal ring-glow rounded-[1.7rem] p-6 sm:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-gold">
-              Signature AYYI TOUR
-            </p>
-            <div className="mt-5 grid gap-4 border-y border-white/10 py-5">
-              {signatureStats.map((item) => (
-                <div key={item.label} className="flex items-end justify-between gap-4">
-                  <p className="text-4xl font-semibold leading-none text-white">{item.value}</p>
-                  <p className="text-right text-[11px] uppercase tracking-[0.14em] text-stone-300">
-                    {item.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <p className="mt-5 text-sm leading-7 text-stone-300">
-              Chauffeur confirme, horaires suivis, vehicule prepare. Un service concu pour
-              les clients exigeants et les agendas precis.
-            </p>
-          </aside>
         </div>
       </section>
 
-      <section id="services" className="relative bg-[#0b0f14] px-4 py-20 sm:px-8 sm:py-24 lg:px-10">
+      <section className="border-y border-white/10 bg-[#090c11] px-4 py-5 sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-7xl gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {trustItems.map((item) => (
+            <div
+              key={item.label}
+              className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3"
+            >
+              <item.icon className="h-5 w-5 shrink-0 text-gold" />
+              <p className="text-sm font-semibold text-white">{item.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="services" className="bg-[#0b0f14] px-4 py-20 sm:px-8 sm:py-24 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
             <SectionHeading
               eyebrow="Services"
-              title="Prestations VIP claires, fiables et discretes"
-              description="Des solutions de transport prive pour l'aeroport, les rendez-vous, les transferts et la mise a disposition avec chauffeur."
+              title="Choisissez votre trajet, AYYI TOUR organise le reste"
+              description="Des prestations simples a comprendre pour reserver vite: aeroport, chauffeur prive, mise a disposition ou longue distance."
             />
-            <Link
-              href="/services"
-              className="inline-flex min-h-11 w-fit items-center justify-center gap-2 rounded-full border border-gold/35 px-5 text-xs font-bold uppercase tracking-[0.16em] text-gold transition hover:bg-gold hover:text-black"
-            >
-              Tous les services
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+            <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+              <a
+                href={siteConfig.reservationMailto}
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-gold px-5 text-xs font-bold uppercase tracking-[0.14em] text-black transition hover:bg-champagne"
+              >
+                Planifier un trajet
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href={siteConfig.phoneHref}
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/15 px-5 text-xs font-bold uppercase tracking-[0.14em] text-white transition hover:border-gold hover:text-gold"
+              >
+                <Phone className="h-4 w-4" />
+                Appeler
+              </a>
+            </div>
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {services.slice(0, 4).map((service) => (
-              <ServiceCard key={service.id} service={service} />
+            {services.map((service) => (
+              <article
+                key={service.title}
+                className="group min-h-full rounded-[1.4rem] border border-white/10 bg-[#121720]/86 p-6 shadow-[0_18px_70px_rgba(0,0,0,0.22)] transition duration-300 hover:-translate-y-1 hover:border-gold/45"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/35 bg-gold/[0.1] text-gold transition group-hover:bg-gold group-hover:text-black">
+                  <service.icon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 text-3xl font-semibold leading-[1.08] text-white">
+                  {service.title}
+                </h3>
+                <p className="mt-4 text-sm leading-7 text-stone-300">{service.text}</p>
+              </article>
             ))}
           </div>
         </div>
@@ -303,39 +280,104 @@ export default async function Home() {
 
       <section className="bg-[#111723] px-4 py-20 sm:px-8 sm:py-24 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
             <SectionHeading
-              eyebrow="Flotte"
-              title="Deux vehicules, deux usages, un meme standard VIP"
-              description="Ford Transit pour groupes et familles, Skoda Superb pour trajets executive. Presentation sobre, entretien rigoureux et confort constant."
+              eyebrow="Comment reserver ?"
+              title="Trois etapes, aucun formulaire"
+              description="Le parcours est volontairement direct: vous contactez AYYI TOUR, vous partagez les details utiles, le chauffeur prend le relais."
             />
-            <div className="grid gap-5 md:grid-cols-2">
-              {fleet.map((vehicle) => (
-                <FleetCard key={vehicle.id} vehicle={vehicle} />
+            <div className="grid gap-4 md:grid-cols-3">
+              {bookingSteps.map((step, index) => (
+                <article
+                  key={step.title}
+                  className="rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-6"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gold text-sm font-bold text-black">
+                    {index + 1}
+                  </span>
+                  <h3 className="mt-5 text-2xl font-semibold text-white">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-stone-300">{step.text}</p>
+                </article>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-[#f2e7d7] px-4 py-20 text-obsidian sm:px-8 sm:py-24 lg:px-10">
+      <section id="flotte" className="bg-[#f3eadc] px-4 py-20 text-obsidian sm:px-8 sm:py-24 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
             <SectionHeading
-              eyebrow="Pourquoi nous choisir"
-              title="Une execution calme pour les trajets importants"
-              description="Le service repose sur une promesse simple: arriver a l'heure, dans le confort, avec un accompagnement discret et professionnel."
+              eyebrow="Flotte"
+              title="Ford Transit ou Skoda Superb"
+              description="Une flotte courte, lisible et premium pour choisir rapidement le vehicule adapte a votre trajet."
               dark
+            />
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                { icon: Users, label: "Familles et groupes" },
+                { icon: BriefcaseBusiness, label: "Business et VIP" },
+                { icon: Luggage, label: "Aeroport et bagages" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-2xl border border-black/10 bg-white px-4 py-4 shadow-sm"
+                >
+                  <item.icon className="h-5 w-5 text-gold" />
+                  <p className="mt-3 text-sm font-bold text-obsidian">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            {fleet.map((vehicle) => (
+              <FleetCard key={vehicle.id} vehicle={vehicle} tone="light" />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#0b0f14] px-4 py-20 sm:px-8 sm:py-24 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+            <SectionHeading
+              eyebrow="Zones couvertes"
+              title="Agadir, Marrakech et region"
+              description="AYYI TOUR couvre les transferts aeroport, les trajets locaux et les deplacements longue distance avec chauffeur prive."
+            />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              {zones.map((zone) => (
+                <article
+                  key={zone}
+                  className="rounded-[1.25rem] border border-white/10 bg-white/[0.04] p-5 transition hover:-translate-y-1 hover:border-gold/45"
+                >
+                  <MapPin className="h-5 w-5 text-gold" />
+                  <p className="mt-4 text-2xl font-semibold text-white">{zone}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pourquoi-nous" className="bg-[#111723] px-4 py-20 sm:px-8 sm:py-24 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+            <SectionHeading
+              eyebrow="Pourquoi nous"
+              title="Un service haut de gamme, sobre et efficace"
+              description="AYYI TOUR privilegie ce qui compte vraiment: ponctualite, confort, discretion et une reservation rapide."
             />
             <div className="grid gap-4 sm:grid-cols-2">
               {whyChoose.map((item) => (
                 <article
                   key={item.title}
-                  className="group rounded-3xl border border-black/10 bg-white p-5 transition duration-500 hover:-translate-y-1 hover:border-gold/50"
+                  className="rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-5 transition hover:-translate-y-1 hover:border-gold/45"
                 >
-                  <item.icon className="h-6 w-6 text-gold transition group-hover:scale-110" />
-                  <h3 className="mt-4 text-2xl font-semibold text-obsidian">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-stone-700">{item.text}</p>
+                  <item.icon className="h-6 w-6 text-gold" />
+                  <h3 className="mt-4 text-2xl font-semibold text-white">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-stone-300">{item.text}</p>
                 </article>
               ))}
             </div>
@@ -343,166 +385,42 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="experience" className="bg-[#0a0f16] px-4 py-20 text-ivory sm:px-8 sm:py-24 lg:px-10">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
-          <div className="relative min-h-[420px] overflow-hidden rounded-[2rem] border border-white/10 bg-black">
-            <Image
-              src="/fleet/skoda-superb.jpg"
-              alt="Skoda Superb AYYI TOUR pour trajet VIP"
-              fill
-              loading="lazy"
-              quality={82}
-              sizes="(min-width: 1024px) 45vw, 100vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/12 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-6 text-white sm:p-8">
+      <section id="contact" className="bg-[#f3eadc] px-4 py-20 text-obsidian sm:px-8 sm:py-24 lg:px-10">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.8rem] border border-black/10 bg-[#0b0f14] p-6 text-white shadow-[0_28px_90px_rgba(0,0,0,0.28)] sm:p-8 lg:p-10">
+          <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+            <div>
               <p className="text-xs font-bold uppercase tracking-[0.24em] text-gold">
-                Experience client
+                Contact direct
               </p>
-              <h2 className="mt-4 text-4xl font-semibold leading-[1.02] sm:text-6xl">
-                Un trajet prepare, pas improvise
+              <h2 className="mt-5 max-w-3xl text-4xl font-semibold leading-[1.02] sm:text-6xl">
+                Besoin d&apos;un transport VIP aujourd&apos;hui ?
               </h2>
+              <p className="mt-5 max-w-2xl leading-7 text-stone-300">
+                Partagez votre trajet par email, telephone ou WhatsApp. Nous vous repondons
+                avec une organisation claire et un vehicule adapte.
+              </p>
             </div>
-          </div>
 
-          <div>
-            <SectionHeading
-              eyebrow="Experience"
-              title="Un accompagnement fluide du premier message a l'arrivee"
-              description="AYYI TOUR transforme chaque trajet en sequence simple, maitrisee et confortable."
-            />
-            <div className="mt-8 grid gap-4">
-              {experienceSteps.map((step, index) => (
-                <article
-                  key={step.title}
-                  className="grid gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:grid-cols-[52px_1fr]"
-                >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/40 bg-gold/10 text-sm font-bold text-gold">
-                    0{index + 1}
-                  </span>
-                  <div>
-                    <h3 className="text-2xl font-semibold text-white">{step.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-stone-300">{step.text}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#f5eadc] px-4 py-20 text-obsidian sm:px-8 sm:py-24 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-            <SectionHeading
-              eyebrow="Zone d'intervention"
-              title="Agadir, Marrakech et transferts interurbains"
-              description="Service aeroport, trajets hotels, villas, evenements, circuits prives et liaisons entre villes selon votre programme."
-              dark
-            />
-            <div className="grid gap-4 sm:grid-cols-2">
-              {zones.map((zone) => (
-                <article
-                  key={zone}
-                  className="rounded-3xl border border-black/10 bg-white p-5 transition hover:-translate-y-1 hover:border-gold/50"
-                >
-                  <MapPin className="h-5 w-5 text-gold" />
-                  <p className="mt-4 text-3xl font-semibold text-obsidian">{zone}</p>
-                  <p className="mt-3 text-sm leading-6 text-stone-700">
-                    Organisation sur demande avec chauffeur prive, timing clair et vehicule
-                    adapte.
-                  </p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#0b1018] px-4 py-20 sm:px-8 sm:py-24 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Temoignages"
-            title="Des retours clients sobres, mais tres clairs"
-            description="Ponctualite, discretion et confort reviennent dans chaque experience AYYI TOUR."
-          />
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {testimonials.map((testimonial) => (
-              <article
-                key={testimonial.name}
-                className="ring-glow rounded-3xl border border-white/10 bg-white/[0.04] p-6 transition hover:-translate-y-1 hover:border-gold/40"
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <Quote className="h-7 w-7 text-gold" />
-                  <div className="flex gap-1 text-gold" aria-label="Avis 5 etoiles">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star key={index} className="h-4 w-4 fill-current" />
-                    ))}
-                  </div>
-                </div>
-                <p className="mt-6 leading-7 text-stone-200">{testimonial.text}</p>
-                <div className="mt-8 border-t border-white/10 pt-5">
-                  <p className="font-semibold text-white">{testimonial.name}</p>
-                  <p className="mt-1 text-sm text-stone-400">{testimonial.context}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#efe3d2] px-4 py-20 text-obsidian sm:px-8 sm:py-24 lg:px-10">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.76fr_1.24fr]">
-          <SectionHeading
-            eyebrow="FAQ"
-            title="Questions frequentes"
-            description="Les reponses essentielles avant de planifier un chauffeur prive VIP a Agadir, Marrakech ou en region."
-            dark
-          />
-          <div className="grid gap-4">
-            {faqs.map((faq) => (
-              <details
-                key={faq.question}
-                className="group rounded-3xl border border-black/10 bg-white p-5 shadow-sm transition hover:border-gold"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-bold text-obsidian">
-                  <span>{faq.question}</span>
-                  <HelpCircle className="h-5 w-5 shrink-0 text-gold transition group-open:rotate-45" />
-                </summary>
-                <p className="mt-4 leading-7 text-stone-700">{faq.answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" className="relative overflow-hidden bg-[#0b0f14] px-4 py-20 sm:px-8 sm:py-24 lg:px-10">
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(210,171,103,0.2),transparent_32%,rgba(255,255,255,0.05)_67%,transparent)]" />
-        <div className="relative mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.12fr_0.88fr] lg:items-stretch">
-          <div className="surface-panel rounded-[1.8rem] p-6 sm:p-8 lg:p-10">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-gold">Contact VIP</p>
-            <h2 className="mt-5 max-w-3xl text-4xl font-semibold leading-[1.02] text-white sm:text-6xl">
-              Planifiez un trajet premium avec chauffeur prive
-            </h2>
-            <p className="mt-5 max-w-2xl leading-7 text-stone-300">
-              Indiquez votre horaire, votre point de depart, votre destination et le nombre
-              de passagers. AYYI TOUR vous repond avec une organisation claire et adaptee.
-            </p>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="grid gap-3">
               <a
                 href={siteConfig.reservationMailto}
-                className="premium-button inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-gold px-5 text-xs font-bold uppercase tracking-[0.14em] text-black transition hover:bg-champagne sm:px-6 sm:text-sm"
+                className="premium-button inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-gold px-5 text-xs font-bold uppercase tracking-[0.14em] text-black transition hover:bg-champagne"
               >
                 <Mail className="h-4 w-4" />
                 Planifier un trajet
+              </a>
+              <a
+                href={siteConfig.phoneHref}
+                className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-white/15 bg-white/[0.04] px-5 text-xs font-bold uppercase tracking-[0.14em] text-white transition hover:border-gold hover:text-gold"
+              >
+                <Phone className="h-4 w-4" />
+                Appeler maintenant
               </a>
               <Link
                 href={siteConfig.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-white/15 bg-white/[0.04] px-5 text-xs font-bold uppercase tracking-[0.14em] text-white transition hover:border-gold hover:text-gold sm:px-6 sm:text-sm"
+                className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-gold/35 bg-gold/[0.08] px-5 text-xs font-bold uppercase tracking-[0.14em] text-gold transition hover:bg-gold hover:text-black"
               >
                 <MessageCircle className="h-4 w-4" />
                 WhatsApp
@@ -510,45 +428,22 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="grid gap-4">
-            {contactCards.map((item) => {
-              const content = (
-                <>
-                  <item.icon className="h-5 w-5 text-gold" />
-                  <p className="mt-5 text-xs font-bold uppercase tracking-[0.18em] text-stone-500">
-                    {item.label}
-                  </p>
-                  <p className="mt-2 break-words text-2xl font-semibold text-white">{item.value}</p>
-                </>
-              );
-
-              if ("href" in item) {
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className="group rounded-3xl border border-white/10 bg-white/[0.045] p-5 transition hover:-translate-y-1 hover:border-gold/45"
-                  >
-                    {content}
-                  </a>
-                );
-              }
-
-              return (
-                <div
-                  key={item.label}
-                  className="rounded-3xl border border-white/10 bg-white/[0.045] p-5"
-                >
-                  {content}
-                </div>
-              );
-            })}
-
-            <div className="rounded-3xl border border-gold/20 bg-gold/[0.06] p-5 text-sm leading-7 text-stone-300">
-              <CheckCircle2 className="mb-4 h-5 w-5 text-gold" />
-              Sans formulaire sur le site: le contact se fait directement par email,
-              telephone ou WhatsApp pour garder un echange clair et rapide.
-            </div>
+          <div className="mt-8 grid gap-3 border-t border-white/10 pt-6 text-sm text-stone-300 sm:grid-cols-3">
+            <a href={siteConfig.phoneHref} className="flex items-center gap-3 hover:text-gold">
+              <Phone className="h-4 w-4 text-gold" />
+              {siteConfig.phone}
+            </a>
+            <a
+              href={siteConfig.reservationMailto}
+              className="flex items-center gap-3 break-all hover:text-gold"
+            >
+              <Mail className="h-4 w-4 shrink-0 text-gold" />
+              {siteConfig.reservationEmail}
+            </a>
+            <p className="flex items-center gap-3">
+              <CheckCircle2 className="h-4 w-4 text-gold" />
+              Reponse rapide
+            </p>
           </div>
         </div>
       </section>

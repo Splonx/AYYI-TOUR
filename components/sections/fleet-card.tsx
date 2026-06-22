@@ -1,15 +1,44 @@
-import { ArrowUpRight, Gauge, Gem, Luggage, Users } from "lucide-react";
+import clsx from "clsx";
+import {
+  ArrowUpRight,
+  BriefcaseBusiness,
+  CheckCircle2,
+  Gem,
+  Luggage,
+  Plane,
+  Users,
+} from "lucide-react";
 import { SafeImage } from "@/components/ui/safe-image";
 import { siteConfig } from "@/lib/site";
 import type { Vehicle } from "@/types/domain";
 
 const fallbackFleetImage = "/fleet/ford-transit.jpg";
 
-export function FleetCard({ vehicle }: { vehicle: Vehicle }) {
+type FleetCardProps = {
+  vehicle: Vehicle;
+  tone?: "dark" | "light";
+};
+
+function vehicleIdealFor(name: string) {
+  if (name.toLowerCase().includes("transit")) {
+    return ["Familles", "Groupes", "Aeroport"];
+  }
+
+  return ["Business", "VIP", "Aeroport"];
+}
+
+export function FleetCard({ vehicle, tone = "dark" }: FleetCardProps) {
   const imageSrc = vehicle.imageUrl?.trim() || fallbackFleetImage;
+  const isLight = tone === "light";
+  const idealFor = vehicleIdealFor(vehicle.name);
 
   return (
-    <article className="group ring-glow min-h-full overflow-hidden rounded-[1.6rem] border border-white/10 bg-[#121720]/90 shadow-[0_24px_90px_rgba(0,0,0,0.26)] backdrop-blur-xl transition duration-500 hover:-translate-y-1.5 hover:border-gold/50">
+    <article
+      className={clsx(
+        "group min-h-full overflow-hidden rounded-[1.4rem] border shadow-[0_24px_80px_rgba(0,0,0,0.2)] transition duration-300 hover:-translate-y-1 hover:border-gold/50",
+        isLight ? "border-black/10 bg-white" : "border-white/10 bg-[#121720]/90",
+      )}
+    >
       <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b border-gold/15 bg-black">
         <SafeImage
           src={imageSrc}
@@ -29,31 +58,84 @@ export function FleetCard({ vehicle }: { vehicle: Vehicle }) {
           <span className="rounded-full border border-white/15 bg-black/45 px-3 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white backdrop-blur-md">
             {vehicle.category || "Premium"}
           </span>
-          {vehicle.priceNote ? (
-            <span className="text-xs font-semibold text-champagne">{vehicle.priceNote}</span>
-          ) : null}
         </div>
       </div>
 
       <div className="p-5 sm:p-6">
-        <h3 className="text-3xl font-semibold leading-[1.05] text-white">{vehicle.name}</h3>
-        <p className="mt-3 text-sm leading-7 text-stone-300">
+        <h3
+          className={clsx(
+            "text-3xl font-semibold leading-[1.05]",
+            isLight ? "text-obsidian" : "text-white",
+          )}
+        >
+          {vehicle.name}
+        </h3>
+        <p
+          className={clsx(
+            "mt-3 text-sm leading-7",
+            isLight ? "text-stone-700" : "text-stone-300",
+          )}
+        >
           {vehicle.shortDescription || vehicle.description}
         </p>
 
-        <div className="mt-5 grid grid-cols-3 gap-2 text-sm text-stone-200">
-          <span className="rounded-xl border border-white/10 bg-black/25 p-3">
+        <div
+          className={clsx(
+            "mt-5 grid grid-cols-2 gap-2 text-sm",
+            isLight ? "text-stone-700" : "text-stone-200",
+          )}
+        >
+          <span
+            className={clsx(
+              "rounded-xl border p-3",
+              isLight ? "border-black/10 bg-stone-50" : "border-white/10 bg-black/25",
+            )}
+          >
             <Users className="mb-2 h-4 w-4 text-gold" />
             {vehicle.seats} places
           </span>
-          <span className="rounded-xl border border-white/10 bg-black/25 p-3">
+          <span
+            className={clsx(
+              "rounded-xl border p-3",
+              isLight ? "border-black/10 bg-stone-50" : "border-white/10 bg-black/25",
+            )}
+          >
             <Luggage className="mb-2 h-4 w-4 text-gold" />
             {vehicle.luggage} bagages
           </span>
-          <span className="rounded-xl border border-white/10 bg-black/25 p-3">
-            <Gauge className="mb-2 h-4 w-4 text-gold" />
-            Confort
-          </span>
+        </div>
+
+        <div className="mt-5">
+          <p
+            className={clsx(
+              "text-xs font-bold uppercase tracking-[0.18em]",
+              isLight ? "text-stone-500" : "text-stone-400",
+            )}
+          >
+            Ideal pour
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {idealFor.map((item) => (
+              <span
+                key={item}
+                className={clsx(
+                  "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold",
+                  isLight
+                    ? "border-black/10 bg-stone-50 text-stone-700"
+                    : "border-white/10 bg-black/25 text-stone-200",
+                )}
+              >
+                {item === "Aeroport" ? (
+                  <Plane className="h-3.5 w-3.5 text-gold" />
+                ) : item === "Business" ? (
+                  <BriefcaseBusiness className="h-3.5 w-3.5 text-gold" />
+                ) : (
+                  <CheckCircle2 className="h-3.5 w-3.5 text-gold" />
+                )}
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
 
         <a
@@ -61,7 +143,7 @@ export function FleetCard({ vehicle }: { vehicle: Vehicle }) {
           className="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-gold/45 bg-gold/[0.08] px-4 text-xs font-bold uppercase tracking-[0.16em] text-gold transition hover:bg-gold hover:text-black"
         >
           <Gem className="h-4 w-4" />
-          Demander un trajet
+          Demander ce vehicule
           <ArrowUpRight className="h-4 w-4" />
         </a>
       </div>
